@@ -46,11 +46,18 @@ class CLS:
         oscillating = twist_amplitude * np.sin(np.linspace(0, 2 * np.pi * twist_period, n_steps))
         self._twists = linear + oscillating
 
+        self._twist_linear = twist_linear
+        self._twist_amplitude = twist_amplitude
+        self._twist_period = twist_period
+
         # Find top and bottom scaling factors and interpolate
         base_perimeter = (2 * mass) / (density * height * thickness * (1 + ratio))
         top_perimeter = (2 * mass * ratio) / (density * height * thickness * (1 + ratio))
 
         self._perimeters  = np.linspace(base_perimeter, top_perimeter, n_steps)
+        self._ratio = ratio
+        self._mass = mass
+        self._density = density
         # R_base = find_scaling_factor(perimeter=base_perimeter, c1=c1_base, c2=c2_base)
         # R_top = find_scaling_factor(perimeter=top_perimeter, c1=c1_top, c2=c2_top)
 
@@ -289,3 +296,21 @@ class CLS:
             path: The path to the STL file.
         """
         self._mesh.save(path)
+
+    def __str__(self):
+        output = (super().__str__()
+                  + f':\n\tc1_base: {self._c1s[0]}'
+                  + f'\n\tc2_base: {self._c1s[-1]}'
+                  + f'\n\tc1_top: {self._c2s[0]}'
+                  + f'\n\tc2_top: {self._c2s[-1]}'
+                  + f'\n\ttwist_linear: {self._twist_linear}'
+                  + f'\n\ttwist_amplitude: {self._twist_amplitude}'
+                  + f'\n\ttwist_period: {self._twist_period}'
+                  + f'\n\tratio: {self._ratio}'
+                  + f'\n\theight: {self._height}mm'
+                  + f'\n\tmass: {self._mass}g'
+                  + f'\n\tdensity: {self._density}g/mm^3'
+                  + f'\n\tthickness: {self._thickness}mm'
+                  + f'\n\tn_steps: {self._n_steps} steps')
+
+        return output
