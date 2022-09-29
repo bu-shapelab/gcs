@@ -18,8 +18,8 @@ class CLS:
     def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
                  c2_top: float = 0, twist_linear: float = 0, twist_amplitude: float = 0,
                  twist_period: float = 0, ratio: float = 1, height: float = 19,
-                 mass: float = 2.1, density: float = 0.0016, thickness: float = 0.75,
-                 n_steps: int = 100) -> None:
+                 cap_height: float = 0, mass: float = 2.1, density: float = 0.0016,
+                 thickness: float = 0.75, n_steps: int = 100) -> None:
         """Initialize CLS.
 
         Args:
@@ -31,7 +31,8 @@ class CLS:
             twist_amplitude: The amplitude of the oscillating component of twist.
             twist_period: The period of the oscillating component of twist.
             ratio: The ratio of the base to top perimeter.
-            height: The height.
+            height: The height of the part.
+            cap_height: The height of the cap.
             mass: The mass.
             density: The density.
             thickness: The wall thickness.
@@ -46,6 +47,7 @@ class CLS:
         self._twist_period = twist_period
         self._ratio = ratio
         self._height = height
+        self._cap_height = cap_height
         self._mass = mass
         self._density = density
         self._thickness = thickness
@@ -337,6 +339,7 @@ class CLS:
                   + f'\n\ttwist_period: {self._twist_period}'
                   + f'\n\tratio: {self._ratio}'
                   + f'\n\theight: {self._height}mm'
+                  + f'\n\theight: {self._cap_height}mm'
                   + f'\n\tmass: {self._mass}g'
                   + f'\n\tdensity: {self._density}g/mm^3'
                   + f'\n\tthickness: {self._thickness}mm'
