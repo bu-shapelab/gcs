@@ -37,125 +37,148 @@ class CLS:
             thickness: The wall thickness.
             n_steps: Number of interpolation steps.
         """
-        # Interpolate c1s and c2s
-        self._c1s = np.linspace(c1_base, c1_top, n_steps)
-        self._c2s = np.linspace(c2_base, c2_top, n_steps)
-
-        # Combine linear and oscillating twist
-        linear = np.linspace(0, twist_linear, n_steps)
-        oscillating = twist_amplitude * np.sin(np.linspace(0, 2 * np.pi * twist_period, n_steps))
-        self._twists = linear + oscillating
-
+        self._c1_base = c1_base
+        self._c2_base = c2_base
+        self._c1_top = c1_top
+        self._c2_top = c2_top
         self._twist_linear = twist_linear
         self._twist_amplitude = twist_amplitude
         self._twist_period = twist_period
-
-        # Find top and bottom scaling factors and interpolate
-        base_perimeter = (2 * mass) / (density * height * thickness * (1 + ratio))
-        top_perimeter = (2 * mass * ratio) / (density * height * thickness * (1 + ratio))
-
-        self._perimeters  = np.linspace(base_perimeter, top_perimeter, n_steps)
         self._ratio = ratio
+        self._height = height
         self._mass = mass
         self._density = density
-        # R_base = find_scaling_factor(perimeter=base_perimeter, c1=c1_base, c2=c2_base)
-        # R_top = find_scaling_factor(perimeter=top_perimeter, c1=c1_top, c2=c2_top)
-
-        # self._Rs = np.linspace(R_base, R_top, n_steps)
-
-        self._height = height
         self._thickness = thickness
         self._n_steps = n_steps
 
-        self._vertices = self._discretize()
-        self._mesh = self._triangulate()
+        # Interpolate parameters
+        self._c1s = None
+        self._c2s = None
+        self._perimeters = None
+        self._twists = None
+        self._interpolate_parameters()
 
-        self._flag_small_radius = False
-        self._flag_self_intersection = False
+        # Discretize the shape
+        self._vertices = None
+        self._max_radius = 0
+        self._discretize()
 
-    def _discretize(self) -> np.ndarray:
+        # Create a mesh from the discretization
+        self._mesh = None
+        self._triangulate()
+
+    def _interpolate_parameters(self) -> None:
+        """Interpolates the parameters.
+        """
+        # c1s and c2s
+        self._c1s = np.linspace(self._c1_base, self._c1_top, self._n_steps)
+        self._c2s = np.linspace(self._c2_base, self._c2_top, self._n_steps)
+
+        # perimeters
+        base_perimeter = (2 * self._mass) / \
+                         (self._density * self._height * self._thickness * (1 + self._ratio))
+        top_perimeter = (2 * self._mass * self._ratio) / \
+                        (self._density * self._height * self._thickness * (1 + self._ratio))
+        self._perimeters  = np.linspace(base_perimeter, top_perimeter, self._n_steps)
+
+        # twists
+        twists_linear = np.linspace(0, self._twist_linear, self._n_steps)
+        twists_oscillating = self._twist_amplitude * \
+                             np.sin(np.linspace(0, 2 * np.pi * self._twist_period, self._n_steps))
+        self._twists = twists_linear + twists_oscillating
+
+    def _discretize(self) -> None:
         """Discretize the CLS into vertices.
 
-        Returns:
-            The 3D vertices of the shape. The vertices are a tensor of the form
-            `(number of vertices) x 3 x (number of steps)`.
+        The vertices are stored in `self._vertices` as a tensor of the form:
 
-            Thus the vertices of step `i` are contained in the matrix
-
-            `_discretize()[:, :, i]`
-
-            with the first column containing the `x`-values, the second column
-            containing the `y`-values and the third column containing the `z`-values.
+        `(number of vertices) x 3 x (number of steps)`.
         """
-        step_height = self._height / (self._n_steps - 1)
+        height_per_step = self._height / (self._n_steps - 1)
 
-        theta_step = 0.01
-        theta = np.arange(0, 2 * np.pi, theta_step)
+        theta = np.arange(0, 2 * np.pi, 0.01)
 
         # 3D vertices tensor
-        vertices_3d = np.empty((theta.size, 3, self._n_steps))
-
-        self._max_radii = []
-        self._min_radii = []
-        self._radius_0 = []
+        self._vertices = np.empty((theta.size, 3, self._n_steps))
 
         for step in range(self._n_steps):
             # CLS parameters for current slice
             c1 = self._c1s[step]
             c2 = self._c2s[step]
             r0 = find_scaling_factor(perimeter=self._perimeters[step], c1=c1, c2=c2)
-            # R = self._Rs[step]
             twist = self._twists[step]
-            height = step_height * step
+            height = height_per_step * step
 
             radii = summed_cosine_radii(theta=theta + twist, r0=r0, c1=c1, c2=c2)
+            max_radius = np.amax(radii)
+            if max_radius > self._max_radius:
+                self._max_radius = max_radius
 
             vertices_2d = polar_to_cartesian(theta=theta, radii=radii)
 
-            vertices_3d[:, :2, step] = vertices_2d
-            vertices_3d[:, 2, step] = height
+            self._vertices[:, :2, step] = vertices_2d
+            self._vertices[:, 2, step] = height
 
-        return vertices_3d
+    def _triangulate_face(self, top: bool) -> np.ndarray:
+        """Triangulates the top or bottom face of the shape.
 
-    def _triangulate(self) -> mesh.Mesh:
+        The triangulation method is a modified ear slicing algorithm:
+        https://github.com/mapbox/earcut.hpp
+
+        Args:
+            top: If `True`, the top face is triangulated. If `false`,
+                 The bottom face is triangulated.
+
+        Returns:
+            An (n x 3) matrix of n triangles. Each row contains the indices
+            of the vertices forming the triangle.
+        """
+        vertices_2d = self._vertices[:, :2, 0]
+        if top is True:
+            vertices_2d = self._vertices[:, :2, -1]
+
+        rings = np.array([vertices_2d.shape[0]])
+
+        # triangulation is a single vector of all vertex indices
+        # every 3 indices is a triangle
+        triangulation = earcut.triangulate_float32(vertices_2d, rings)
+
+        # reshape to make it easier to interpret
+        triangulation = triangulation.reshape((-1, 3))
+
+        return triangulation
+
+    def _triangulate(self) -> None:
         """Triangulates the CLS to STL format.
 
         Returns:
             The triangulated mesh.
         """
-        # triangulate base face
-        verts = self._vertices[:, :2, 0]
-        rings = np.array([verts.shape[0]])
-        result_base = earcut.triangulate_float32(verts, rings)
-        n_facets_base = result_base.shape[0]
-
-        # triangulate top face
-        verts = self._vertices[:, :2, -1]
-        rings = np.array([verts.shape[0]])
-        result_top = earcut.triangulate_float32(verts, rings)
-        n_facets_top = result_top.shape[0]
+        # triangulate faces
+        triangulation_base = self._triangulate_face(top=False)
+        triangulation_top = self._triangulate_face(top=True)
 
         n_vertices = self._vertices.shape[0]
 
-        n_facets = 2 * n_vertices * (self._n_steps - 1) + n_facets_base + n_facets_top
+        n_facets = 2 * n_vertices * (self._n_steps - 1) + triangulation_base.shape[0] + triangulation_top.shape[0]
 
         data = np.zeros(n_facets, dtype=mesh.Mesh.dtype)
 
         # add base triangles to mesh
-        for facet_idx in range(0, n_facets_base, 3):
-            points_idx = result_base[facet_idx:facet_idx + 3]
+        for idx in range(triangulation_base.shape[0]):
+            points_idx = triangulation_base[idx]
             # counter-clockwise order for outward facing normals
             points_idx = np.flip(points_idx)
-            data['vectors'][facet_idx] = self._vertices[points_idx, :, 0]
+            data['vectors'][idx] = self._vertices[points_idx, :, 0]
 
-        # add top triangles to mesh
-        offset = n_facets_base
-        for facet_idx in range(0, n_facets_top, 3):
-            points_idx = result_top[facet_idx:facet_idx + 3]
-            data['vectors'][offset + facet_idx] = self._vertices[points_idx, :, -1]
+        # # add top triangles to mesh
+        offset = triangulation_base.shape[0]
+        for idx in range(triangulation_top.shape[0]):
+            points_idx = triangulation_top[idx]
+            data['vectors'][idx + offset] = self._vertices[points_idx, :, -1]
 
         # add side triangles to mesh
-        offset = n_facets_base + n_facets_top
+        offset = triangulation_base.shape[0] + triangulation_top.shape[0]
         for step_idx in range(self._n_steps - 1):
             for vertex_idx in range(n_vertices):
                 # bottom right vertex
@@ -173,7 +196,7 @@ class CLS:
                 data['vectors'][offset + 2 * vertex_idx + 1] = np.concatenate((p0, p1, p2), axis=0)
             offset += 2 * n_vertices
 
-        return mesh.Mesh(data)
+        self._mesh = mesh.Mesh(data)
 
     def is_valid(self, verbose=False) -> bool:
         """Checks if the parameters form a valid CLS shape. The following
@@ -297,12 +320,18 @@ class CLS:
         """
         self._mesh.save(path)
 
+    @property
+    def max_radius(self) -> float:
+        """The maximum radius of the shape.
+        """
+        return self._max_radius
+
     def __str__(self):
         output = (super().__str__()
-                  + f':\n\tc1_base: {self._c1s[0]}'
-                  + f'\n\tc2_base: {self._c1s[-1]}'
-                  + f'\n\tc1_top: {self._c2s[0]}'
-                  + f'\n\tc2_top: {self._c2s[-1]}'
+                  + f':\n\tc1_base: {self._c1_base}'
+                  + f'\n\tc2_base: {self._c2_base}'
+                  + f'\n\tc1_top: {self._c1_top}'
+                  + f'\n\tc2_top: {self._c2_top}'
                   + f'\n\ttwist_linear: {self._twist_linear}'
                   + f'\n\ttwist_amplitude: {self._twist_amplitude}'
                   + f'\n\ttwist_period: {self._twist_period}'

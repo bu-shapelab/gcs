@@ -20,15 +20,20 @@ def offset_curve(points: np.ndarray, amount: float = 0) -> np.ndarray:
     points_offset = np.empty(points.shape)
 
     for idx in range(points.shape[0] - 1):
-        tangent = points[idx - 1, :] - points[idx + 1, :]
+        point_before = points[idx - 1, :]
+        point_after = None
+
+        if idx < points.shape[0] - 1:
+            point_after = points[idx + 1, :]
+        else:
+            point_before = points[0, :]
+
+        tangent = point_before - point_after
+
         normal = np.array([-tangent[1], tangent[0]])
         normal = normal / np.linalg.norm(normal)
-        points_offset[idx, :] = points[idx, :] + amount * normal
 
-    tangent = points[-2, :] - points[0, :]
-    normal = np.array([-tangent[1], tangent[0]])
-    normal = normal / np.linalg.norm(normal)
-    points_offset[-1, :] = points[-1, :] + amount * normal
+        points_offset[idx, :] = points[idx, :] + amount * normal
 
     return points_offset
 
