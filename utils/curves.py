@@ -16,17 +16,32 @@ def offset_curve(points: np.ndarray, amount: float = 0) -> np.ndarray:
 
     Returns:
         The offset 2D points.
+
+    Raises:
+        TypeError
+        ValueError
     """
+    if not isinstance(points, np.ndarray):
+        raise TypeError("In offset_curve, points must be a np.ndarray.")
+
+    points = points.squeeze()
+
+    if points.ndim != 2 or points.shape[1] != 2:
+        raise ValueError("In offset_curve, points must be an (n x 2) matrix.")
+
+    if not isinstance(amount, float) and not isinstance(amount, int):
+        raise TypeError("In offset_curve, amount must be a number.")
+
     points_offset = np.empty(points.shape)
 
-    for idx in range(points.shape[0] - 1):
+    for idx in range(points.shape[0]):
         point_before = points[idx - 1, :]
         point_after = None
 
         if idx < points.shape[0] - 1:
             point_after = points[idx + 1, :]
         else:
-            point_before = points[0, :]
+            point_after = points[0, :]
 
         tangent = point_before - point_after
 
@@ -47,6 +62,14 @@ def self_intersection(points: np.ndarray) -> bool:
     Returns:
         `True` if the curve intersects with itself, `False` otherwise.
     """
+    if not isinstance(points, np.ndarray):
+        raise TypeError("In offset_curve, points must be a np.ndarray.")
+
+    points = points.squeeze()
+
+    if points.ndim != 2 or points.shape[1] != 2:
+        raise ValueError("In offset_curve, points must be an (n x 2) matrix.")
+
     context = get_context()
     point, contour = context.point_cls, context.contour_cls
 
