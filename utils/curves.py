@@ -6,10 +6,11 @@ from bentley_ottmann.planar import contour_self_intersects
 
 
 def offset_curve(points: np.ndarray, amount: float = 0) -> np.ndarray:
-    """Offsets the points of a curve in the normal direction.
+    """Offsets the points of a (closed) curve in the normal direction.
 
     Args:
         points: The 2D points. A points matrix (n x 2) corresponds to n 2-dimension points.
+                Note, n > 3 for the points to define a closed curve.
         amount: The offset amount. If `offset=0` the curve is unchanged.
                 If `offset>0` the curve is expanded. If `offset<0` the curve
                 is shrinked.
@@ -26,7 +27,7 @@ def offset_curve(points: np.ndarray, amount: float = 0) -> np.ndarray:
 
     points = points.squeeze()
 
-    if points.ndim != 2 or points.shape[1] != 2:
+    if points.ndim != 2 or points.shape[1] != 2 or points.shape[0] < 3:
         raise ValueError("In offset_curve, points must be an (n x 2) matrix.")
 
     if not isinstance(amount, (int, float)):
@@ -58,6 +59,7 @@ def self_intersection(points: np.ndarray) -> bool:
 
     Args:
         points: The 2D points. A points matrix (n x 2) corresponds to n 2-dimension points.
+                Note, n > 3 for the points to define a closed curve.
 
     Returns:
         `True` if the curve intersects with itself, `False` otherwise.
