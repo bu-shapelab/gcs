@@ -86,7 +86,6 @@ class TestCoordinates(unittest.TestCase):
         """
         # single point
         points = np.array([[1, 0]])
-        print(points.shape)
 
         theta, radii = cartesian_to_polar(points)
 
