@@ -9,7 +9,6 @@ from utils import (find_scaling_factor,
                    summed_cosine_radii,
                    polar_to_cartesian,
                    cartesian_to_polar,
-                   self_intersection,
                    offset_curve)
 
 class CLS:
@@ -18,8 +17,8 @@ class CLS:
     def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
                  c2_top: float = 0, twist_linear: float = 0, twist_amplitude: float = 0,
                  twist_period: float = 0, ratio: float = 1, height: float = 19,
-                 cap_height: float = 0, mass: float = 2.1, density: float = 0.0016,
-                 thickness: float = 0.75, n_steps: int = 100) -> None:
+                 mass: float = 2.1, density: float = 0.0016, thickness: float = 0.75,
+                 n_steps: int = 100) -> None:
         """Initialize CLS.
 
         Args:
@@ -32,7 +31,6 @@ class CLS:
             twist_period: The period of the oscillating component of twist.
             ratio: The ratio of the base to top perimeter.
             height: The height of the part.
-            cap_height: The height of the cap.
             mass: The mass.
             density: The density.
             thickness: The wall thickness.
@@ -47,11 +45,13 @@ class CLS:
         self._twist_period = twist_period
         self._ratio = ratio
         self._height = height
-        self._cap_height = cap_height
         self._mass = mass
         self._density = density
         self._thickness = thickness
         self._n_steps = n_steps
+
+        self._perimeter_base = (2 * mass) / (density * height * thickness * (1 + ratio))
+        self._perimeter_top = (2 * mass * ratio) / (density * height * thickness * (1 + ratio))
 
         # Interpolate parameters
         self._c1s = None
@@ -72,21 +72,13 @@ class CLS:
     def _interpolate_parameters(self) -> None:
         """Interpolates the parameters.
         """
-        # c1s and c2s
         self._c1s = np.linspace(self._c1_base, self._c1_top, self._n_steps)
         self._c2s = np.linspace(self._c2_base, self._c2_top, self._n_steps)
 
-        # perimeters
-        base_perimeter = (2 * self._mass) / \
-                         (self._density * self._height * self._thickness * (1 + self._ratio))
-        top_perimeter = (2 * self._mass * self._ratio) / \
-                        (self._density * self._height * self._thickness * (1 + self._ratio))
-        self._perimeters  = np.linspace(base_perimeter, top_perimeter, self._n_steps)
+        self._perimeters  = np.linspace(self._perimeter_base, self._perimeter_top, self._n_steps)
 
-        # twists
         twists_linear = np.linspace(0, self._twist_linear, self._n_steps)
-        twists_oscillating = self._twist_amplitude * \
-                             np.sin(np.linspace(0, 2 * np.pi * self._twist_period, self._n_steps))
+        twists_oscillating = self._twist_amplitude * np.sin(np.linspace(0, 2 * np.pi * self._twist_period, self._n_steps))
         self._twists = twists_linear + twists_oscillating
 
     def _discretize(self) -> None:
@@ -160,29 +152,32 @@ class CLS:
         triangulation_base = self._triangulate_face(top=False)
         triangulation_top = self._triangulate_face(top=True)
 
-        n_vertices = self._vertices.shape[0]
+        n_vertices_slice = self._vertices.shape[0]
+        n_triangles_base = triangulation_base.shape[0]
+        n_triangles_top = triangulation_top.shape[0]
+        n_triangles_side = 2 * n_vertices_slice * (self._n_steps - 1)
 
-        n_facets = 2 * n_vertices * (self._n_steps - 1) + triangulation_base.shape[0] + triangulation_top.shape[0]
+        n_facets = n_triangles_base + n_triangles_top + n_triangles_side
 
         data = np.zeros(n_facets, dtype=mesh.Mesh.dtype)
 
         # add base triangles to mesh
-        for idx in range(triangulation_base.shape[0]):
+        for idx in range(n_triangles_base):
             points_idx = triangulation_base[idx]
             # counter-clockwise order for outward facing normals
             points_idx = np.flip(points_idx)
             data['vectors'][idx] = self._vertices[points_idx, :, 0]
 
         # # add top triangles to mesh
-        offset = triangulation_base.shape[0]
-        for idx in range(triangulation_top.shape[0]):
+        offset = n_triangles_base
+        for idx in range(n_triangles_top):
             points_idx = triangulation_top[idx]
             data['vectors'][idx + offset] = self._vertices[points_idx, :, -1]
 
         # add side triangles to mesh
-        offset = triangulation_base.shape[0] + triangulation_top.shape[0]
+        offset += n_triangles_top
         for step_idx in range(self._n_steps - 1):
-            for vertex_idx in range(n_vertices):
+            for vertex_idx in range(n_vertices_slice):
                 # bottom right vertex
                 p0 = self._vertices[vertex_idx, :, step_idx].reshape(1, -1)
                 # top right vertex
@@ -196,7 +191,7 @@ class CLS:
                 data['vectors'][offset + 2 * vertex_idx] = np.concatenate((p0, p2, p3), axis=0)
                 # upper triangle
                 data['vectors'][offset + 2 * vertex_idx + 1] = np.concatenate((p0, p1, p2), axis=0)
-            offset += 2 * n_vertices
+            offset += 2 * n_vertices_slice
 
         self._mesh = mesh.Mesh(data)
 
@@ -220,46 +215,37 @@ class CLS:
         # since interpolating between the two
         # Also, dont need z-dimension for checks
         vertices_base = self._vertices[:, :2, 0]
-        vertices_base_outer = offset_curve(vertices_base, self._thickness / 2)
-        vertices_base_inner = offset_curve(vertices_base, -self._thickness / 2)
-
         vertices_top = self._vertices[:, :2, -1]
-        vertices_top_outer = offset_curve(vertices_base, self._thickness / 2)
-        vertices_top_inner = offset_curve(vertices_base, -self._thickness / 2)
 
         _, radii_base = cartesian_to_polar(vertices_base)
         _, radii_top = cartesian_to_polar(vertices_top)
 
         min_radius = 0.01
-        min_radius_base = np.amin(radii_base)
-        min_radius_top = np.amin(radii_top)
+        max_radius = 19
+        min_perimeter_base = 30
 
         message = 'Valid CLS.'
         valid = True
 
-        if min_radius_base < min_radius:
-            message = f'Invalid CLS: Base radius too small ({min_radius_base}).'
+        # minimum radius check
+        if np.amin(radii_base) < min_radius:
+            message = f'Invalid CLS: Base radius smaller then {min_radius}mm minimum.'
             valid = False
-        elif min_radius_top < min_radius:
-            message = f'Invalid CLS: Top radius too small ({min_radius_top}).'
+        elif np.amin(radii_top) < min_radius:
+            message = f'Invalid CLS: Top radius smaller then {min_radius}mm minimum.'
             valid = False
-        elif self_intersection(vertices_base) is True:
-            message = 'Invalid CLS: Base self intersection.'
+
+        #maxiumum radius check
+        elif np.amax(radii_base) > max_radius:
+            message = f'Invalid CLS: Base radius larger then {max_radius}mm maximum.'
             valid = False
-        elif self_intersection(vertices_base_outer) is True:
-            message = 'Invalid CLS: Base (outer) self intersection.'
+        elif np.amax(radii_top) > max_radius:
+            message = f'Invalid CLS: Top radius larger then {max_radius}mm maximum.'
             valid = False
-        elif self_intersection(vertices_base_inner) is True:
-            message = 'Invalid CLS: Base (inner) self intersection.'
-            valid = False
-        elif self_intersection(vertices_top) is True:
-            message = 'Invalid CLS: Top self intersection.'
-            valid = False
-        elif self_intersection(vertices_top_outer) is True:
-            message = 'Invalid CLS: Top (outer) self intersection.'
-            valid = False
-        elif self_intersection(vertices_top_inner) is True:
-            message = 'Invalid CLS: Top (inner) self intersection.'
+
+        # minimum perimeter check
+        elif self._perimeter_base < min_perimeter_base:
+            message = f'Invalid CLS: Base perimeter smaller then {min_perimeter_base}mm minimum.'
             valid = False
 
         if verbose is True:
@@ -339,7 +325,6 @@ class CLS:
                   + f'\n\ttwist_period: {self._twist_period}'
                   + f'\n\tratio: {self._ratio}'
                   + f'\n\theight: {self._height}mm'
-                  + f'\n\theight: {self._cap_height}mm'
                   + f'\n\tmass: {self._mass}g'
                   + f'\n\tdensity: {self._density}g/mm^3'
                   + f'\n\tthickness: {self._thickness}mm'
