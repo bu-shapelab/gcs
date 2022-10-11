@@ -7,19 +7,35 @@ def polar_to_cartesian(theta: np.ndarray, radii: np.ndarray) -> np.ndarray:
     """Converts polar coordinates to cartesian coordinates.
 
     Args:
-        theta: The angles.
-        radii: The radii.
+        theta: A vector of angle values.
+        radii: A vector of radii values.
 
     Returns:
         The equivalent 2D points. A points matrix (n x 2) corresponds to n 2-dimension points.
+
+    Raises:
+        TypeError
+        ValueError
     """
-    theta = theta.reshape(-1, 1)
-    radii = radii.reshape(-1, 1)
+    if not isinstance(theta, np.ndarray):
+        raise TypeError("In polar_to_cartesian, theta must be a np.ndarray.")
+    if not isinstance(radii, np.ndarray):
+        raise TypeError("In polar_to_cartesian, radii must be a np.ndarray.")
 
-    x = radii * np.cos(theta).reshape(-1, 1)
-    y = radii * np.sin(theta).reshape(-1, 1)
+    theta = theta.squeeze()
+    radii = radii.squeeze()
 
-    points = np.concatenate((x, y), axis=1)
+    if theta.ndim > 1:
+        raise ValueError("In polar_to_cartesian, theta must be an vector.")
+    if radii.ndim > 1:
+        raise ValueError("In polar_to_cartesian, radii must be a vector.")
+    if theta.size != radii.size:
+        raise ValueError("In polar_to_cartesian, theta and radii must be the same size.")
+
+    x = radii * np.cos(theta)
+    y = radii * np.sin(theta)
+
+    points = np.vstack((x, y)).transpose()
 
     return points
 
@@ -32,7 +48,19 @@ def cartesian_to_polar(points: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
 
     Returns:
         The equivalent theta and radii.
+
+    Raises:
+        TypeError
+        ValueError
     """
+    if not isinstance(points, np.ndarray):
+        raise TypeError("In polar_to_cartesian, points must be a np.ndarray.")
+
+    points = points.squeeze()
+
+    if points.ndim != 2 or points.shape[1] != 2:
+        raise ValueError("In polar_to_cartesian, points must be an (n x 2) matrix.")
+
     x = points[:, 0]
     y = points[:, 1]
 
