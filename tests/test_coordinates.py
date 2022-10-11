@@ -7,7 +7,6 @@ class TestCoordinates(unittest.TestCase):
     """Unit tests for `utils/coordinates.py` module.
     """
     # polar_to_cartesian unit tests
-
     def test_polar_to_cartesian_invalid_type(self):
         """Test `polar_to_cartesian` function on invalid argument types.
         """

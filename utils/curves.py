@@ -29,7 +29,7 @@ def offset_curve(points: np.ndarray, amount: float = 0) -> np.ndarray:
     if points.ndim != 2 or points.shape[1] != 2:
         raise ValueError("In offset_curve, points must be an (n x 2) matrix.")
 
-    if not isinstance(amount, float) and not isinstance(amount, int):
+    if not isinstance(amount, (int, float)):
         raise TypeError("In offset_curve, amount must be a number.")
 
     points_offset = np.empty(points.shape)

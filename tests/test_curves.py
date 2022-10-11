@@ -7,7 +7,6 @@ class TestCurves(unittest.TestCase):
     """Unit tests for `utils/curves.py` module.
     """
     # offset_curve unit tests
-
     def test_offset_curve_invalid_type(self):
         """Test `offset_curve` function on invalid argument types.
         """
