@@ -29,6 +29,7 @@ def polar_to_cartesian(theta: np.ndarray, radii: np.ndarray) -> np.ndarray:
         raise ValueError("In polar_to_cartesian, theta must be an vector.")
     if radii.ndim > 1:
         raise ValueError("In polar_to_cartesian, radii must be a vector.")
+
     if theta.size != radii.size:
         raise ValueError("In polar_to_cartesian, theta and radii must be the same size.")
 
@@ -55,8 +56,6 @@ def cartesian_to_polar(points: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """
     if not isinstance(points, np.ndarray):
         raise TypeError("In polar_to_cartesian, points must be a np.ndarray.")
-
-    points = points.squeeze()
 
     if points.ndim != 2 or points.shape[1] != 2:
         raise ValueError("In polar_to_cartesian, points must be an (n x 2) matrix.")
