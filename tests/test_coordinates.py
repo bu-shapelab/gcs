@@ -7,124 +7,148 @@ class TestCoordinates(unittest.TestCase):
     """Unit tests for `utils/coordinates.py` module.
     """
     # polar_to_cartesian unit tests
+
     def test_polar_to_cartesian_1(self):
-        """Test `polar_to_cartesian` function with invalid arguments.
+        """Test `polar_to_cartesian` function:
+           - Invalid points (not an np.ndarray)
         """
-        # invalid theta (not an np.ndarray)
-        theta = [1]
-        radii = np.array([1])
+        points = [[np.pi / 2, 1]]
 
         with self.assertRaises(TypeError):
-            polar_to_cartesian(theta, radii)
-
-        # invalid radii (too many values)
-        theta = np.array([1])
-        radii = np.array([1, 1])
-
-        with self.assertRaises(ValueError):
-            polar_to_cartesian(theta, radii)
+            polar_to_cartesian(points)
 
     def test_polar_to_cartesian_2(self):
-        """Test `polar_to_cartesian` function with valid arguments.
+        """Test `polar_to_cartesian` function:
+           - Invalid radii (too many values)
         """
-        # singleton
-        theta = np.array([np.pi / 3])
-        radii = np.array([1])
+        points = np.array([[np.pi / 2, 1, 0]])
 
-        points = polar_to_cartesian(theta, radii)
-        points_correct = np.array([[1 / 2, np.sqrt(3) / 2]])
+        with self.assertRaises(ValueError):
+            polar_to_cartesian(points)
 
-        np.testing.assert_almost_equal(points, points_correct, decimal=4)
+    def test_polar_to_cartesian_3(self):
+        """Test `polar_to_cartesian` function:
+            - Single theta and radius
+        """
+        points = np.array([[np.pi / 2, 1]])
 
-        # vectors
-        theta = np.array([np.pi / 3, np.pi / 5])
-        radii = np.array([1, 0.5])
+        points_cartesian_actual = polar_to_cartesian(points)
+        points_cartesian_desired = np.array([[0, 1]])
 
-        points = polar_to_cartesian(theta, radii)
-        points_correct = np.array([[1 / 2, np.sqrt(3) / 2],
-                                   [0.40450, 0.29389]])
+        np.testing.assert_almost_equal(actual=points_cartesian_actual,
+                                       desired=points_cartesian_desired,
+                                       decimal=4)
 
-        np.testing.assert_almost_equal(points, points_correct, decimal=4)
+    def test_polar_to_cartesian_4(self):
+        """Test `polar_to_cartesian` function:
+            - Vector of theta and radii
+        """
+        points = np.array([[np.pi / 3, 1],
+                           [np.pi / 5, 0.5]])
 
-        # negative values
-        theta = np.array([-np.pi / 3])
-        radii = np.array([-1])
+        points_cartesian_actual = polar_to_cartesian(points)
+        points_cartesian_desired = np.array([[1 / 2, np.sqrt(3) / 2],
+                                             [0.40450, 0.29389]])
 
-        points = polar_to_cartesian(theta, radii)
-        points_correct = np.array([[-1 / 2, np.sqrt(3) / 2]])
+        np.testing.assert_almost_equal(actual=points_cartesian_actual,
+                                       desired=points_cartesian_desired,
+                                       decimal=4)
 
-        np.testing.assert_almost_equal(points, points_correct, decimal=4)
+    def test_polar_to_cartesian_5(self):
+        """Test `polar_to_cartesian` function:
+            - Negative values
+        """
+        points = np.array([[-np.pi / 3, -1]])
 
-        # zeros
-        theta = np.array([0])
-        radii = np.array([0])
+        points_cartesian_actual = polar_to_cartesian(points)
+        points_cartesian_desired = np.array([[-1 / 2, np.sqrt(3) / 2]])
 
-        points = polar_to_cartesian(theta, radii)
-        points_correct = np.array([[0, 0]])
+        np.testing.assert_almost_equal(actual=points_cartesian_actual,
+                                       desired=points_cartesian_desired,
+                                       decimal=4)
 
-        np.testing.assert_almost_equal(points, points_correct, decimal=4)
+    def test_polar_to_cartesian_6(self):
+        """Test `polar_to_cartesian` function:
+            - All zeros
+        """
+        points = np.zeros((1, 2))
+
+        points_cartesian_actual = polar_to_cartesian(points)
+
+        np.testing.assert_almost_equal(actual=points_cartesian_actual,
+                                       desired=points,
+                                       decimal=4)
 
     # cartesian_to_polar unit tests
+
     def test_cartesian_to_polar_1(self):
-        """Test `cartesian_to_polar` function with invalid arguments.
+        """Test `cartesian_to_polar` function:
+           - Invalid points (not an np.ndarray)
         """
-        # invalid points (not an np.ndarray)
-        points = [1, 0]
+        points = [[1, 0]]
 
         with self.assertRaises(TypeError):
             cartesian_to_polar(points)
 
-        # invalid points (dimensions incorrect)
+    def test_cartesian_to_polar_2(self):
+        """Test `cartesian_to_polar` function:
+           - Invalid points (dimensions incorrect)
+        """
         points = np.array([[1, 0, 0],
                            [-0.43, -0.52, 0]])
 
         with self.assertRaises(ValueError):
             cartesian_to_polar(points)
 
-    def test_cartesian_to_polar_2(self):
-        """Test `cartesian_to_polar` function with valid arguments.
+    def test_cartesian_to_polar_3(self):
+        """Test `cartesian_to_polar` function:
+           - Single point
         """
-        # single point
         points = np.array([[1, 0]])
 
-        theta, radii = cartesian_to_polar(points)
+        points_polar_actual = cartesian_to_polar(points)
+        points_polar_desired = np.array([[0, 1]])
 
-        theta_correct = np.array([0])
-        radii_correct = np.array([1])
+        np.testing.assert_almost_equal(actual=points_polar_actual,
+                                       desired=points_polar_desired,
+                                       decimal=4)
 
-        np.testing.assert_almost_equal(theta, theta_correct, decimal=4)
-        np.testing.assert_almost_equal(radii, radii_correct, decimal=4)
-
-        # multiple points
+    def test_cartesian_to_polar_4(self):
+        """Test `cartesian_to_polar` function:
+           - Multiple points
+        """
         points = np.array([[1, 0],
                            [0.43, 0.55]])
 
-        theta, radii = cartesian_to_polar(points)
+        points_polar_actual = cartesian_to_polar(points)
+        points_polar_desired = np.array([[0, 1],
+                                         [0.9072, 0.6981]])
 
-        theta_correct = np.array([0, 0.9072])
-        radii_correct = np.array([1, 0.6981])
+        np.testing.assert_almost_equal(actual=points_polar_actual,
+                                       desired=points_polar_desired,
+                                       decimal=4)
 
-        np.testing.assert_almost_equal(theta, theta_correct, decimal=4)
-        np.testing.assert_almost_equal(radii, radii_correct, decimal=4)
-
-        # negative values
+    def test_cartesian_to_polar_5(self):
+        """Test `cartesian_to_polar` function:
+           - Negative values
+        """
         points = np.array([[-0.43, 0.55]])
 
-        theta, radii = cartesian_to_polar(points)
+        points_polar_actual = cartesian_to_polar(points)
+        points_polar_desired = np.array([[2.2344, 0.6981]])
 
-        theta_correct = np.array([2.2344])
-        radii_correct = np.array([0.6981])
+        np.testing.assert_almost_equal(actual=points_polar_actual,
+                                       desired=points_polar_desired,
+                                       decimal=4)
 
-        np.testing.assert_almost_equal(theta, theta_correct, decimal=4)
-        np.testing.assert_almost_equal(radii, radii_correct, decimal=4)
+    def test_cartesian_to_polar_6(self):
+        """Test `cartesian_to_polar` function:
+           - All zeros
+        """
+        points = np.zeros((1, 2))
 
-        # zero values
-        points = np.array([[0, 0]])
+        points_polar_actual = cartesian_to_polar(points)
 
-        theta, radii = cartesian_to_polar(points)
-
-        theta_correct = np.array([0])
-        radii_correct = np.array([0])
-
-        np.testing.assert_almost_equal(theta, theta_correct, decimal=4)
-        np.testing.assert_almost_equal(radii, radii_correct, decimal=4)
+        np.testing.assert_almost_equal(actual=points_polar_actual,
+                                       desired=points,
+                                       decimal=4)
