@@ -36,7 +36,7 @@ def simpsons_rule(y: np.ndarray, a: float, b: float) -> float:
         raise TypeError('In simpsons_rule, b must be a number.')
 
     if a > b:
-        raise TypeError('In simpsons_rule, a <= b.')
+        raise ValueError('In simpsons_rule, a <= b.')
 
     n_steps = y.size
     h = (b - a) / n_steps

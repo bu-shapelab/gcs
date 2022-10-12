@@ -36,14 +36,14 @@ class TestIntegration(unittest.TestCase):
         """
         n_steps = 1000
 
-        a = 1
-        b = 3
+        a = 3
+        b = 1
 
         x = np.linspace(a, b, n_steps + 1)
         y = -1.25 * x ** 2 + 8.5 * x - 2.25
 
-        with self.assertRaises(TypeError):
-            simpsons_rule(y, b, a)
+        with self.assertRaises(ValueError):
+            simpsons_rule(y, a, b)
 
     def test_simpsons_rule_4(self):
         """Test `simpsons_rule` function:
