@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from stl import mesh
 import mapbox_earcut as earcut
 
-from utils import (find_scaling_factor,
-                   summed_cosine_radii,
+from utils import (summed_cosine_scaling_factor,
+                   summed_cosine,
                    polar_to_cartesian,
                    cartesian_to_polar,
                    offset_curve)
@@ -17,7 +17,7 @@ class CLS:
     def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
                  c2_top: float = 0, twist_linear: float = 0, twist_amplitude: float = 0,
                  twist_period: float = 0, ratio: float = 1, height: float = 19,
-                 mass: float = 2.1, density: float = 0.0016, thickness: float = 0.75,
+                 mass: float = 2.1, density: float = 0.0012, thickness: float = 0.75,
                  n_steps: int = 100) -> None:
         """Initialize CLS.
 
@@ -99,18 +99,19 @@ class CLS:
             # CLS parameters for current slice
             c1 = self._c1s[step]
             c2 = self._c2s[step]
-            r0 = find_scaling_factor(perimeter=self._perimeters[step], c1=c1, c2=c2)
+            r0 = summed_cosine_scaling_factor(perimeter=self._perimeters[step], c1=c1, c2=c2)
             twist = self._twists[step]
             height = height_per_step * step
 
-            radii = summed_cosine_radii(theta=theta + twist, r0=r0, c1=c1, c2=c2)
+            radii = summed_cosine(theta=theta + twist, r0=r0, c1=c1, c2=c2)
             max_radius = np.amax(radii)
             if max_radius > self._max_radius:
                 self._max_radius = max_radius
 
-            vertices_2d = polar_to_cartesian(theta=theta, radii=radii)
+            vertices_2d_polar = np.vstack((theta, radii)).transpose()
+            vertices_2d_cartesian = polar_to_cartesian(points=vertices_2d_polar)
 
-            self._vertices[:, :2, step] = vertices_2d
+            self._vertices[:, :2, step] = vertices_2d_cartesian
             self._vertices[:, 2, step] = height
 
     def _triangulate_face(self, top: bool) -> np.ndarray:
@@ -214,11 +215,14 @@ class CLS:
         # Only need to perform validity checks for base/top
         # since interpolating between the two
         # Also, dont need z-dimension for checks
-        vertices_base = self._vertices[:, :2, 0]
-        vertices_top = self._vertices[:, :2, -1]
+        vertices_base_cartesian = self._vertices[:, :2, 0]
+        vertices_top_cartesian = self._vertices[:, :2, -1]
 
-        _, radii_base = cartesian_to_polar(vertices_base)
-        _, radii_top = cartesian_to_polar(vertices_top)
+        vertices_base_polar = cartesian_to_polar(vertices_base_cartesian)
+        radii_base = vertices_base_polar[:, 1]
+
+        vertices_top_polar = cartesian_to_polar(vertices_top_cartesian)
+        radii_top = vertices_top_polar[:, 1]
 
         min_radius = 0.01
         max_radius = 19
