@@ -21,7 +21,7 @@ class TestCoordinates(unittest.TestCase):
         """Test `polar_to_cartesian` function:
            - Invalid radii (too many values)
         """
-        points = np.array([[np.pi / 2, 1, 0]])
+        points = np.ones((1, 3))
 
         with self.assertRaises(ValueError):
             polar_to_cartesian(points)
@@ -94,8 +94,7 @@ class TestCoordinates(unittest.TestCase):
         """Test `cartesian_to_polar` function:
            - Invalid points (dimensions incorrect)
         """
-        points = np.array([[1, 0, 0],
-                           [-0.43, -0.52, 0]])
+        points = np.ones((2, 3))
 
         with self.assertRaises(ValueError):
             cartesian_to_polar(points)

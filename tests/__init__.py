@@ -1,2 +1,2 @@
 from .test_coordinates import TestCoordinates
-from .test_curves import TestCurves
+from .test_integration import TestIntegration
