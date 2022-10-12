@@ -13,10 +13,6 @@ def polar_to_cartesian(points: np.ndarray) -> np.ndarray:
     Returns:
         The equivalent 2D cartesian points.
         The x- and y-values are in the first and second columns respectively.
-
-    Raises:
-        TypeError
-        ValueError
     """
     if not isinstance(points, np.ndarray):
         raise TypeError('In polar_to_cartesian, points must be a np.ndarray.')
@@ -47,10 +43,6 @@ def cartesian_to_polar(points: np.ndarray) -> np.ndarray:
     Returns:
         The equivalent 2D polar points.
         The angles and radii are in the first and second columns respectively.
-
-    Raises:
-        TypeError
-        ValueError
     """
     if not isinstance(points, np.ndarray):
         raise TypeError('In cartesian_to_polar, points must be a np.ndarray.')

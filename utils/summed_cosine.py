@@ -17,10 +17,6 @@ def summed_cosine(theta: np.ndarray, r0: float = 1, c1: float = 0,
 
     Returns:
         A vector of radii.
-
-    Raises:
-        TypeError
-        ValueError
     """
     if not isinstance(theta, np.ndarray):
         raise TypeError('In summed_cosine, theta must be a np.ndarray.')
@@ -54,10 +50,6 @@ def summed_cosine_arc_length(r0: float = 1, c1: float = 0, c2: float = 0,
 
     Returns:
         The approximate arc length.
-
-    Raises:
-        TypeError
-        ValueError
     """
     if not isinstance(r0, (int, float)):
         raise TypeError('In summed_cosine, r0 must be a number.')
