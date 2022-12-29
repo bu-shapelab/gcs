@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+from stl.mesh import Mesh
 import cls
 from .utils.coordinates import cartesian_to_polar
 
@@ -100,7 +101,7 @@ class CLS:
     def vertices(self) -> np.ndarray:
         """TODO
         """
-        return cls.discretize(self, n_steps=self._n_steps)
+        return cls.discretize(shape=self, n_steps=self._n_steps)
 
     @property
     def min_radius(self) -> np.ndarray:
@@ -131,6 +132,12 @@ class CLS:
             if step_radius > radius:
                 radius = step_radius
         return radius
+
+    @property
+    def mesh(self) -> Mesh:
+        """TODO
+        """
+        return cls.triangulate(shape=self, n_steps=self._n_steps)
 
     def __str__(self):
         output = (super().__str__()

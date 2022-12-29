@@ -14,7 +14,10 @@ from .cls import CLS
 
 from .utils.load import load
 from .utils.save import save
-from .utils.discretize import discretize
+from .utils.save import save_mesh
+from .utils.discretization import discretize
+from .utils.triangulation import triangulate
+from .utils.preview import preview
 from .utils.preview import preview_base
 from .utils.preview import preview_top
 from .utils.preview import preview_twist
