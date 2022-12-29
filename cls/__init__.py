@@ -12,5 +12,6 @@ from .cls import THICKNESS_RANGE
 
 from .cls import CLS
 
-from .utils import load
-from .utils import save
+from .utils.load import load
+from .utils.save import save
+from .utils.discretize import discretize
