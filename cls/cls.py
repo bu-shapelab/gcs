@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import numpy as np
+import cls
+from .utils.coordinates import cartesian_to_polar
 
 # Valid range of c1 (base) values.
 C1_BASE_RANGE = [0, 1.2]
@@ -61,6 +63,9 @@ class CLS:
         # Material density (g/mm^3)
         self._density = 0.0012
 
+        # Number of discretization steps
+        self._n_steps = 100
+
     @property
     def parameters(self) -> dict:
         """TODO
@@ -91,6 +96,42 @@ class CLS:
         """
         return (2 * self._mass * self._perimeter_ratio) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
 
+    @property
+    def vertices(self) -> np.ndarray:
+        """TODO
+        """
+        return cls.discretize(self, n_steps=self._n_steps)
+
+    @property
+    def min_radius(self) -> np.ndarray:
+        """TODO
+        """
+        radius = 0
+        vertices = self.vertices
+        for step in range(self._n_steps):
+            vertices_2d_cartesian = vertices[:, :2, step]
+            vertices_2d_polar = cartesian_to_polar(points=vertices_2d_cartesian)
+            radii = vertices_2d_polar[:, 1]
+            step_radius = np.amin(radii)
+            if step_radius < radius:
+                radius = step_radius
+        return radius
+
+    @property
+    def max_radius(self) -> np.ndarray:
+        """TODO
+        """
+        radius = 0
+        vertices = self.vertices
+        for step in range(self._n_steps):
+            vertices_2d_cartesian = vertices[:, :2, step]
+            vertices_2d_polar = cartesian_to_polar(points=vertices_2d_cartesian)
+            radii = vertices_2d_polar[:, 1]
+            step_radius = np.amax(radii)
+            if step_radius > radius:
+                radius = step_radius
+        return radius
+
     def __str__(self):
         output = (super().__str__()
                   + f':\n\tc1_base: {self._c1_base}'
@@ -103,7 +144,6 @@ class CLS:
                   + f'\n\tperimeter_ratio: {self._perimeter_ratio}'
                   + f'\n\theight: {self._height}mm'
                   + f'\n\tmass: {self._mass}g'
-                  + f'\n\tdensity: {self._density}g/mm^3'
                   + f'\n\tthickness: {self._thickness}mm')
 
         return output
