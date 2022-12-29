@@ -68,4 +68,3 @@ def verify_parameters(shape: CLS, verbose: bool = False) -> bool:
         valid = False
 
     return valid
-

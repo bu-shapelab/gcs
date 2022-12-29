@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 from cls import CLS
+
 from .summed_cosine import summed_cosine, optimal_scaling_factor
 from .coordinates import polar_to_cartesian
 

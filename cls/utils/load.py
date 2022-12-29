@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Union, TYPE_CHECKING
 import pandas as pd
+
 from ..cls import CLS
 
 if TYPE_CHECKING:
