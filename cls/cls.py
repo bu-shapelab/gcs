@@ -86,6 +86,12 @@ class CLS:
         }
 
     @property
+    def valid(self) -> bool:
+        """TODO
+        """
+        return cls.verify.verify_all(shape=self, verbose=False)
+
+    @property
     def base_perimeter(self) -> float:
         """TODO
         """

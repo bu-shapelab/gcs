@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import numpy as np
 from matplotlib import pyplot as plt
-from cls import CLS
 
-from .coordinates import cartesian_to_polar
-from .polar_curves import offset_curve
+from ..utils.coordinates import cartesian_to_polar
+from ..utils.polar_curves import offset_curve
+
+if TYPE_CHECKING:
+    from cls import CLS
 
 
 def preview_step(shape: CLS, step: int, title: str) -> None:
@@ -39,37 +42,4 @@ def preview_step(shape: CLS, step: int, title: str) -> None:
     angle = np.deg2rad(67.5)
     plt.legend(loc='lower left',
                bbox_to_anchor=(.5 + np.cos(angle) / 2, .5 + np.sin(angle) / 2))
-    plt.show()
-
-
-def preview_base(shape: CLS) -> None:
-    """TODO
-    """
-    preview_step(shape=shape, step=0, title='Base Preview')
-
-
-def preview_top(shape: CLS) -> None:
-    """TODO
-    """
-    preview_step(shape=shape, step=-1, title='Top Preview')
-
-
-def preview_twist(shape: CLS) -> None:
-    """TODO
-    """
-    parameters = shape.parameters
-
-    twist_linear = parameters['twist_linear']
-    twist_amplitude = parameters['twist_amplitude']
-    twist_period = parameters['twist_period']
-
-    n_steps = 100
-    x = np.linspace(0, 1, n_steps)
-    y = twist_linear + twist_amplitude * np.sin(np.linspace(0, 2 * np.pi * twist_period, n_steps))
-
-    plt.plot(x, y)
-    plt.title('Twist Preview')
-    plt.xlabel('Step')
-    plt.ylabel('Angular Twist')
-
     plt.show()
