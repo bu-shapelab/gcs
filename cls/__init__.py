@@ -9,3 +9,8 @@ from .cls import HEIGHT_RANGE
 from .cls import MASS_RANGE
 from .cls import PERIMETER_RATIO_RANGE
 from .cls import THICKNESS_RANGE
+
+from .cls import CLS
+
+from .utils import load
+from .utils import save

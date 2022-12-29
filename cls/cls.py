@@ -62,32 +62,48 @@ class CLS:
         self._density = 0.0012
 
     @property
-    def base_perimeter(self):
+    def parameters(self) -> dict:
+        """TODO
+        """
+        return {
+            'c1_base': self._c1_base,
+            'c2_base': self._c2_base,
+            'c1_top': self._c1_top,
+            'c2_top': self._c2_top,
+            'twist_linear': self._twist_linear,
+            'twist_amplitude': self._twist_amplitude,
+            'twist_period': self._twist_period,
+            'perimeter_ratio': self._perimeter_ratio,
+            'height': self._height,
+            'mass': self._mass,
+            'thickness': self._thickness,
+        }
+
+    @property
+    def base_perimeter(self) -> float:
         """TODO
         """
         return (2 * self._mass) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
 
     @property
-    def top_perimeter(self):
+    def top_perimeter(self) -> float:
         """TODO
         """
         return (2 * self._mass * self._perimeter_ratio) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
 
     def __str__(self):
-        output = (
-            super().__str__()
-            + f':\n\tc1_base: {self._c1_base}'
-            + f'\n\tc2_base: {self._c2_base}'
-            + f'\n\tc1_top: {self._c1_top}'
-            + f'\n\tc2_top: {self._c2_top}'
-            + f'\n\ttwist_linear: {self._twist_linear}'
-            + f'\n\ttwist_amplitude: {self._twist_amplitude}'
-            + f'\n\ttwist_period: {self._twist_period}'
-            + f'\n\tperimeter_ratio: {self._perimeter_ratio}'
-            + f'\n\theight: {self._height}mm'
-            + f'\n\tmass: {self._mass}g'
-            + f'\n\tdensity: {self._density}g/mm^3'
-            + f'\n\tthickness: {self._thickness}mm'
-        )
+        output = (super().__str__()
+                  + f':\n\tc1_base: {self._c1_base}'
+                  + f'\n\tc2_base: {self._c2_base}'
+                  + f'\n\tc1_top: {self._c1_top}'
+                  + f'\n\tc2_top: {self._c2_top}'
+                  + f'\n\ttwist_linear: {self._twist_linear}'
+                  + f'\n\ttwist_amplitude: {self._twist_amplitude}'
+                  + f'\n\ttwist_period: {self._twist_period}'
+                  + f'\n\tperimeter_ratio: {self._perimeter_ratio}'
+                  + f'\n\theight: {self._height}mm'
+                  + f'\n\tmass: {self._mass}g'
+                  + f'\n\tdensity: {self._density}g/mm^3'
+                  + f'\n\tthickness: {self._thickness}mm')
 
         return output
