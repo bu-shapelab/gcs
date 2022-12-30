@@ -3,6 +3,7 @@
 
 # Python stuff
 __pycache__/
+.pytest_cache/
 
 # Mac stuff
 .DS_Store

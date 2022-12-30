@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import pytest
+from pytest import raises, approx
 import numpy as np
 from cls import CLS, discretize
 from cls.utils.discretization import THETA
@@ -19,7 +19,7 @@ class TestDiscretize:
         vertices = discretize(shape=shape, n_steps=n_steps)
 
         assert vertices.shape == (THETA.size, 3, n_steps)
-        np.testing.assert_array_equal(vertices, shape.vertices)
+        np.testing.assert_array_almost_equal(vertices, shape.vertices)
 
         parameters = shape.parameters
         height_per_step = parameters['height'] / (n_steps - 1)
@@ -27,7 +27,7 @@ class TestDiscretize:
         pointA = vertices[0, :, 0]
         pointB = vertices[0, :, 1]
 
-        assert np.linalg.norm(pointB - pointA) == height_per_step
+        assert np.linalg.norm(pointB - pointA) == approx(height_per_step)
 
     def test_discretize_invalid_n_steps(self):
         """TODO
@@ -35,5 +35,5 @@ class TestDiscretize:
         shape = CLS()
 
         n_steps = 0
-        with pytest.raises(ValueError):
+        with raises(ValueError):
             discretize(shape=shape, n_steps=n_steps)
