@@ -6,16 +6,20 @@ from cls import CLS
 from .summed_cosine import summed_cosine, optimal_scaling_factor
 from .coordinates import polar_to_cartesian
 
+# Discretized thetas from [0, 2pi]
+THETA = np.arange(0, 2 * np.pi, 0.01)
+
 
 def discretize(shape: CLS, n_steps: int = 100) -> np.ndarray:
     """TODO
     """
-    base_theta = np.arange(0, 2 * np.pi, 0.01)
+    if n_steps < 1:
+        raise ValueError('TODO')
 
     parameters = shape.parameters
     height_per_step = parameters['height'] / (n_steps - 1)
 
-    vertices = np.empty((base_theta.size, 3, n_steps))
+    vertices = np.empty((THETA.size, 3, n_steps))
 
     c1s = np.linspace(parameters['c1_base'], parameters['c1_top'], n_steps)
     c2s = np.linspace(parameters['c2_base'], parameters['c2_top'], n_steps)
@@ -33,7 +37,7 @@ def discretize(shape: CLS, n_steps: int = 100) -> np.ndarray:
 
         r0 = optimal_scaling_factor(perimeter=perimeter, c1=c1, c2=c2)
 
-        theta = base_theta + twist_linear + twist_oscillating
+        theta = THETA + twist_linear + twist_oscillating
         radii = summed_cosine(theta=theta, r0=r0, c1=c1, c2=c2)
 
         vertices_2d_polar = np.vstack((theta, radii)).transpose()
