@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 import mapbox_earcut as earcut
-from stl import mesh
+from stl.mesh import Mesh
 from cls import CLS
 
 
@@ -34,9 +34,12 @@ def triangulate_step(shape: CLS, step: int) -> np.ndarray:
     return triangulation
 
 
-def triangulate(shape: CLS, n_steps: int = 100) -> np.ndarray:
+def triangulate(shape: CLS, n_steps: int = 100) -> Mesh:
     """TODO
     """
+    if n_steps < 1:
+        raise ValueError('TODO')
+
     triangulation_base = triangulate_step(shape=shape, step=0)
     triangulation_top = triangulate_step(shape=shape, step=-1)
 
@@ -48,7 +51,7 @@ def triangulate(shape: CLS, n_steps: int = 100) -> np.ndarray:
 
     n_facets = n_triangles_base + n_triangles_top + n_triangles_side
 
-    data = np.zeros(n_facets, dtype=mesh.Mesh.dtype)
+    data = np.zeros(n_facets, dtype=Mesh.dtype)
 
     # add base triangles to mesh
     for idx in range(n_triangles_base):
@@ -82,5 +85,5 @@ def triangulate(shape: CLS, n_steps: int = 100) -> np.ndarray:
             data['vectors'][offset + 2 * vertex_idx + 1] = np.concatenate((p0, p1, p2), axis=0)
         offset += 2 * n_vertices_slice
 
-    triangulation = mesh.Mesh(data)
+    triangulation = Mesh(data)
     return triangulation

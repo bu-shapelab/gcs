@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import numpy as np
-from stl.mesh import Mesh
 import cls
 from .utils.coordinates import cartesian_to_polar
+
+if TYPE_CHECKING:
+    from stl.mesh import Mesh
 
 # Valid range of c1 (base) values.
 C1_BASE_RANGE = [0, 1.2]
