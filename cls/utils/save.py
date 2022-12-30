@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from os import PathLike
 
 
-def save(file: Union[str, bytes, PathLike], shapes: list[CLS]) -> None:
+def save(shapes: list[CLS], file: Union[str, bytes, PathLike]) -> None:
     """TODO
     """
     csv = pd.DataFrame()
@@ -22,7 +22,7 @@ def save(file: Union[str, bytes, PathLike], shapes: list[CLS]) -> None:
     csv.to_csv(path_or_buf=file, header=True, index=False)
 
 
-def save_mesh(file: Union[str, bytes, PathLike], shape: CLS) -> None:
+def save_mesh(shape: CLS, file: Union[str, bytes, PathLike]) -> None:
     """TODO
     """
     shape.mesh.save(filename=file)
