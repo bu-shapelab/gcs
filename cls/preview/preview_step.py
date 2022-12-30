@@ -8,10 +8,11 @@ from ..utils.coordinates import cartesian_to_polar
 from ..utils.polar_curves import offset_curve
 
 if TYPE_CHECKING:
+    from matplotlib.figure import Figure
     from cls import CLS
 
 
-def preview_step(shape: CLS, step: int, title: str) -> None:
+def preview_step(shape: CLS, step: int, title: str, show: bool = True) -> Figure:
     """TODO
     """
     parameters = shape.parameters
@@ -23,6 +24,8 @@ def preview_step(shape: CLS, step: int, title: str) -> None:
     vertices = cartesian_to_polar(points=vertices)
     vertices_outer = cartesian_to_polar(points=vertices_outer)
     vertices_inner = cartesian_to_polar(points=vertices_inner)
+
+    figure = plt.figure(title)
 
     plt.subplot(projection='polar')
 
@@ -42,4 +45,8 @@ def preview_step(shape: CLS, step: int, title: str) -> None:
     angle = np.deg2rad(67.5)
     plt.legend(loc='lower left',
                bbox_to_anchor=(.5 + np.cos(angle) / 2, .5 + np.sin(angle) / 2))
-    plt.show()
+
+    if show:
+        plt.show()
+
+    return figure
