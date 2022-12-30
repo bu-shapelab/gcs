@@ -113,7 +113,7 @@ class CLS:
     def min_radius(self) -> np.ndarray:
         """TODO
         """
-        radius = 0
+        radius = np.inf
         vertices = self.vertices
         for step in range(self._n_steps):
             vertices_2d_cartesian = vertices[:, :2, step]
