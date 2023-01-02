@@ -131,7 +131,7 @@ def optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
 
     Parameters
     ----------
-    perimeter : float
+    length : float
         The desired arc length for the summed cosine curve.
     c1 : float
         The 4-lobe parameter.
@@ -166,7 +166,8 @@ def optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
         raise TypeError('c2 needs to be a number.')
 
     def absolute_error(r0: np.ndarray) -> float:
-        """TODO
+        """Absolute error between the desired length and
+        arc length of the summed cosine.
         """
         # when passed in by minimizer, r0 is a singleton
         r0 = r0.item()
