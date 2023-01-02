@@ -69,19 +69,23 @@ def rand(fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) ->
         if 'c2_top' in fixed_parameters:
             c2_top = fixed_parameters['c2_top']
 
-        twist_linear = random.uniform(a=TWIST_LINEAR_RANGE[0], b=TWIST_LINEAR_RANGE[1])
+        twist_linear = random.uniform(a=TWIST_LINEAR_RANGE[0],
+                                      b=TWIST_LINEAR_RANGE[1])
         if 'twist_linear' in fixed_parameters:
             twist_linear = fixed_parameters['twist_linear']
 
-        twist_amplitude = random.uniform(a=TWIST_AMPLITUDE_RANGE[0], b=TWIST_AMPLITUDE_RANGE[1])
+        twist_amplitude = random.uniform(a=TWIST_AMPLITUDE_RANGE[0],
+                                         b=TWIST_AMPLITUDE_RANGE[1])
         if 'twist_amplitude' in fixed_parameters:
             twist_amplitude = fixed_parameters['twist_amplitude']
 
-        twist_period = random.uniform(a=TWIST_PERIOD_RANGE[0], b=TWIST_PERIOD_RANGE[1])
+        twist_period = random.uniform(a=TWIST_PERIOD_RANGE[0],
+                                      b=TWIST_PERIOD_RANGE[1])
         if 'twist_period' in fixed_parameters:
             twist_period = fixed_parameters['twist_period']
 
-        perimeter_ratio = random.uniform(a=PERIMETER_RATIO_RANGE[0], b=PERIMETER_RATIO_RANGE[1])
+        perimeter_ratio = random.uniform(a=PERIMETER_RATIO_RANGE[0],
+                                         b=PERIMETER_RATIO_RANGE[1])
         if 'perimeter_ratio' in fixed_parameters:
             perimeter_ratio = fixed_parameters['perimeter_ratio']
 

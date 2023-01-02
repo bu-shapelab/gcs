@@ -35,5 +35,9 @@ def preview_top(shape: CLS, show: bool = True) -> Figure:
     >>> plt.show()
 
     """
-    figure = preview_face(shape=shape, top=True, title='Top Preview', show=show)
+    figure = preview_face(shape=shape,
+                          top=True,
+                          title='Top Preview',
+                          show=show)
+
     return figure

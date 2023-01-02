@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 from cls.random import rand, randn
 
 
@@ -55,8 +56,8 @@ class TestRandom:
         """TODO
         """
         n = 0
-        shapes = randn(n=n)
-        assert len(shapes) == n
+        with pytest.raises(ValueError):
+            randn(n=n)
 
     def test_randn_seed(self):
         """TODO

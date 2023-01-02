@@ -43,7 +43,8 @@ def preview_twist(shape: CLS, show: bool = False) -> Figure:
 
     n_steps = 100
     x = np.linspace(0, 1, n_steps)
-    y = twist_linear + twist_amplitude * np.sin(np.linspace(0, 2 * np.pi * twist_period, n_steps))
+    y = twist_linear + twist_amplitude * \
+        np.sin(np.linspace(0, 2 * np.pi * twist_period, n_steps))
 
     title = 'Twist Preview'
 

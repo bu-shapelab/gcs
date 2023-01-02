@@ -35,5 +35,9 @@ def preview_base(shape: CLS, show: bool = True) -> Figure:
     >>> plt.show()
 
     """
-    figure = preview_face(shape=shape, top=False, title='Base Preview', show=show)
+    figure = preview_face(shape=shape,
+                          top=False,
+                          title='Base Preview',
+                          show=show)
+
     return figure

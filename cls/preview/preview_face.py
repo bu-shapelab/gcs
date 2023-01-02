@@ -72,7 +72,8 @@ def preview_face(shape: CLS, top: bool, title: str, show: bool = True) -> Figure
 
     plt.title(title)
     angle = np.deg2rad(67.5)
-    plt.legend(loc='lower left', bbox_to_anchor=(.5 + np.cos(angle) / 2, .5 + np.sin(angle) / 2))
+    plt.legend(loc='lower left',
+               bbox_to_anchor=(.5 + np.cos(angle) / 2, .5 + np.sin(angle) / 2))
 
     if show:
         plt.show()

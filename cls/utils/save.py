@@ -59,5 +59,4 @@ def save_mesh(shape: CLS, file: Union[str, bytes, PathLike]) -> None:
     >>> cls.save_mesh(shape=shape, file=file)
 
     """
-    # TODO: Does this ever raise error?
     shape.mesh.save(filename=file)
