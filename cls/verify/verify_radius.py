@@ -10,7 +10,26 @@ MIN_RADIUS = 0.01
 
 
 def verify_radius(shape: CLS, verbose: bool = False) -> bool:
-    """TODO
+    """Verifies the validity of a CLS minimum radius.
+
+    This validity check is to minimize the risk of printing failures.
+
+    Parameters
+    ----------
+    shape : CLS.cls
+        The CLS.
+    verbose : bool, (default=False)
+        Set to `True` to print validity messages.
+
+    Returns
+    -------
+    valid : bool
+        `True` if ``shape`` has a valid minimum radius, `False` otherwise.
+
+    Examples
+    --------
+    TODO
+
     """
     radius = shape.min_radius
     valid = True

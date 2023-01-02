@@ -18,7 +18,26 @@ if TYPE_CHECKING:
 
 
 def verify_parameters(shape: CLS, verbose: bool = False) -> bool:
-    """TODO
+    """Verifies the validity of the parameters of a CLS.
+
+    The validity check is to minimize the risk of printing failures.
+
+    Parameters
+    ----------
+    shape : CLS.cls
+        The CLS.
+    verbose : bool, (default=False)
+        Set to `True` to print validity messages.
+
+    Returns
+    -------
+    valid : bool
+        `True` if ``shape`` has valid parameters, `False` otherwise.
+
+    Examples
+    --------
+    TODO
+
     """
     parameters = shape.parameters
     valid = True

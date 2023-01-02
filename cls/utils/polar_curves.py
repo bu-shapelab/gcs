@@ -6,18 +6,31 @@ from bentley_ottmann.planar import contour_self_intersects
 
 
 def offset_curve(points: np.ndarray, offset: float = 0) -> np.ndarray:
-    """TODO Offsets the points of a polar curve in the normal direction.
+    """Offsets a closed polar curve in the normal direction.
 
-    Args:
-        points: An (n x 2) matrix of cartesian points listed in counterclockwise order.
-                The x- and y-values are in the first and second columns respectively.
-                Note, n > 2 for the points to define a closed curve.
-        offset: The offset amount. If `offset=0` the curve is unchanged.
-                If `offset>0` the curve is expanded.
-                If `offset<0` the curve is shrank.
+    Parameters
+    ----------
+    points : (N, 2) np.ndarray
+        Array of points. The first column contains the angles.
+        The second column contains the radii. `N`>2 to define a closed curve.
+    offset : float (default=0)
+        The offset amount. If ``offset``=0, the curve is unchanged. If ``offset``>0,
+        the curve is expanded. If ``offset``<0, the curve is shrank.
 
-    Returns:
-        The offset points.
+    Returns
+    -------
+    points : (N, 2) np.ndarray
+        Array of offset points. The first column contains the angles.
+        The second column contains the radii.
+
+    Raises
+    ------
+    TypeError
+        If ``points`` is not an np.ndarray.
+        If ``offset`` is not a number.
+    ValueError
+        If ``points`` is not a (N, 2) matrix.
+
     """
     if not isinstance(points, np.ndarray):
         raise TypeError('TODO')
@@ -55,15 +68,26 @@ def offset_curve(points: np.ndarray, offset: float = 0) -> np.ndarray:
 
 
 def self_intersection(points: np.ndarray) -> bool:
-    """TODO Checks if a polar curve intersects with itself.
+    """Checks if a polar curve intersects with itself.
 
-    Args:
-        points: An (n x 2) matrix of cartesian points listed in counterclockwise order.
-                The x- and y-values are in the first and second columns respectively.
-                Note, n > 2 for the points to define a closed curve.
+    Parameters
+    ----------
+    points : (N, 2) np.ndarray
+        Array of points. The first column contains the angles.
+        The second column contains the radii.
 
-    Returns:
-        `True` if the curve intersects with itself, `False` otherwise.
+    Returns
+    -------
+    intersect : bool
+        `True` if the curve intersects itself, `False` otherwise.
+
+    Raises
+    ------
+    TypeError
+        If ``points`` is not an np.ndarray.
+    ValueError
+        If ``points`` is not a (N, 2) matrix.
+
     """
     if not isinstance(points, np.ndarray):
         raise TypeError('TODO')

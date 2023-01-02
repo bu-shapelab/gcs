@@ -10,7 +10,19 @@ if TYPE_CHECKING:
 
 
 def save(shapes: list[CLS], file: Union[str, bytes, PathLike]) -> None:
-    """TODO
+    """Saves CLS to a CSV file.
+
+    Parameters
+    ----------
+    shapes : list[cls.CLS]
+        The CLS.
+    file : {str, bytes, PathLike}
+        The path to the CSV file.
+
+    Examples
+    --------
+    TODO
+
     """
     csv = pd.DataFrame()
 
@@ -23,6 +35,19 @@ def save(shapes: list[CLS], file: Union[str, bytes, PathLike]) -> None:
 
 
 def save_mesh(shape: CLS, file: Union[str, bytes, PathLike]) -> None:
-    """TODO
+    """Saves CLS mesh to a STL file.
+
+    Parameters
+    ----------
+    shape : cls.CLS
+        The CLS.
+    file : {str, bytes, PathLike}
+        The path to the STL file.
+
+    Examples
+    --------
+    TODO
+
     """
+    # TODO: Does this ever raise error? 
     shape.mesh.save(filename=file)

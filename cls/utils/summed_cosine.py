@@ -7,16 +7,41 @@ from .integration import simpsons_rule
 
 
 def summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndarray:
-    """TODO Calculates the radii of a summed cosine polar equation.
+    """Calculates the radii of a summed cosine polar equation.
 
-    Args:
-        theta: A vector of angles.
-        r0: The scaling factor.
-        c1: The 4-lobe parameter.
-        c2: The 8-lobe parameter.
+    The summed cosine equation is inspired by [1].
 
-    Returns:
+    Parameters
+    ----------
+    theta : np.ndarray
+        A vector of angles.
+    r0 : float
+        The scaling factor.
+    c1 : float
+        The 4-lobe parameter.
+    c2 : float
+        The 8-lobe parameter.
+
+    Returns
+    -------
+    theta : np.ndarray
         A vector of radii.
+
+    Raises
+    ------
+    TypeError
+        If ``theta`` is not an np.ndarray.
+        If ``r0`` is not a number.
+        If ``c1`` is not a number.
+        If ``c2`` is not a number.
+    ValueError
+        If ``theta`` is not a vector.
+
+    References
+    ----------
+    .. [1] Overvelde and Bertoldi, *Relating pore shape to the non-linear response of periodic
+           elastomeric structures*, Journal of the Mechanics and Physics of Solids, 2014
+
     """
     if not isinstance(theta, np.ndarray):
         raise TypeError('TODO')
@@ -39,16 +64,38 @@ def summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndar
 
 
 def arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
-    """TODO Approximate arc length of a summed cosine polar equation.
+    """Approximate arc length of a summed cosine polar equation.
 
-    Args:
-        r0: The scaling factor.
-        c1: The 4-lobe parameter.
-        c2: The 8-lobe parameter.
-        n_steps: Number of step to discritize the summed cosine equation.
+    Parameters
+    ----------
+    r0 : float
+        The scaling factor.
+    c1 : float
+        The 4-lobe parameter.
+    c2 : float
+        The 8-lobe parameter.
+    n_steps : float (default=50)
+        The number of step to discritize the summed cosine equation.
 
-    Returns:
+    Returns
+    -------
+    length : float
         The approximate arc length.
+
+    Raises
+    ------
+    TypeError
+        If ``r0`` is not a number.
+        If ``c1`` is not a number.
+        If ``c2`` is not a number.
+        If ``n_steps`` is not an integer.
+    ValueError
+        If ``n_steps`` is not positive.
+
+    References
+    ----------
+    .. [1] Wikipedia page: https://en.wikipedia.org/wiki/Arc_length
+
     """
     if not isinstance(r0, (int, float)):
         raise TypeError('TODO')
@@ -79,13 +126,37 @@ def arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
     return integral
 
 
-def optimal_scaling_factor(perimeter: float, c1: float, c2: float) -> float:
-    """TODO
+def optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
+    """Approximate arc length of a summed cosine polar equation.
+
+    Parameters
+    ----------
+    perimeter : float
+        The desired arc length for the summed cosine curve.
+    c1 : float
+        The 4-lobe parameter.
+    c2 : float
+        The 8-lobe parameter.
+
+    Returns
+    -------
+    r0 : float
+        The optimized scaling factor.
+
+    Raises
+    ------
+    TypeError
+        If ``length`` is not a number.
+        If ``c1`` is not a number.
+        If ``c2`` is not a number.
+    ValueError
+        If ``length`` is not positive.
+
     """
-    if not isinstance(perimeter, (int, float)):
+    if not isinstance(length, (int, float)):
         raise TypeError('TODO')
 
-    if perimeter <= 0:
+    if length <= 0:
         raise ValueError('TODO')
 
     if not isinstance(c1, (int, float)):
@@ -99,7 +170,7 @@ def optimal_scaling_factor(perimeter: float, c1: float, c2: float) -> float:
         """
         # when passed in by minimizer, r0 is a singleton
         r0 = r0.item()
-        return abs(perimeter - arc_length(r0, c1, c2))
+        return abs(length - arc_length(r0, c1, c2))
 
     # Inital guess of answer
     x0 = np.array([0])

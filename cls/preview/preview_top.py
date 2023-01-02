@@ -10,7 +10,24 @@ if TYPE_CHECKING:
 
 
 def preview_top(shape: CLS, show: bool = True) -> Figure:
-    """TODO
+    """Preview the top shape of a CLS.
+
+    Parameters
+    ----------
+    shape : CLS.cls
+        The CLS.
+    show : bool, (default=True)
+        Set to `True` to show the preview.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The figure of the top shape.
+
+    Examples
+    --------
+    TODO
+
     """
     figure = preview_step(shape=shape, step=-1, title='Top Preview', show=show)
     return figure

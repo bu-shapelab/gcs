@@ -10,7 +10,24 @@ if TYPE_CHECKING:
 
 
 def preview_twist(shape: CLS, show: bool = False) -> Figure:
-    """TODO
+    """Preview the twist shape of a CLS.
+
+    Parameters
+    ----------
+    shape : CLS.cls
+        The CLS.
+    show : bool, (default=True)
+        Set to `True` to show the preview.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The figure of the twist shape.
+
+    Examples
+    --------
+    TODO
+
     """
     parameters = shape.parameters
 

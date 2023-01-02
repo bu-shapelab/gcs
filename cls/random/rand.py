@@ -21,7 +21,25 @@ HEIGHT_RANGE = [10, 30]
 
 
 def rand(fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) -> CLS:
-    """TODO
+    """Creates a valid random CLS.
+
+    Parameters
+    ----------
+        fixed_parameters : dict, optional
+            A dictionary of parameters with fixed-values to override randomization.
+            The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
+        seed : int, optional
+            A random seed.
+
+    Returns
+    -------
+    shape : cls.CLS
+        The random CLS.
+
+    Examples
+    --------
+    TODO
+
     """
     if seed is not None:
         random.seed(seed)

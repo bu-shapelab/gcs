@@ -4,21 +4,32 @@ import numpy as np
 
 
 def polar_to_cartesian(points: np.ndarray) -> np.ndarray:
-    """TODO Converts polar coordinates to cartesian coordinates.
+    """Converts polar points to cartesian points.
 
-    Args:
-        points: A (n x 2) matrix of polar points.
-                The angles and radii are in the first and second columns respectively.
+    Parameters
+    ----------
+    points : (N, 2) np.ndarray
+        Array of points. The first column contains the angles.
+        The second column contains the radii.
 
-    Returns:
-        The equivalent 2D cartesian points.
-        The x- and y-values are in the first and second columns respectively.
+    Returns
+    -------
+    points : (N, 2) np.ndarray
+        Array of points. The first column contains the x-values.
+        The second column contains the y-values.
+
+    Raises
+    ------
+    TypeError
+        If ``points`` is not an np.ndarray.
+    ValueError
+        If ``points`` is not a (N, 2) matrix.
     """
     if not isinstance(points, np.ndarray):
-        raise TypeError('TODO')
+        raise TypeError('points needs to be an np.ndarray.')
 
     if points.ndim != 2 or points.shape[1] != 2:
-        raise ValueError('TODO')
+        raise ValueError('points needs to be an (N, 2) matrix.')
 
     theta = points[:, 0]
     radii = points[:, 1]
@@ -34,21 +45,33 @@ def polar_to_cartesian(points: np.ndarray) -> np.ndarray:
 
 
 def cartesian_to_polar(points: np.ndarray) -> np.ndarray:
-    """TODO Converts cartesian coordinates to polar coordinates.
+    """Converts cartesian points to polar points.
 
-    Args:
-        points: A (n x 2) matrix of cartesian points.
-                The x- and y-values are in the first and second columns respectively.
+    Parameters
+    ----------
+    points : (N, 2) np.ndarray
+        Array of points. The first column contains the x-values.
+        The second column contains the y-values.
 
-    Returns:
-        The equivalent 2D polar points.
-        The angles and radii are in the first and second columns respectively.
+    Returns
+    -------
+    points : (N, 2) np.ndarray
+        Array of points. The first column contains the angles.
+        The second column contains the radii.
+
+    Raises
+    ------
+    TypeError
+        If ``points`` is not an np.ndarray.
+    ValueError
+        If ``points`` is not a (N, 2) matrix.
+
     """
     if not isinstance(points, np.ndarray):
-        raise TypeError('TODO')
+        raise TypeError('points needs to be an np.ndarray.')
 
     if points.ndim != 2 or points.shape[1] != 2:
-        raise ValueError('TODO')
+        raise ValueError('points needs to be an (N, 2) np.ndarray.')
 
     x = points[:, 0]
     y = points[:, 1]

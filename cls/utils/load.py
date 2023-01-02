@@ -10,17 +10,34 @@ if TYPE_CHECKING:
 
 
 def load(file: Union[str, bytes, PathLike], verbose: bool = False) -> list[CLS]:
-    """TODO
+    """Load CLS from a CSV file.
+
+    Parameters
+    ----------
+    file : {str, bytes, PathLike}
+        The path to the CSV file.
+    verbose : bool, (default=False)
+        Set to `True` to print loading messages.
+
+    Returns
+    -------
+    shapes : list[cls.CLS]
+        The loaded CLS.
+
+    Examples
+    --------
+    TODO
+
     """
     try:
         csv = pd.read_csv(filepath_or_buffer=file, sep=',', header=0)
     except FileNotFoundError:
         if verbose:
-            print('TODO')
+            print(f'{file} not found.')
         return []
     except pd.errors.EmptyDataError:
         if verbose:
-            print('TODO')
+            print(f'{file} is empty.')
         return []
 
     shapes = []
@@ -32,7 +49,7 @@ def load(file: Union[str, bytes, PathLike], verbose: bool = False) -> list[CLS]:
             shape = CLS(**parameters)
         except TypeError:
             if verbose:
-                print('TODO')
+                print(f'{file} contains invalid column(s).')
             return []
 
         shapes.append(shape)

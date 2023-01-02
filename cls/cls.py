@@ -43,14 +43,44 @@ THICKNESS_RANGE = [0.45, 1]
 
 
 class CLS:
-    """TODO
+    """The continuous line structure (CLS) class.
     """
 
     def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
                  c2_top: float = 0, twist_linear: float = 0, twist_amplitude: float = 0,
                  twist_period: float = 0, perimeter_ratio: float = 1, height: float = 19,
                  mass: float = 2.1, thickness: float = 0.75) -> None:
-        """TODO
+        """Initialize the CLS.
+
+        Parameters
+        ----------
+        c1_base : float (default=0)
+            The base 4-lobe parameter.
+        c2_base : float (default=0)
+            The base 8-lobe parameter.
+        c1_top : float (default=0)
+            The top 4-lobe parameter.
+        c2_top : float (default=0)
+            The top 8-lobe parameter.
+        twist_linear : float (default=0)
+            The linear twist.
+        twist_amplitude : float (default=0)
+            The oscillating twist amplitude.
+        twist_period : float (default=0)
+            The oscillating twist period.
+        perimeter_ratio : float (default=1)
+            The top/base perimeter ratio.
+        height : float (default=19)
+            The target height (mm).
+        mass : float (default=2.1)
+            The target mass (g).
+        thickness : float (default=0.75)
+            The wall thickness (mm).
+
+        Examples
+        --------
+        TODO
+
         """
         self._c1_base = c1_base
         self._c2_base = c2_base
@@ -72,7 +102,7 @@ class CLS:
 
     @property
     def parameters(self) -> dict:
-        """TODO
+        """The CLS parameters.
         """
         return {
             'c1_base': self._c1_base,
@@ -90,31 +120,35 @@ class CLS:
 
     @property
     def valid(self) -> bool:
-        """TODO
+        """The CLS validity.
+
+        Refer to ``cls.verify.verify_all`` for full documentation.
         """
         return cls.verify.verify_all(shape=self, verbose=False)
 
     @property
     def base_perimeter(self) -> float:
-        """TODO
+        """The CLS base perimeter.
         """
         return (2 * self._mass) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
 
     @property
     def top_perimeter(self) -> float:
-        """TODO
+        """The CLS top perimeter.
         """
         return (2 * self._mass * self._perimeter_ratio) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
 
     @property
     def vertices(self) -> np.ndarray:
-        """TODO
+        """The CLS vertices.
+
+        Refer to ``cls.discretize`` for full documentation.
         """
         return cls.discretize(shape=self, n_steps=self._n_steps)
 
     @property
     def min_radius(self) -> np.ndarray:
-        """TODO
+        """The CLS minimum radius.
         """
         radius = np.inf
         vertices = self.vertices
@@ -129,7 +163,7 @@ class CLS:
 
     @property
     def max_radius(self) -> np.ndarray:
-        """TODO
+        """The CLS maximum radius.
         """
         radius = 0
         vertices = self.vertices
@@ -144,9 +178,11 @@ class CLS:
 
     @property
     def mesh(self) -> Mesh:
-        """TODO
+        """The CLS mesh.
+
+        Refer to ``cls.triangulate`` for full documentation.
         """
-        return cls.triangulate(shape=self, n_steps=self._n_steps)
+        return cls.triangulate(shape=self)
 
     def __str__(self):
         output = (super().__str__()

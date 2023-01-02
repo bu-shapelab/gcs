@@ -10,8 +10,40 @@ if TYPE_CHECKING:
 
 
 def randn(n: int, fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) -> list[CLS]:
-    """TODO
+    """Creates multiple valid random CLS.
+
+    Parameters
+    ----------
+        n : int
+            The number of CLS to generate.
+        fixed_parameters : dict, optional
+            A dictionary of parameters with fixed-values to override randomization.
+            The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
+        seed : int, optional
+            A random seed.
+
+    Returns
+    -------
+    shape : list[cls.CLS]
+        The random CLS.
+
+    Raises
+    ------
+    TypeError
+        If ``n`` is not a number.
+    ValueError
+        If ``n`` is not positive.
+
+    Examples
+    --------
+    TODO
+
     """
+    if not isinstance(n, int):
+        raise TypeError('TODO')
+    if n < 1:
+        raise ValueError('TODO')
+
     if seed is not None:
         random.seed(seed)
 

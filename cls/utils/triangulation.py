@@ -6,20 +6,34 @@ from stl.mesh import Mesh
 from cls import CLS
 
 
-def triangulate_step(shape: CLS, step: int) -> np.ndarray:
-    """TODO Triangulates the top or bottom face of the shape.
+def triangulate_face(shape: CLS, top: bool) -> np.ndarray:
+    """Triangulates the base/top face of a CLS.
 
-        The triangulation method is a modified ear slicing algorithm:
-        https://github.com/mapbox/earcut.hpp
+    The triangulation method is a modified ear slicing algorithm.
 
-        Args:
-            top: If `True`, the top face is triangulated. If `false`,
-                 The bottom face is triangulated.
+    Parameters
+    ----------
+    shape : cls.CLS
+        The CLS.
+    top : bool
+        If `True`, the top face is triangulated.
+        If `false`, the bottom face is triangulated.
 
-        Returns:
-            An (n x 3) matrix of n triangles. Each row contains the indices
+    Returns
+    -------
+        tri : np.ndarray
+            A (N, 3) matrix of N triangles. Each row contains the indices
             of the vertices forming the triangle.
+
+    References
+    ----------
+    .. [1] https://github.com/mapbox/earcut.hpp
+
     """
+    step = 0
+    if not top:
+        step = -1
+
     vertices = shape.vertices[:, :2, step]
 
     rings = np.array([vertices.shape[0]])
@@ -34,20 +48,34 @@ def triangulate_step(shape: CLS, step: int) -> np.ndarray:
     return triangulation
 
 
-def triangulate(shape: CLS, n_steps: int = 100) -> Mesh:
-    """TODO
-    """
-    if n_steps < 1:
-        raise ValueError('TODO')
+def triangulate(shape: CLS) -> Mesh:
+    """Triangulates a CLS.
 
-    triangulation_base = triangulate_step(shape=shape, step=0)
-    triangulation_top = triangulate_step(shape=shape, step=-1)
+    Parameters
+    ----------
+    shape : cls.CLS
+        The CLS.
+
+    Returns
+    -------
+        mesh : stl.mesh.Mesh
+            The triangulated mesh.
+
+    Examples
+    --------
+    TODO
+
+    """
+
+    triangulation_base = triangulate_face(shape=shape, top=False)
+    triangulation_top = triangulate_face(shape=shape, top=True)
 
     vertices = shape.vertices
-    n_vertices_slice = vertices.shape[0]
+    n_vertices_step = vertices.shape[0]
+    n_steps = vertices.shape[2]
     n_triangles_base = triangulation_base.shape[0]
     n_triangles_top = triangulation_top.shape[0]
-    n_triangles_side = 2 * n_vertices_slice * (n_steps - 1)
+    n_triangles_side = 2 * n_vertices_step * (n_steps - 1)
 
     n_facets = n_triangles_base + n_triangles_top + n_triangles_side
 
@@ -69,7 +97,7 @@ def triangulate(shape: CLS, n_steps: int = 100) -> Mesh:
     # add side triangles to mesh
     offset += n_triangles_top
     for step_idx in range(n_steps - 1):
-        for vertex_idx in range(n_vertices_slice):
+        for vertex_idx in range(n_vertices_step):
             # bottom right vertex
             p0 = vertices[vertex_idx, :, step_idx].reshape(1, -1)
             # top right vertex
@@ -83,7 +111,7 @@ def triangulate(shape: CLS, n_steps: int = 100) -> Mesh:
             data['vectors'][offset + 2 * vertex_idx] = np.concatenate((p0, p2, p3), axis=0)
             # upper triangle
             data['vectors'][offset + 2 * vertex_idx + 1] = np.concatenate((p0, p1, p2), axis=0)
-        offset += 2 * n_vertices_slice
+        offset += 2 * n_vertices_step
 
     triangulation = Mesh(data)
     return triangulation

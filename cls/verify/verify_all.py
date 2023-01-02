@@ -11,7 +11,26 @@ if TYPE_CHECKING:
 
 
 def verify_all(shape: CLS, verbose: bool = False) -> bool:
-    """TODO
+    """Performs all validity checks on a CLS.
+
+    The validity checks are to minimize the risk of printing failures.
+
+    Parameters
+    ----------
+    shape : CLS.cls
+        The CLS.
+    verbose : bool, (default=False)
+        Set to `True` to print validity messages.
+
+    Returns
+    -------
+    valid : bool
+        `True` if ``shape`` is valid, `False` otherwise.
+
+    Examples
+    --------
+    TODO
+
     """
     valid = verify_parameters(shape=shape, verbose=verbose)
     if not valid:

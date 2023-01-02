@@ -10,7 +10,26 @@ MIN_BASE_PERIMETER = 30
 
 
 def verify_base_perimeter(shape: CLS, verbose: bool = False) -> bool:
-    """TODO
+    """Verifies the validity of a CLS base perimeter.
+
+    This validity check is to minimize the risk of printing failures.
+
+    Parameters
+    ----------
+    shape : CLS.cls
+        The CLS.
+    verbose : bool, (default=False)
+        Set to `True` to print validity messages.
+
+    Returns
+    -------
+    valid : bool
+        `True` if ``shape`` has a valid base perimeter, `False` otherwise.
+
+    Examples
+    --------
+    TODO
+
     """
     perimeter = shape.base_perimeter
     valid = True
