@@ -7,11 +7,12 @@ from cls.utils.discretization import THETA
 
 
 class TestDiscretize:
-    """TODO
+    """Tests for:
+        - utils/discretize.py
     """
 
     def test_discretize(self):
-        """TODO
+        """Test cls.discretize function.
         """
         shape = CLS()
 
@@ -24,13 +25,14 @@ class TestDiscretize:
         parameters = shape.parameters
         height_per_step = parameters['height'] / (n_steps - 1)
 
-        pointA = vertices[0, :, 0]
-        pointB = vertices[0, :, 1]
+        point_a = vertices[0, :, 0]
+        point_b = vertices[0, :, 1]
 
-        assert np.linalg.norm(pointB - pointA) == approx(height_per_step)
+        assert np.linalg.norm(point_b - point_a) == approx(height_per_step)
 
     def test_discretize_invalid_n_steps(self):
-        """TODO
+        """Test cls.discretize function.
+        - Invalid n_steps argument
         """
         shape = CLS()
 

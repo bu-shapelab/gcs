@@ -3,12 +3,13 @@ from __future__ import annotations
 from cls import CLS, triangulate
 
 
-class TestDiscretize:
-    """TODO
+class TestTriangulate:
+    """Tests for:
+        - cls/triangulate.py
     """
 
     def test_triangulate(self):
-        """TODO
+        """Test cls.triangulate function.
         """
         shape = CLS()
 

@@ -10,11 +10,13 @@ FOLDER = Path(__file__).parent.resolve()
 
 
 class TestLoad:
-    """TODO
+    """Tests for:
+        - utils/load.py
     """
 
     def test_load_single(self):
-        """TODO
+        """Test cls.load function.
+        - Single entry CSV
         """
         file = Path(FOLDER / 'data' / 'shapes_single.csv').resolve()
         data = pd.read_csv(filepath_or_buffer=file, delimiter=',', header=0)
@@ -25,7 +27,8 @@ class TestLoad:
             assert shape.parameters == parameters
 
     def test_load_multi(self):
-        """TODO
+        """Test cls.load function.
+        - Multiple entries CSV
         """
         file = Path(FOLDER / 'data' / 'shapes_multi.csv').resolve()
         data = pd.read_csv(filepath_or_buffer=file, delimiter=',', header=0)
@@ -36,21 +39,24 @@ class TestLoad:
             assert shape.parameters == parameters
 
     def test_load_none(self):
-        """TODO
+        """Test cls.load function.
+        - No entries CSV
         """
         file = Path(FOLDER / 'data' / 'shapes_none.csv').resolve()
         shapes = load(file=file)
         assert len(shapes) == 0
 
     def test_load_no_path(self):
-        """TODO
+        """Test cls.load function.
+        - Invalid path
         """
         file = Path(FOLDER / 'data' / 'not_a_file.csv').resolve()
         shapes = load(file=file)
         assert len(shapes) == 0
 
     def test_load_invalid_parameter(self):
-        """TODO
+        """Test cls.load function.
+        - Invalid column headers
         """
         file = Path(FOLDER / 'data' / 'shapes_invalid.csv').resolve()
         shapes = load(file=file)
@@ -58,11 +64,13 @@ class TestLoad:
 
 
 class TestSave:
-    """TODO
+    """Tests for:
+        - utils/save.py
     """
 
     def test_save_single(self):
-        """TODO
+        """Test cls.save function.
+        - Single CLS
         """
         file = Path(FOLDER / 'data' / 'shapes_single.csv').resolve()
         shapes = load(file=file)
@@ -72,7 +80,8 @@ class TestSave:
         file.unlink()
 
     def test_save_multi(self):
-        """TODO
+        """Test cls.save function.
+        - Multiple CLS
         """
         file = Path(FOLDER / 'data' / 'shapes_multi.csv').resolve()
         shapes = load(file=file)
@@ -82,7 +91,8 @@ class TestSave:
         file.unlink()
 
     def test_save_none(self):
-        """TODO
+        """Test cls.save function.
+        - No CLS
         """
         file = Path(FOLDER / 'data' / 'shapes_none.csv').resolve()
         shapes = load(file=file)
@@ -91,28 +101,8 @@ class TestSave:
         assert file.exists() is True
         file.unlink()
 
-    def test_save_no_path(self):
-        """TODO
-        """
-        file = Path(FOLDER / 'data' / 'not_a_file.csv').resolve()
-        shapes = load(file=file)
-        file = Path(FOLDER / 'data' / 'not_a_file_save.csv').resolve()
-        save(shapes=shapes, file=file)
-        assert file.exists() is True
-        file.unlink()
-
-    def test_save_invalid_parameter(self):
-        """TODO
-        """
-        file = Path(FOLDER / 'data' / 'shapes_invalid.csv').resolve()
-        shapes = load(file=file)
-        file = Path(FOLDER / 'data' / 'shapes_invalid_save.csv').resolve()
-        save(shapes=shapes, file=file)
-        assert file.exists() is True
-        file.unlink()
-
     def test_save_mesh(self):
-        """TODO
+        """Test cls.save_mesh function.
         """
         file = Path(FOLDER / 'data' / 'shapes_single.csv').resolve()
         shapes = load(file=file)
