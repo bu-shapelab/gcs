@@ -12,15 +12,16 @@ if TYPE_CHECKING:
     from cls import CLS
 
 
-def preview_step(shape: CLS, step: int, title: str, show: bool = True) -> Figure:
-    """Preview the shape of a CLS at a particular height step.
+def preview_face(shape: CLS, top: bool, title: str, show: bool = True) -> Figure:
+    """Preview the top or bottom face of a CLS.
 
     Parameters
     ----------
     shape : CLS.cls
         The CLS.
-    step : int
-        The height step.
+    top : bool
+        Set to `True` to preview the top face.
+        Set to `False` to preview the base face.
     title : str
         The title of the figure.
     show : bool, (default=True)
@@ -29,29 +30,23 @@ def preview_step(shape: CLS, step: int, title: str, show: bool = True) -> Figure
     Returns
     -------
     fig : matplotlib.figure.Figure
-        The figure of the step shape.
+        The figure of the face.
 
     Raises
     ------
     TypeError
-        If ``step`` is not an integer.
         If ``title`` is not a string.
-    ValueError
-        If ``step`` is negative or ``step>shape.vertices.shape[2]``.
 
     """
-    if not isinstance(step, int):
-        raise TypeError('TODO')
     if not isinstance(title, str):
-        raise TypeError('TODO')
+        raise TypeError('title needs to be a string.')
 
-    vertices = shape.vertices
-
-    if step not in range(vertices.shape[2]):
-        raise ValueError('TODO')
+    step = 0
+    if top:
+        step = -1
+    vertices = shape.vertices[:, :2, step]
 
     parameters = shape.parameters
-    vertices = shape.vertices[:, :2, step]
     vertices_outer = offset_curve(vertices, parameters['thickness'] / 2)
     vertices_inner = offset_curve(vertices, -parameters['thickness'] / 2)
 

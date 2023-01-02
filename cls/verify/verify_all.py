@@ -29,21 +29,18 @@ def verify_all(shape: CLS, verbose: bool = False) -> bool:
 
     Examples
     --------
-    TODO
+    >>> shape = cls.CLS()
+    >>> valid = cls.verify_all(shape=shape)
+
+    >>> shape = cls.CLS()
+    >>> valid = shape.valid
 
     """
     valid = verify_parameters(shape=shape, verbose=verbose)
     if not valid:
-        if verbose:
-            print('TODO')
         return valid
     valid = verify_radius(shape=shape, verbose=verbose)
     if not valid:
-        if verbose:
-            print('TODO')
         return valid
     valid = verify_base_perimeter(shape=shape, verbose=verbose)
-    if not valid:
-        if verbose:
-            print('TODO')
     return valid

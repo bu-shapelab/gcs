@@ -31,10 +31,6 @@ def simpsons_rule(y: np.ndarray, a: float, b: float) -> float:
         If ``y`` is not a vector of even length.
         If ``a``>``b``.
 
-    Examples
-    --------
-    TODO
-
     References
     ----------
     .. [1] Wikipedia page: https://en.wikipedia.org/wiki/Simpson%27s_rule

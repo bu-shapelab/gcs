@@ -26,7 +26,13 @@ def preview_twist(shape: CLS, show: bool = False) -> Figure:
 
     Examples
     --------
-    TODO
+    >>> shape = cls.CLS()
+    >>> cls.preview.preview_twist(shape=shape, show=True)
+
+    >>> shape = cls.CLS()
+    >>> fig = cls.preview.preview_twist(shape=shape, show=False)
+    >>> from matplotlib import pyplot as plt
+    >>> plt.show()
 
     """
     parameters = shape.parameters

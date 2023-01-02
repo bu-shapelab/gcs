@@ -30,19 +30,25 @@ def randn(n: int, fixed_parameters: Optional[dict] = None, seed: Optional[int] =
     Raises
     ------
     TypeError
-        If ``n`` is not a number.
+        If ``n`` is not an integer.
     ValueError
         If ``n`` is not positive.
 
     Examples
     --------
-    TODO
+    >>> shapes = cls.random.rand(n=1)
+    >>> shape = shapes[0]
+
+    >>> shapes = cls.random.rand(n=3)
+
+    >>> fixed_parameters = { 'c1_base': 0.5, 'height': 20 }
+    >>> shapes = cls.random.randn(n=3, fixed_parameters=fixed_parameters)
 
     """
     if not isinstance(n, int):
-        raise TypeError('TODO')
+        raise TypeError('n needs to be an integer.')
     if n < 1:
-        raise ValueError('TODO')
+        raise ValueError('n needs to be positive.')
 
     if seed is not None:
         random.seed(seed)

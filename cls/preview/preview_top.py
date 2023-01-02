@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .preview_step import preview_step
+from .preview_face import preview_face
 
 if TYPE_CHECKING:
     from matplotlib.figure import Figure
@@ -26,8 +26,14 @@ def preview_top(shape: CLS, show: bool = True) -> Figure:
 
     Examples
     --------
-    TODO
+    >>> shape = cls.CLS()
+    >>> cls.preview.preview_top(shape=shape, show=True)
+
+    >>> shape = cls.CLS()
+    >>> fig = cls.preview.preview_top(shape=shape, show=False)
+    >>> from matplotlib import pyplot as plt
+    >>> plt.show()
 
     """
-    figure = preview_step(shape=shape, step=-1, title='Top Preview', show=show)
+    figure = preview_face(shape=shape, top=True, title='Top Preview', show=show)
     return figure

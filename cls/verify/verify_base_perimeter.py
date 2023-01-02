@@ -28,13 +28,14 @@ def verify_base_perimeter(shape: CLS, verbose: bool = False) -> bool:
 
     Examples
     --------
-    TODO
+    >>> shape = cls.CLS()
+    >>> valid = cls.verify_base_perimeter(shape=shape)
 
     """
     perimeter = shape.base_perimeter
     valid = True
     if perimeter < MIN_BASE_PERIMETER:
         if verbose:
-            print('TODO')
+            print(f'base perimeter ({perimeter}) is less then {MIN_BASE_PERIMETER}.')
         valid = False
     return valid

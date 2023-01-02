@@ -38,7 +38,10 @@ def rand(fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) ->
 
     Examples
     --------
-    TODO
+    >>> shape = cls.random.rand()
+
+    >>> fixed_parameters = { 'c1_base': 0.5, 'height': 20 }
+    >>> shape = cls.random.rand(fixed_parameters=fixed_parameters)
 
     """
     if seed is not None:

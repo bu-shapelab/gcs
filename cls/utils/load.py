@@ -26,7 +26,8 @@ def load(file: Union[str, bytes, PathLike], verbose: bool = False) -> list[CLS]:
 
     Examples
     --------
-    TODO
+    >>> file = 'saved_shapes.csv'
+    >>> shapes = cls.load(file=file)
 
     """
     try:

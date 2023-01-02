@@ -31,7 +31,7 @@ def triangulate_face(shape: CLS, top: bool) -> np.ndarray:
 
     """
     step = 0
-    if not top:
+    if top:
         step = -1
 
     vertices = shape.vertices[:, :2, step]
@@ -63,7 +63,11 @@ def triangulate(shape: CLS) -> Mesh:
 
     Examples
     --------
-    TODO
+    >>> shape = cls.CLS()
+    >>> mesh = cls.triangulate(shape=shape)
+
+    >>> shape = cls.CLS()
+    >>> mesh = shape.mesh
 
     """
 

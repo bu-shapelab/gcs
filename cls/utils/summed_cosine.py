@@ -44,21 +44,21 @@ def summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndar
 
     """
     if not isinstance(theta, np.ndarray):
-        raise TypeError('TODO')
+        raise TypeError('theta needs to be an np.ndarray.')
 
     theta = theta.squeeze()
 
     if theta.ndim != 1:
-        raise ValueError('TODO')
+        raise ValueError('theta needs to be a vector.')
 
     if not isinstance(r0, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('r0 needs to be a number.')
 
     if not isinstance(c1, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('c1 needs to be a number.')
 
     if not isinstance(c2, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('c2 needs to be a number.')
 
     return r0 * (1 + c1 * np.cos(4 * theta) + c2 * np.cos(8 * theta))
 
@@ -98,19 +98,19 @@ def arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
 
     """
     if not isinstance(r0, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('r0 needs to be a number.')
 
     if not isinstance(c1, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('c1 needs to be a number.')
 
     if not isinstance(c2, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('c2 needs to be a number.')
 
     if not isinstance(n_steps, int):
-        raise TypeError('TODO')
+        raise TypeError('n_steps needs to be an integer.')
 
     if n_steps < 1:
-        raise ValueError('TODO')
+        raise ValueError('n_steps needs to be positive.')
 
     theta = np.linspace(0, 2 * np.pi, n_steps + 1)
     radii = summed_cosine(theta, r0, c1, c2)
@@ -154,16 +154,16 @@ def optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
 
     """
     if not isinstance(length, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('length needs to be a number.')
 
     if length <= 0:
-        raise ValueError('TODO')
+        raise ValueError('length needs to be positive.')
 
     if not isinstance(c1, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('c1 needs to be a number.')
 
     if not isinstance(c2, (int, float)):
-        raise TypeError('TODO')
+        raise TypeError('c2 needs to be a number.')
 
     def absolute_error(r0: np.ndarray) -> float:
         """TODO

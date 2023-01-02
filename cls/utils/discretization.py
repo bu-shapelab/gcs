@@ -33,7 +33,11 @@ def discretize(shape: CLS, n_steps: int = 100) -> np.ndarray:
 
     Examples
     --------
-    TODO
+    >>> shape = cls.CLS()
+    >>> vertices = cls.discretize(shape=shape)
+
+    >>> shape = cls.CLS()
+    >>> vertices = shape.vertices
 
     """
     if n_steps < 1:

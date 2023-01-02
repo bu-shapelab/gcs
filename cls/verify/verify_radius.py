@@ -28,13 +28,14 @@ def verify_radius(shape: CLS, verbose: bool = False) -> bool:
 
     Examples
     --------
-    TODO
+    >>> shape = cls.CLS()
+    >>> valid = cls.verify_radius(shape=shape)
 
     """
     radius = shape.min_radius
     valid = True
     if radius < MIN_RADIUS:
         if verbose:
-            print('TODO')
+            print(f'minimum radius ({radius}) is less then {MIN_RADIUS}.')
         valid = False
     return valid

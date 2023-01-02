@@ -79,7 +79,9 @@ class CLS:
 
         Examples
         --------
-        TODO
+        >>> shape = cls.CLS()
+
+        >>> shape = cls.CLS(mass=3.3, thickness=0.83)
 
         """
         self._c1_base = c1_base
