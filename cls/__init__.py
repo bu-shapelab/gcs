@@ -8,8 +8,7 @@ Provides
 
 How to use the documentation
 ----------------------------
-Documentation is available in two forms: docstrings provided
-with the code, and documentation at [TODO: link to repo wiki].
+Documentation is available in docstrings provided with the code.
 
 The docstring examples assume that `cls` has been imported::
 
