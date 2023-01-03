@@ -14,13 +14,13 @@ def randn(n: int, fixed_parameters: Optional[dict] = None, seed: Optional[int] =
 
     Parameters
     ----------
-        n : int
-            The number of CLS to generate.
-        fixed_parameters : dict, optional
-            A dictionary of parameters with fixed-values to override randomization.
-            The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
-        seed : int, optional
-            A random seed.
+    n : int
+        The number of CLS to generate.
+    fixed_parameters : dict, optional
+        A dictionary of parameters with fixed-values to override randomization.
+        The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
+    seed : int, optional
+        A random seed.
 
     Returns
     -------

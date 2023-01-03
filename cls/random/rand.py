@@ -25,11 +25,11 @@ def rand(fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) ->
 
     Parameters
     ----------
-        fixed_parameters : dict, optional
-            A dictionary of parameters with fixed-values to override randomization.
-            The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
-        seed : int, optional
-            A random seed.
+    fixed_parameters : dict, optional
+        A dictionary of parameters with fixed-values to override randomization.
+        The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
+    seed : int, optional
+        A random seed.
 
     Returns
     -------

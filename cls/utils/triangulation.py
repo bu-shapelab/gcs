@@ -21,9 +21,9 @@ def triangulate_face(shape: CLS, top: bool) -> np.ndarray:
 
     Returns
     -------
-        tri : np.ndarray
-            A (N, 3) matrix of N triangles. Each row contains the indices
-            of the vertices forming the triangle.
+    tri : np.ndarray
+        A (N, 3) matrix of N triangles. Each row contains the indices
+        of the vertices forming the triangle.
 
     References
     ----------
