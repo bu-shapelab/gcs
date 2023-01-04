@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 import numpy as np
 from matplotlib import pyplot as plt
 
-from ..utils.coordinates import cartesian_to_polar
-from ..utils.polar_curves import offset_curve
+from cls._utils.coordinates import cartesian_to_polar
+from cls._utils.polar_curves import offset_curve
 
 if TYPE_CHECKING:
     from matplotlib.figure import Figure

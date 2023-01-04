@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import random
 from typing import Optional, TYPE_CHECKING
-
-from .rand import rand
+from cls.random import rand
 
 if TYPE_CHECKING:
     from cls import CLS

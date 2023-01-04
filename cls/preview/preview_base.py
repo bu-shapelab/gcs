@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .preview_face import preview_face
+from cls.preview.preview_face import preview_face
 
 if TYPE_CHECKING:
     from matplotlib.figure import Figure

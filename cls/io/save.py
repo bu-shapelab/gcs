@@ -3,10 +3,9 @@ from __future__ import annotations
 from typing import Union, TYPE_CHECKING
 import pandas as pd
 
-from ..cls import CLS
-
 if TYPE_CHECKING:
     from os import PathLike
+    from cls import CLS
 
 
 def save(shapes: list[CLS], file: Union[str, bytes, PathLike]) -> None:
@@ -40,23 +39,3 @@ def save(shapes: list[CLS], file: Union[str, bytes, PathLike]) -> None:
                     ignore_index=True)
 
     csv.to_csv(path_or_buf=file, header=True, index=False)
-
-
-def save_mesh(shape: CLS, file: Union[str, bytes, PathLike]) -> None:
-    """Saves CLS mesh to a STL file.
-
-    Parameters
-    ----------
-    shape : cls.CLS
-        The CLS.
-    file : {str, bytes, PathLike}
-        The path to the STL file.
-
-    Examples
-    --------
-    >>> shape = cls.CLS()
-    >>> file = 'saved_mesh.stl'
-    >>> cls.save_mesh(shape=shape, file=file)
-
-    """
-    shape.mesh.save(filename=file)

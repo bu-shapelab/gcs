@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import minimize
 
-from .integration import simpsons_rule
+from cls._utils.integration import simpsons_rule
 
 
 def summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndarray:

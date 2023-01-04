@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import numpy as np
 import cls
-from .utils.coordinates import cartesian_to_polar
+from cls._utils.coordinates import cartesian_to_polar
 
 if TYPE_CHECKING:
     from stl.mesh import Mesh

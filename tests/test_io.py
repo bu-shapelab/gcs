@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import pandas as pd
-from cls import load, save, save_mesh
+from cls.io import load, save, save_mesh
 
 FOLDER = Path(__file__).parent.resolve()
 

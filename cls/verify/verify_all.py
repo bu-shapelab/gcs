@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-
-from .verify_parameters import verify_parameters
-from .verify_radius import verify_radius
-from .verify_base_perimeter import verify_base_perimeter
+from cls.verify.verify_parameters import verify_parameters
+from cls.verify.verify_radius import verify_radius
+from cls.verify.verify_base_perimeter import verify_base_perimeter
 
 if TYPE_CHECKING:
     from cls import CLS

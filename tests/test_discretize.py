@@ -3,7 +3,7 @@ from __future__ import annotations
 from pytest import raises, approx
 import numpy as np
 from cls import CLS, discretize
-from cls.utils.discretization import THETA
+from cls.discretization import THETA
 
 
 class TestDiscretize:

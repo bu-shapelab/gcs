@@ -21,6 +21,8 @@ Code snippets are indicated by three greater-than signs::
 
 Available subpackages
 ---------------------
+io
+    Functions for loading/saving CLS shapes.
 preview
     Functions for previewing CLS shapes.
 verify
@@ -29,14 +31,47 @@ random
     Functions for generating random CLS shapes.
 
 """
-from .cls import *
+from .shape import C1_BASE_RANGE
+from .shape import C2_BASE_RANGE
+from .shape import C1_TOP_RANGE
+from .shape import C2_TOP_RANGE
+from .shape import TWIST_LINEAR_RANGE
+from .shape import TWIST_AMPLITUDE_RANGE
+from .shape import TWIST_PERIOD_RANGE
+from .shape import HEIGHT_RANGE
+from .shape import MASS_RANGE
+from .shape import PERIMETER_RATIO_RANGE
+from .shape import THICKNESS_RANGE
+from .shape import CLS
 
-from .utils.discretization import discretize
-from .utils.load import load
-from .utils.save import save
-from .utils.save import save_mesh
-from .utils.triangulation import triangulate
+from .discretization import discretize
+from .triangulation import triangulate
 
+from . import io
 from . import preview
 from . import random
 from . import verify
+
+submodules = [
+    'io',
+    'preview',
+    'random',
+    'verify',
+]
+
+__all__ = submodules + [
+    'C1_BASE_RANGE',
+    'C2_BASE_RANGE',
+    'C1_TOP_RANGE',
+    'C2_TOP_RANGE',
+    'TWIST_LINEAR_RANGE',
+    'TWIST_AMPLITUDE_RANGE',
+    'TWIST_PERIOD_RANGE',
+    'HEIGHT_RANGE',
+    'MASS_RANGE',
+    'PERIMETER_RATIO_RANGE',
+    'THICKNESS_RANGE',
+    'CLS',
+    'discretize',
+    'triangulate',
+]

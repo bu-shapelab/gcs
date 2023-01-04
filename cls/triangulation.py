@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import numpy as np
 import mapbox_earcut as earcut
 from stl.mesh import Mesh
-from cls import CLS
+
+if TYPE_CHECKING:
+    from cls import CLS
 
 
 def triangulate_face(shape: CLS, top: bool) -> np.ndarray:

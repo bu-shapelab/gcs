@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import numpy as np
-from cls import CLS
+from cls._utils.summed_cosine import summed_cosine, optimal_scaling_factor
+from cls._utils.coordinates import polar_to_cartesian
 
-from .summed_cosine import summed_cosine, optimal_scaling_factor
-from .coordinates import polar_to_cartesian
+if TYPE_CHECKING:
+    from cls import CLS
 
 # Discretized thetas from [0, 2pi]
 THETA = np.arange(0, 2 * np.pi, 0.01)
