@@ -29,7 +29,7 @@ def _preview_face(shape: CLS, top: bool, title: str, show: bool = True) -> Figur
 
     Returns
     -------
-    fig : matplotlib.figure.Figure
+    figure : matplotlib.figure.Figure
         The figure of the face.
 
     Raises

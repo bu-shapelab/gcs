@@ -21,7 +21,7 @@ def preview_top(shape: CLS, show: bool = True) -> Figure:
 
     Returns
     -------
-    fig : matplotlib.figure.Figure
+    figure : matplotlib.figure.Figure
         The figure of the top shape.
 
     Examples

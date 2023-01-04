@@ -21,7 +21,7 @@ def preview_twist(shape: CLS, show: bool = False) -> Figure:
 
     Returns
     -------
-    fig : matplotlib.figure.Figure
+    figure : matplotlib.figure.Figure
         The figure of the twist shape.
 
     Examples
