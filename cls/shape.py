@@ -44,6 +44,7 @@ THICKNESS_RANGE = [0.45, 1]
 
 class CLS:
     """The continuous line structure (CLS) class.
+
     """
 
     def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
