@@ -12,22 +12,26 @@ class TestPreview:
         - preview/preview_base.py
         - preview/preview_top.py
         - preview/preview_twist.py
+
     """
 
     def test_preview_base(self):
-        """Test cls.preview.preview_base function.
+        """Test ``cls.preview.preview_base`` function.
+
         """
         figure = preview_base(shape=SHAPE, show=False)
         assert isinstance(figure, Figure)
 
     def test_preview_top(self):
-        """Test cls.preview.preview_top function.
+        """Test ``cls.preview.preview_top`` function.
+
         """
         figure = preview_top(shape=SHAPE, show=False)
         assert isinstance(figure, Figure)
 
     def test_preview_twist(self):
-        """Test cls.preview.preview_twist function.
+        """Test ``cls.preview.preview_twist`` function.
+
         """
         figure = preview_twist(shape=SHAPE, show=False)
         assert isinstance(figure, Figure)

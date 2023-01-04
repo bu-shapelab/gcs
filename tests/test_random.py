@@ -8,25 +8,29 @@ class TestRandom:
     """Tests for:
         - random/rand.py
         - random/randn.py
+
     """
 
     def test_rand(self):
-        """Test cls.random.rand function.
+        """Test ``cls.random.rand`` function.
+
         """
         shape = rand()
         assert shape.valid is True
 
     def test_rand_seed(self):
-        """Test cls.random.rand function.
+        """Test ``cls.random.rand`` function.
         - With seed
+
         """
         seed = 100
         shape = rand(seed=seed)
         assert shape.valid is True
 
     def test_rand_fixed_parameters(self):
-        """Test cls.random.rand function.
+        """Test ``cls.random.rand`` function.
         - With fixed parameters
+
         """
         fixed_parameters = {
             'height': 19,
@@ -39,8 +43,9 @@ class TestRandom:
         assert parameters['mass'] == fixed_parameters['mass']
 
     def test_randn_single(self):
-        """Test cls.random.randn function.
+        """Test ``cls.random.randn`` function.
         - Single CLS
+
         """
         n = 1
         shapes = randn(n=n)
@@ -49,8 +54,9 @@ class TestRandom:
             assert shape.valid is True
 
     def test_randn_multi(self):
-        """Test cls.random.randn function.
+        """Test ``cls.random.randn`` function.
         - Multiple CLS
+
         """
         n = 3
         shapes = randn(n=n)
@@ -59,16 +65,18 @@ class TestRandom:
             assert shape.valid is True
 
     def test_randn_none(self):
-        """Test cls.random.randn function.
+        """Test ``cls.random.randn`` function.
         - No CLS
+
         """
         n = 0
         with pytest.raises(ValueError):
             randn(n=n)
 
     def test_randn_seed(self):
-        """Test cls.random.randn function.
+        """Test ``cls.random.randn`` function.
         - With seed
+
         """
         n = 3
         seed = 100
@@ -77,8 +85,9 @@ class TestRandom:
             assert shape.valid is True
 
     def test_randn_fixed_parameters(self):
-        """Test cls.random.randn function.
+        """Test ``cls.random.randn`` function.
         - With fixed parameters
+
         """
         n = 3
         fixed_parameters = {

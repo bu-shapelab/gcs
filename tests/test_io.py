@@ -12,11 +12,13 @@ FOLDER = Path(__file__).parent.resolve()
 class TestLoad:
     """Tests for:
         - utils/load.py
+
     """
 
     def test_load_single(self):
-        """Test cls.load function.
+        """Test ``cls.load`` function.
         - Single entry CSV
+
         """
         file = Path(FOLDER / 'data' / 'shapes_single.csv').resolve()
         data = pd.read_csv(filepath_or_buffer=file, delimiter=',', header=0)
@@ -27,8 +29,9 @@ class TestLoad:
             assert shape.parameters == parameters
 
     def test_load_multi(self):
-        """Test cls.load function.
+        """Test ``cls.load`` function.
         - Multiple entries CSV
+
         """
         file = Path(FOLDER / 'data' / 'shapes_multi.csv').resolve()
         data = pd.read_csv(filepath_or_buffer=file, delimiter=',', header=0)
@@ -39,24 +42,27 @@ class TestLoad:
             assert shape.parameters == parameters
 
     def test_load_none(self):
-        """Test cls.load function.
+        """Test ``cls.load`` function.
         - No entries CSV
+
         """
         file = Path(FOLDER / 'data' / 'shapes_none.csv').resolve()
         shapes = load(file=file)
         assert len(shapes) == 0
 
     def test_load_no_path(self):
-        """Test cls.load function.
+        """Test ``cls.load`` function.
         - Invalid path
+
         """
         file = Path(FOLDER / 'data' / 'not_a_file.csv').resolve()
         shapes = load(file=file)
         assert len(shapes) == 0
 
     def test_load_invalid_parameter(self):
-        """Test cls.load function.
+        """Test ``cls.load`` function.
         - Invalid column headers
+
         """
         file = Path(FOLDER / 'data' / 'shapes_invalid.csv').resolve()
         shapes = load(file=file)
@@ -66,11 +72,13 @@ class TestLoad:
 class TestSave:
     """Tests for:
         - utils/save.py
+
     """
 
     def test_save_single(self):
-        """Test cls.save function.
+        """Test ``cls.save`` function.
         - Single CLS
+
         """
         file = Path(FOLDER / 'data' / 'shapes_single.csv').resolve()
         shapes = load(file=file)
@@ -80,8 +88,9 @@ class TestSave:
         file.unlink()
 
     def test_save_multi(self):
-        """Test cls.save function.
+        """Test ``cls.save`` function.
         - Multiple CLS
+
         """
         file = Path(FOLDER / 'data' / 'shapes_multi.csv').resolve()
         shapes = load(file=file)
@@ -91,8 +100,9 @@ class TestSave:
         file.unlink()
 
     def test_save_none(self):
-        """Test cls.save function.
+        """Test ``cls.save`` function.
         - No CLS
+
         """
         file = Path(FOLDER / 'data' / 'shapes_none.csv').resolve()
         shapes = load(file=file)
@@ -102,7 +112,8 @@ class TestSave:
         file.unlink()
 
     def test_save_mesh(self):
-        """Test cls.save_mesh function.
+        """Test ``cls.save_mesh`` function.
+
         """
         file = Path(FOLDER / 'data' / 'shapes_single.csv').resolve()
         shapes = load(file=file)
