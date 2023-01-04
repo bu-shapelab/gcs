@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import numpy as np
 import cls
-from cls._utils.coordinates import cartesian_to_polar
+from cls._utils import _cartesian_to_polar
 
 if TYPE_CHECKING:
     from stl.mesh import Mesh
@@ -156,7 +156,7 @@ class CLS:
         vertices = self.vertices
         for step in range(self._n_steps):
             vertices_2d_cartesian = vertices[:, :2, step]
-            vertices_2d_polar = cartesian_to_polar(points=vertices_2d_cartesian)
+            vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
             radii = vertices_2d_polar[:, 1]
             step_radius = np.amin(radii)
             if step_radius < radius:
@@ -171,7 +171,7 @@ class CLS:
         vertices = self.vertices
         for step in range(self._n_steps):
             vertices_2d_cartesian = vertices[:, :2, step]
-            vertices_2d_polar = cartesian_to_polar(points=vertices_2d_cartesian)
+            vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
             radii = vertices_2d_polar[:, 1]
             step_radius = np.amax(radii)
             if step_radius > radius:

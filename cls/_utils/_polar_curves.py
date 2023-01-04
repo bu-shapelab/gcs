@@ -5,7 +5,7 @@ from ground.base import get_context
 from bentley_ottmann.planar import contour_self_intersects
 
 
-def offset_curve(points: np.ndarray, offset: float = 0) -> np.ndarray:
+def _offset_curve(points: np.ndarray, offset: float = 0) -> np.ndarray:
     """Offsets a closed polar curve in the normal direction.
 
     Parameters
@@ -67,7 +67,7 @@ def offset_curve(points: np.ndarray, offset: float = 0) -> np.ndarray:
     return points_offset
 
 
-def self_intersection(points: np.ndarray) -> bool:
+def _self_intersection(points: np.ndarray) -> bool:
     """Checks if a polar curve intersects with itself.
 
     Parameters

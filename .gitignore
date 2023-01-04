@@ -4,6 +4,7 @@
 # Python stuff
 __pycache__/
 .pytest_cache/
+*.egg-info/
 
 # Mac stuff
 .DS_Store

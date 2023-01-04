@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from cls.preview.preview_face import preview_face
+from cls.preview import _preview_face
 
 if TYPE_CHECKING:
     from matplotlib.figure import Figure
@@ -35,9 +35,9 @@ def preview_base(shape: CLS, show: bool = True) -> Figure:
     >>> plt.show()
 
     """
-    figure = preview_face(shape=shape,
-                          top=False,
-                          title='Base Preview',
-                          show=show)
+    figure = _preview_face(shape=shape,
+                           top=False,
+                           title='Base Preview',
+                           show=show)
 
     return figure

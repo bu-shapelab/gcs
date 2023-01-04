@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 import numpy as np
-from cls._utils.summed_cosine import summed_cosine, optimal_scaling_factor
-from cls._utils.coordinates import polar_to_cartesian
+from cls._utils import _summed_cosine, _optimal_scaling_factor
+from cls._utils import _polar_to_cartesian
 
 if TYPE_CHECKING:
     from cls import CLS
@@ -66,13 +66,13 @@ def discretize(shape: CLS, n_steps: int = 100) -> np.ndarray:
         twist_oscillating = twists_oscillating[step]
         height = height_per_step * step
 
-        r0 = optimal_scaling_factor(length=perimeter, c1=c1, c2=c2)
+        r0 = _optimal_scaling_factor(length=perimeter, c1=c1, c2=c2)
 
         theta = THETA + twist_linear + twist_oscillating
-        radii = summed_cosine(theta=theta, r0=r0, c1=c1, c2=c2)
+        radii = _summed_cosine(theta=theta, r0=r0, c1=c1, c2=c2)
 
         points_2d_polar = np.vstack((theta, radii)).transpose()
-        points_2d_cartesian = polar_to_cartesian(points=points_2d_polar)
+        points_2d_cartesian = _polar_to_cartesian(points=points_2d_polar)
 
         points[:, :2, step] = points_2d_cartesian
         points[:, 2, step] = height

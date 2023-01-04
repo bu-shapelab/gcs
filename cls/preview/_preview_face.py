@@ -4,15 +4,15 @@ from typing import TYPE_CHECKING
 import numpy as np
 from matplotlib import pyplot as plt
 
-from cls._utils.coordinates import cartesian_to_polar
-from cls._utils.polar_curves import offset_curve
+from cls._utils import _cartesian_to_polar
+from cls._utils import _offset_curve
 
 if TYPE_CHECKING:
     from matplotlib.figure import Figure
     from cls import CLS
 
 
-def preview_face(shape: CLS, top: bool, title: str, show: bool = True) -> Figure:
+def _preview_face(shape: CLS, top: bool, title: str, show: bool = True) -> Figure:
     """Preview the top or bottom face of a CLS.
 
     Parameters
@@ -47,12 +47,12 @@ def preview_face(shape: CLS, top: bool, title: str, show: bool = True) -> Figure
     vertices = shape.vertices[:, :2, step]
 
     parameters = shape.parameters
-    vertices_outer = offset_curve(vertices, parameters['thickness'] / 2)
-    vertices_inner = offset_curve(vertices, -parameters['thickness'] / 2)
+    vertices_outer = _offset_curve(vertices, parameters['thickness'] / 2)
+    vertices_inner = _offset_curve(vertices, -parameters['thickness'] / 2)
 
-    vertices = cartesian_to_polar(points=vertices)
-    vertices_outer = cartesian_to_polar(points=vertices_outer)
-    vertices_inner = cartesian_to_polar(points=vertices_inner)
+    vertices = _cartesian_to_polar(points=vertices)
+    vertices_outer = _cartesian_to_polar(points=vertices_outer)
+    vertices_inner = _cartesian_to_polar(points=vertices_inner)
 
     figure = plt.figure(title)
 

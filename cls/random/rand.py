@@ -2,7 +2,18 @@ from __future__ import annotations
 
 from typing import Optional
 import random
-from cls import *
+from cls import C1_BASE_RANGE
+from cls import C2_BASE_RANGE
+from cls import C1_TOP_RANGE
+from cls import C2_TOP_RANGE
+from cls import TWIST_LINEAR_RANGE
+from cls import TWIST_AMPLITUDE_RANGE
+from cls import TWIST_PERIOD_RANGE
+from cls import HEIGHT_RANGE
+from cls import MASS_RANGE
+from cls import PERIMETER_RATIO_RANGE
+from cls import THICKNESS_RANGE
+from cls import CLS
 
 # Fixed mass range instead of [0, inf]
 MASS_RANGE = [2, 6]

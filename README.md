@@ -29,8 +29,16 @@ You will need to install the following software:
 2. Create the conda environment.
 
     ```bash
-    conda env create --file cls.yml
+    conda env create --file /path/to/cls/cls.yml
     ```
+
+    **NOTE**: To use an existing conda environment instead of the ``cls`` conda environment, run:
+
+    ```bash
+    conda env update --name [env_name] --file /path/to/cls/cls.yml --prune
+    ```
+
+    For step 3, use the existing conda environment.
 
 3. Activate the conda environment.
 
@@ -42,6 +50,12 @@ You will need to install the following software:
 
     ```bash
     conda deactivate cls
+    ```
+
+4. Locally install ``cls`` with pip:
+
+    ```bash
+    pip install /path/to/cls/
     ```
 
 ## Usage

@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 
-def simpsons_rule(y: np.ndarray, a: float, b: float) -> float:
+def _simpsons_rule(y: np.ndarray, a: float, b: float) -> float:
     """Calculates the integral of ``y = f(x)`` from ``a`` to ``b``
     using Simpson's rule.
 

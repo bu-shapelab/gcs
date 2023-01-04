@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 
 
-def polar_to_cartesian(points: np.ndarray) -> np.ndarray:
+def _polar_to_cartesian(points: np.ndarray) -> np.ndarray:
     """Converts polar points to cartesian points.
 
     Parameters
@@ -44,7 +44,7 @@ def polar_to_cartesian(points: np.ndarray) -> np.ndarray:
     return points_cartesian
 
 
-def cartesian_to_polar(points: np.ndarray) -> np.ndarray:
+def _cartesian_to_polar(points: np.ndarray) -> np.ndarray:
     """Converts cartesian points to polar points.
 
     Parameters

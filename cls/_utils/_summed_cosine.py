@@ -3,10 +3,10 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import minimize
 
-from cls._utils.integration import simpsons_rule
+from cls._utils._integration import _simpsons_rule
 
 
-def summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndarray:
+def _summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndarray:
     """Calculates the radii of a summed cosine polar equation.
 
     The summed cosine equation is inspired by [1].
@@ -63,7 +63,7 @@ def summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndar
     return r0 * (1 + c1 * np.cos(4 * theta) + c2 * np.cos(8 * theta))
 
 
-def arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
+def _arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
     """Approximate arc length of a summed cosine polar equation.
 
     Parameters
@@ -113,7 +113,7 @@ def arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
         raise ValueError('n_steps needs to be positive.')
 
     theta = np.linspace(0, 2 * np.pi, n_steps + 1)
-    radii = summed_cosine(theta, r0, c1, c2)
+    radii = _summed_cosine(theta, r0, c1, c2)
 
     d_radius_d_theta = -4 * r0 * \
         (c1 * np.sin(4 * theta) + 2 * c2 * np.sin(8 * theta))
@@ -121,12 +121,12 @@ def arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
     arc_length_function = np.sqrt(d_radius_d_theta ** 2 + radii ** 2)
 
     # approximate integral from 0 -> 2pi of arc_length_function using Simpson's rule
-    integral = simpsons_rule(arc_length_function, 0, 2 * np.pi)
+    integral = _simpsons_rule(arc_length_function, 0, 2 * np.pi)
 
     return integral
 
 
-def optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
+def _optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
     """Approximate arc length of a summed cosine polar equation.
 
     Parameters
@@ -171,7 +171,7 @@ def optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
         """
         # when passed in by minimizer, r0 is a singleton
         r0 = r0.item()
-        return abs(length - arc_length(r0, c1, c2))
+        return abs(length - _arc_length(r0, c1, c2))
 
     # Inital guess of answer
     x0 = np.array([0])

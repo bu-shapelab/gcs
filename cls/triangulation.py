@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from cls import CLS
 
 
-def triangulate_face(shape: CLS, top: bool) -> np.ndarray:
+def _triangulate_face(shape: CLS, top: bool) -> np.ndarray:
     """Triangulates the base/top face of a CLS.
 
     The triangulation method is a modified ear slicing algorithm.
@@ -74,8 +74,8 @@ def triangulate(shape: CLS) -> Mesh:
 
     """
 
-    triangulation_base = triangulate_face(shape=shape, top=False)
-    triangulation_top = triangulate_face(shape=shape, top=True)
+    triangulation_base = _triangulate_face(shape=shape, top=False)
+    triangulation_top = _triangulate_face(shape=shape, top=True)
 
     vertices = shape.vertices
     n_vertices_step = vertices.shape[0]
