@@ -65,3 +65,13 @@ class TestCLS:
         """
         assert DEFAULT_SHAPE.max_radius == approx(19.93625076293947)
         assert CUSTOM_SHAPE.max_radius == approx(17.95458913788471)
+
+    def test_n_steps(self):
+        """Test ``cls.CLS.n_steps`` property.
+
+        """
+        steps = 101
+        CUSTOM_SHAPE.n_steps = steps
+
+        assert DEFAULT_SHAPE.n_steps == 100
+        assert CUSTOM_SHAPE.n_steps == steps

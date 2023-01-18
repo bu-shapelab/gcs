@@ -106,6 +106,7 @@ class CLS:
     @property
     def parameters(self) -> dict:
         """The CLS parameters.
+
         """
         return {
             'c1_base': self._c1_base,
@@ -126,18 +127,21 @@ class CLS:
         """The CLS validity.
 
         Refer to ``cls.verify.verify_all`` for full documentation.
+
         """
         return cls.verify.verify_all(shape=self, verbose=False)
 
     @property
     def base_perimeter(self) -> float:
         """The CLS base perimeter.
+
         """
         return (2 * self._mass) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
 
     @property
     def top_perimeter(self) -> float:
         """The CLS top perimeter.
+
         """
         return (2 * self._mass * self._perimeter_ratio) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
 
@@ -146,12 +150,14 @@ class CLS:
         """The CLS vertices.
 
         Refer to ``cls.discretize`` for full documentation.
+
         """
         return cls.discretize(shape=self, n_steps=self._n_steps)
 
     @property
     def min_radius(self) -> np.ndarray:
         """The CLS minimum radius.
+
         """
         radius = np.inf
         vertices = self.vertices
@@ -167,6 +173,7 @@ class CLS:
     @property
     def max_radius(self) -> np.ndarray:
         """The CLS maximum radius.
+
         """
         radius = 0
         vertices = self.vertices
@@ -184,8 +191,24 @@ class CLS:
         """The CLS mesh.
 
         Refer to ``cls.triangulate`` for full documentation.
+
         """
         return cls.triangulate(shape=self)
+
+    @property
+    def n_steps(self) -> int:
+        """The number of steps to discretize the shape height.
+
+        """
+        return self._n_steps
+    
+    @n_steps.setter
+    def n_steps(self, steps: int) -> None:
+        """Set the number of steps to discretize the shape height.
+
+        """
+        if isinstance(steps, int) and steps > 0:
+            self._n_steps = steps
 
     def __str__(self):
         output = (super().__str__()
