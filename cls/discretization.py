@@ -12,26 +12,24 @@ if TYPE_CHECKING:
 THETA = np.arange(0, 2 * np.pi, 0.01)
 
 
-def discretize(shape: CLS, n_steps: int = 100) -> np.ndarray:
-    """Discretizes a CLS shape into a tensor of points.
+def discretize(shape: CLS) -> np.ndarray:
+    """Discretizes a CLS shape into points.
 
     The height of a ``CLS`` is divided into steps. At each step,
-    the polar curve is discretizes to `X` evenly spaced points
-    where ``X=np.arange(0, 2 * np.pi, 0.01).size``=629.
+    the polar curve is discretized to `X` evenly spaced points
+    where ``X=np.arange(0, 2 * np.pi, 0.01).size=629``.
 
     Parameters
     ----------
     shape : cls.CLS
         The CLS shape.
     n_steps : int (default=100)
-        The number of steps to discretize the `shape` height.
+        The number of steps to discretize the ``shape`` height.
 
     Returns
     -------
-    points : (629, 3, ``n_steps``) np.ndarray
-        The tensor of points. Each step ([0, 1, ..., ``n_steps`` - 1])
-        is 1/``n_steps`` of the ``shape`` height. The `i`'th step contains
-        an (629, 3) matrix of points.
+    points : (``629 x n_steps``, 3, ) np.ndarray
+        The matrix of points.
 
     Examples
     --------
@@ -42,13 +40,15 @@ def discretize(shape: CLS, n_steps: int = 100) -> np.ndarray:
     >>> vertices = shape.vertices
 
     """
+    n_steps = shape.n_steps
+
     if n_steps < 1:
         raise ValueError('n_steps needs to be greater than 0.')
 
     parameters = shape.parameters
     height_per_step = parameters['height'] / (n_steps - 1)
 
-    points = np.empty((THETA.size, 3, n_steps))
+    points = np.empty((THETA.size * n_steps, 3))
 
     c1s = np.linspace(parameters['c1_base'], parameters['c1_top'], n_steps)
     c2s = np.linspace(parameters['c2_base'], parameters['c2_top'], n_steps)
@@ -74,7 +74,10 @@ def discretize(shape: CLS, n_steps: int = 100) -> np.ndarray:
         points_2d_polar = np.vstack((theta, radii)).transpose()
         points_2d_cartesian = _polar_to_cartesian(points=points_2d_polar)
 
-        points[:, :2, step] = points_2d_cartesian
-        points[:, 2, step] = height
+        idx_start = step * THETA.size
+        idx_end = (step + 1) * THETA.size
+
+        points[idx_start:idx_end, :2] = points_2d_cartesian
+        points[idx_start:idx_end, 2] = height
 
     return points

@@ -41,16 +41,18 @@ def _preview_face(shape: CLS, top: bool, title: str, show: bool = True) -> Figur
     if not isinstance(title, str):
         raise TypeError('title needs to be a string.')
 
-    step = 0
+    vertices = shape.vertices
+    n_vertices_per_step = vertices.shape[0] // shape.n_steps
+    
+    step_vertices = vertices[:n_vertices_per_step, :2]
     if top:
-        step = -1
-    vertices = shape.vertices[:, :2, step]
+        step_vertices = vertices[-n_vertices_per_step:, :2]
 
     parameters = shape.parameters
-    vertices_outer = _offset_curve(vertices, parameters['thickness'] / 2)
-    vertices_inner = _offset_curve(vertices, -parameters['thickness'] / 2)
+    vertices_outer = _offset_curve(step_vertices, parameters['thickness'] / 2)
+    vertices_inner = _offset_curve(step_vertices, -parameters['thickness'] / 2)
 
-    vertices = _cartesian_to_polar(points=vertices)
+    vertices = _cartesian_to_polar(points=step_vertices)
     vertices_outer = _cartesian_to_polar(points=vertices_outer)
     vertices_inner = _cartesian_to_polar(points=vertices_inner)
 

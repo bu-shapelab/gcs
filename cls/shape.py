@@ -152,22 +152,18 @@ class CLS:
         Refer to ``cls.discretize`` for full documentation.
 
         """
-        return cls.discretize(shape=self, n_steps=self._n_steps)
+        return cls.discretize(shape=self)
 
     @property
     def min_radius(self) -> np.ndarray:
         """The CLS minimum radius.
 
         """
-        radius = np.inf
         vertices = self.vertices
-        for step in range(self._n_steps):
-            vertices_2d_cartesian = vertices[:, :2, step]
-            vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
-            radii = vertices_2d_polar[:, 1]
-            step_radius = np.amin(radii)
-            if step_radius < radius:
-                radius = step_radius
+        vertices_2d_cartesian = vertices[:, :2]
+        vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
+        radii = vertices_2d_polar[:, 1]
+        radius = np.amin(radii)
         return radius
 
     @property
@@ -175,15 +171,11 @@ class CLS:
         """The CLS maximum radius.
 
         """
-        radius = 0
         vertices = self.vertices
-        for step in range(self._n_steps):
-            vertices_2d_cartesian = vertices[:, :2, step]
-            vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
-            radii = vertices_2d_polar[:, 1]
-            step_radius = np.amax(radii)
-            if step_radius > radius:
-                radius = step_radius
+        vertices_2d_cartesian = vertices[:, :2]
+        vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
+        radii = vertices_2d_polar[:, 1]
+        radius = np.amax(radii)
         return radius
 
     @property
