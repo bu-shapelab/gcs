@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import numpy as np
 import cls
 from cls._utils import _cartesian_to_polar
-
-if TYPE_CHECKING:
-    from stl.mesh import Mesh
+from stl.mesh import Mesh
+    
 
 # Valid range of c1 (base) values.
 C1_BASE_RANGE = [0, 1.2]
@@ -179,13 +177,34 @@ class CLS:
         return radius
 
     @property
-    def mesh(self) -> Mesh:
-        """The CLS mesh.
-
+    def faces(self) -> np.ndarray:
+        """The CLS faces defined by ``CLS.vertices``.
+        
         Refer to ``cls.triangulate`` for full documentation.
 
         """
         return cls.triangulate(shape=self)
+
+    @property
+    def mesh(self) -> Mesh:
+        """The CLS mesh.
+
+        References
+        ----------
+        .. [1] Creating Mesh objects from a list of vertices and faces:
+            https://pypi.org/project/numpy-stl/
+
+        """
+        vertices = self.vertices
+        faces = self.faces
+
+        mesh = Mesh(np.zeros(faces.shape[0], dtype=Mesh.dtype))
+
+        for idx, face in enumerate(faces):
+            for dim in range(3):
+                mesh.vectors[idx][dim] = vertices[face[dim], :]
+        
+        return mesh
 
     @property
     def n_steps(self) -> int:
@@ -201,6 +220,21 @@ class CLS:
         """
         if isinstance(steps, int) and steps > 0:
             self._n_steps = steps
+
+    def copy(self) -> CLS:
+        """Get a copy of the CLS.
+
+        Returns
+        -------
+        shape : cls.CLS
+            A copy of the shape.
+
+        """
+        parameters = self.parameters
+        copy_shape = CLS(**parameters)
+        copy_shape.n_steps = self.n_steps
+
+        return copy_shape
 
     def __str__(self):
         output = (super().__str__()

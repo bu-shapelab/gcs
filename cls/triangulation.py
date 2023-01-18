@@ -33,20 +33,30 @@ def _triangulate_face(shape: CLS, top: bool) -> np.ndarray:
     .. [1] https://github.com/mapbox/earcut.hpp
 
     """
-    step = 0
+    vertices = shape.vertices
+    n_vertices_per_step = vertices.shape[0] // shape.n_steps
+    
+    face_vertices = vertices[:n_vertices_per_step, :2]
     if top:
-        step = -1
+        face_vertices = vertices[-n_vertices_per_step:, :2]
 
-    vertices = shape.vertices[:, :2, step]
-
-    rings = np.array([vertices.shape[0]])
+    rings = np.array([face_vertices.shape[0]])
 
     # triangulation is a single vector of all vertex indices
     # every 3 indices is a triangle
-    triangulation = earcut.triangulate_float32(vertices, rings)
+    triangulation = earcut.triangulate_float32(face_vertices, rings)
 
     # reshape to (n x 3) matrix
     triangulation = triangulation.reshape((-1, 3))
+
+    # reverse order of triangles on bottom for outward facing normals
+    if not top:
+        triangulation = np.fliplr(m=triangulation)
+    
+    # offset to be last step
+    offset = (shape.n_steps - 1) * n_vertices_per_step
+    if top:
+        triangulation = triangulation + offset
 
     return triangulation
 
@@ -78,47 +88,56 @@ def triangulate(shape: CLS) -> Mesh:
     triangulation_top = _triangulate_face(shape=shape, top=True)
 
     vertices = shape.vertices
-    n_vertices_step = vertices.shape[0]
-    n_steps = vertices.shape[2]
-    n_triangles_base = triangulation_base.shape[0]
-    n_triangles_top = triangulation_top.shape[0]
-    n_triangles_side = 2 * n_vertices_step * (n_steps - 1)
 
-    n_facets = n_triangles_base + n_triangles_top + n_triangles_side
+    n_steps = shape.n_steps
+    n_vertices_per_step = vertices.shape[0] // shape.n_steps
 
-    data = np.zeros(n_facets, dtype=Mesh.dtype)
+    n_facets_base = triangulation_base.shape[0]
+    n_facets_top = triangulation_top.shape[0]
+    n_facets_side = 2 * n_vertices_per_step * (n_steps - 1)
 
-    # add base triangles to mesh
-    for idx in range(n_triangles_base):
-        points_idx = triangulation_base[idx]
-        # counter-clockwise order for outward facing normals
-        points_idx = np.flip(points_idx)
-        data['vectors'][idx] = vertices[points_idx, :, 0]
+    n_facets = n_facets_side + n_facets_base + n_facets_top
 
-    # # add top triangles to mesh
-    offset = n_triangles_base
-    for idx in range(n_triangles_top):
-        points_idx = triangulation_top[idx]
-        data['vectors'][idx + offset] = vertices[points_idx, :, -1]
+    triangulation = np.zeros((n_facets, 3))
 
-    # add side triangles to mesh
-    offset += n_triangles_top
-    for step_idx in range(n_steps - 1):
-        for vertex_idx in range(n_vertices_step):
-            # bottom right vertex
-            p0 = vertices[vertex_idx, :, step_idx].reshape(1, -1)
-            # top right vertex
-            p1 = vertices[vertex_idx, :, step_idx + 1].reshape(1, -1)
-            # top left vertex
-            p2 = vertices[vertex_idx - 1, :, step_idx + 1].reshape(1, -1)
-            # bottom left vertex
-            p3 = vertices[vertex_idx - 1, :, step_idx].reshape(1, -1)
+    # add side triangles
+    offset = 0
+    for _ in range(n_steps - 1):
+        for vertex_idx in range(n_vertices_per_step):
+            # bottom right vertex idx
+            idx_br = offset + vertex_idx
+            
+            # bottom left vertex idx
+            idx_bl = idx_br - 1
+            if vertex_idx == 0:
+                idx_bl += n_vertices_per_step
+
+            # top right vertex idx
+            idx_tr = idx_br + n_vertices_per_step
+
+            # top left vertex idx
+            idx_tl = idx_tr - 1
+            if vertex_idx == 0:
+                idx_tl += n_vertices_per_step
 
             # lower triangle
-            data['vectors'][offset + 2 * vertex_idx] = np.concatenate((p0, p2, p3), axis=0)
-            # upper triangle
-            data['vectors'][offset + 2 * vertex_idx + 1] = np.concatenate((p0, p1, p2), axis=0)
-        offset += 2 * n_vertices_step
+            lower_trianlge_idx = offset + vertex_idx
+            triangulation[lower_trianlge_idx, :] = np.array([idx_br, idx_tl, idx_bl])
 
-    triangulation = Mesh(data)
+            # upper triangle
+            upper_trianlge_idx = lower_trianlge_idx + n_vertices_per_step * (n_steps - 1)
+            triangulation[upper_trianlge_idx, :] = np.array([idx_br, idx_tr, idx_tl])
+
+        offset += n_vertices_per_step
+
+    # add base triangles
+    offset = n_facets_side
+    triangulation[offset:offset+n_facets_base, :] = triangulation_base
+
+    # add top triangles
+    offset += n_facets_base
+    triangulation[offset:offset+n_facets_top, :] = triangulation_top
+
+    triangulation = triangulation.astype(int)
+
     return triangulation

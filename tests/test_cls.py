@@ -66,12 +66,30 @@ class TestCLS:
         assert DEFAULT_SHAPE.max_radius == approx(19.93625076293947)
         assert CUSTOM_SHAPE.max_radius == approx(17.95458913788471)
 
+    def test_copy(self):
+        """Test ``cls.CLS.faces`` property.
+
+        """
+        copy_shape = DEFAULT_SHAPE.copy()
+        print(copy_shape.parameters)
+        print(DEFAULT_SHAPE.parameters)
+        assert copy_shape.parameters == DEFAULT_SHAPE.parameters
+        assert copy_shape.n_steps == DEFAULT_SHAPE.n_steps
+
     def test_n_steps(self):
         """Test ``cls.CLS.n_steps`` property.
 
         """
         steps = 101
-        CUSTOM_SHAPE.n_steps = steps
+        shape = CUSTOM_SHAPE.copy()
+        shape.n_steps = steps
 
         assert DEFAULT_SHAPE.n_steps == 100
-        assert CUSTOM_SHAPE.n_steps == steps
+        assert shape.n_steps == steps
+
+    def test_faces(self):
+        """Test ``cls.CLS.faces`` property.
+
+        """
+        assert DEFAULT_SHAPE.faces.shape == CUSTOM_SHAPE.faces.shape
+
