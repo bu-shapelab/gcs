@@ -8,11 +8,8 @@ from cls._utils import _polar_to_cartesian
 if TYPE_CHECKING:
     from cls import CLS
 
-# Discretized thetas from [0, 2pi]
-THETA = np.arange(0, 2 * np.pi, 0.01)
 
-
-def discretize(shape: CLS) -> np.ndarray:
+def discretize(shape: CLS, n_steps: int = 100, theta_step: float = 0.01) -> np.ndarray:
     """Discretizes a CLS shape into points.
 
     The height of a ``CLS`` is divided into steps. At each step,
@@ -24,7 +21,9 @@ def discretize(shape: CLS) -> np.ndarray:
     shape : cls.CLS
         The CLS shape.
     n_steps : int (default=100)
-        The number of steps to discretize the ``shape`` height.
+        The number of height discretization steps.
+    theta_step : float (default=0.01)
+        The angular discretization step size.
 
     Returns
     -------
@@ -40,15 +39,25 @@ def discretize(shape: CLS) -> np.ndarray:
     >>> vertices = shape.vertices
 
     """
-    n_steps = shape.n_steps
+    if shape.n_steps != n_steps:
+        shape.n_steps = n_steps
+        # if the provided n_steps is invalid, this ensures that it is set
+        # to the valid n_steps saved in shape
+        n_steps = shape.n_steps
 
-    if n_steps < 1:
-        raise ValueError('n_steps needs to be greater than 0.')
+    if shape.theta_step != theta_step:
+        shape.theta_step = theta_step
+        # if the provided n_steps is invalid, this ensures that it is set
+        # to the valid n_steps saved in shape
+        theta_step = shape.theta_step
+
+    base_theta = np.arange(0, 2 * np.pi, theta_step)
+    n_theta = base_theta.size
 
     parameters = shape.parameters
     height_per_step = parameters['height'] / (n_steps - 1)
 
-    points = np.empty((THETA.size * n_steps, 3))
+    points = np.empty((n_theta * n_steps, 3))
 
     c1s = np.linspace(parameters['c1_base'], parameters['c1_top'], n_steps)
     c2s = np.linspace(parameters['c2_base'], parameters['c2_top'], n_steps)
@@ -68,14 +77,14 @@ def discretize(shape: CLS) -> np.ndarray:
 
         r0 = _optimal_scaling_factor(length=perimeter, c1=c1, c2=c2)
 
-        theta = THETA + twist_linear + twist_oscillating
+        theta = base_theta + twist_linear + twist_oscillating
         radii = _summed_cosine(theta=theta, r0=r0, c1=c1, c2=c2)
 
-        points_2d_polar = np.vstack((theta, radii)).transpose()
+        points_2d_polar = np.vstack((base_theta, radii)).transpose()
         points_2d_cartesian = _polar_to_cartesian(points=points_2d_polar)
 
-        idx_start = step * THETA.size
-        idx_end = (step + 1) * THETA.size
+        idx_start = step * n_theta
+        idx_end = (step + 1) * n_theta
 
         points[idx_start:idx_end, :2] = points_2d_cartesian
         points[idx_start:idx_end, 2] = height

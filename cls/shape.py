@@ -98,8 +98,14 @@ class CLS:
         # Material density (g/mm^3)
         self._density = 0.0012
 
-        # Number of discretization steps
+        # The number of height discretization steps.
         self._n_steps = 100
+
+        # The angular discretization step size
+        self._theta_step = 0.01
+
+        self._vertices = None
+        self._faces = None
 
     @property
     def parameters(self) -> dict:
@@ -150,7 +156,11 @@ class CLS:
         Refer to ``cls.discretize`` for full documentation.
 
         """
-        return cls.discretize(shape=self)
+        if self._vertices is None:
+            self._vertices = cls.discretize(shape=self,
+                                            n_steps=self.n_steps,
+                                            theta_step=self.theta_step)
+        return self._vertices
 
     @property
     def min_radius(self) -> np.ndarray:
@@ -183,7 +193,9 @@ class CLS:
         Refer to ``cls.triangulate`` for full documentation.
 
         """
-        return cls.triangulate(shape=self)
+        if self._faces is None:
+            self._faces = cls.triangulate(shape=self)
+        return self._faces
 
     @property
     def mesh(self) -> Mesh:
@@ -208,18 +220,33 @@ class CLS:
 
     @property
     def n_steps(self) -> int:
-        """The number of steps to discretize the shape height.
+        """The number of height discretization steps.
 
         """
         return self._n_steps
     
     @n_steps.setter
     def n_steps(self, steps: int) -> None:
-        """Set the number of steps to discretize the shape height.
+        """Set the number of height discretization steps.
 
         """
         if isinstance(steps, int) and steps > 0:
             self._n_steps = steps
+
+    @property
+    def theta_step(self) -> int:
+        """The angular discretization step size.
+
+        """
+        return self._theta_step
+    
+    @theta_step.setter
+    def theta_step(self, step: float) -> None:
+        """Set the angular discretization step size.
+
+        """
+        if isinstance(step, (int, float)) and step > 0 and step < 2 * np.pi:
+            self._theta_step = step
 
     def copy(self) -> CLS:
         """Get a copy of the CLS.
