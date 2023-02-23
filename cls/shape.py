@@ -48,7 +48,7 @@ class CLS:
     def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
                  c2_top: float = 0, twist_linear: float = 0, twist_amplitude: float = 0,
                  twist_period: float = 0, perimeter_ratio: float = 1, height: float = 19,
-                 mass: float = 2.1, thickness: float = 0.75, fix: bool = False) -> None:
+                 mass: float = 2.1, thickness: float = 0.75) -> None:
         """Initialize the CLS.
 
         Parameters
@@ -75,8 +75,6 @@ class CLS:
             The target mass (g).
         thickness : float (default=0.75)
             The wall thickness (mm).
-        fix : bool (default=False)
-            Set to `True` to set invalid parameters to the closest valid value.
 
         Examples
         --------
@@ -86,67 +84,16 @@ class CLS:
 
         """
         self._c1_base = c1_base
-        if fix:
-            if self._c1_base < C1_BASE_RANGE[0]:
-                self._c1_base = C1_BASE_RANGE[0]
-            elif self._c1_base > C1_BASE_RANGE[1]:
-                self._c1_base = C1_BASE_RANGE[1]
         self._c2_base = c2_base
-        if fix:
-            if self._c2_base < C2_BASE_RANGE[0]:
-                self._c2_base = C2_BASE_RANGE[0]
-            elif self._c2_base > C2_BASE_RANGE[1]:
-                self._c2_base = C2_BASE_RANGE[1]
         self._c1_top = c1_top
-        if fix:
-            if self._c1_top < C1_TOP_RANGE[0]:
-                self._c1_top = C1_TOP_RANGE[0]
-            elif self._c1_top > C1_TOP_RANGE[1]:
-                self._c1_top = C1_TOP_RANGE[1]
         self._c2_top = c2_top
-        if fix:
-            if self._c2_top < C2_TOP_RANGE[0]:
-                self._c2_top = C2_TOP_RANGE[0]
-            elif self._c2_top > C2_TOP_RANGE[1]:
-                self._c2_top = C2_TOP_RANGE[1]
         self._twist_linear = twist_linear
-        if fix:
-            if self._twist_linear < TWIST_LINEAR_RANGE[0]:
-                self._twist_linear = TWIST_LINEAR_RANGE[0]
-            elif self._twist_linear > TWIST_LINEAR_RANGE[1]:
-                self._twist_linear = TWIST_LINEAR_RANGE[1]
         self._twist_amplitude = twist_amplitude
-        if fix:
-            if self._twist_amplitude < TWIST_AMPLITUDE_RANGE[0]:
-                self._twist_amplitude = TWIST_AMPLITUDE_RANGE[0]
-            elif self._twist_amplitude > TWIST_AMPLITUDE_RANGE[1]:
-                self._twist_amplitude = TWIST_AMPLITUDE_RANGE[1]
         self._twist_period = twist_period
-        if fix:
-            if self._twist_period < TWIST_PERIOD_RANGE[0]:
-                self._twist_period = TWIST_PERIOD_RANGE[0]
-            elif self._twist_period > TWIST_PERIOD_RANGE[1]:
-                self._twist_period = TWIST_PERIOD_RANGE[1]
         self._perimeter_ratio = perimeter_ratio
-        if fix:
-            if self._perimeter_ratio < PERIMETER_RATIO_RANGE[0]:
-                self._perimeter_ratio = PERIMETER_RATIO_RANGE[0]
-            elif self._perimeter_ratio > PERIMETER_RATIO_RANGE[1]:
-                self._perimeter_ratio = PERIMETER_RATIO_RANGE[1]
         self._height = height
-        if fix:
-            if self._height < MIN_HEIGHT:
-                self._height = MIN_HEIGHT
         self._mass = mass
-        if fix:
-            if self._mass < MIN_MASS:
-                self._mass = MIN_MASS
         self._thickness = thickness
-        if fix:
-            if self._thickness < THICKNESS_RANGE[0]:
-                self._thickness = THICKNESS_RANGE[0]
-            elif self._thickness > THICKNESS_RANGE[1]:
-                self._thickness = THICKNESS_RANGE[1]
 
         # Material density (g/mm^3)
         self._density = 0.0012
@@ -159,6 +106,67 @@ class CLS:
 
         self._vertices = None
         self._faces = None
+
+    def fix(self) -> None:
+        """Fix the CLS shape parameters.
+        
+        Parameters outside their valid range are set to the closest valid value.
+
+        """
+        # Clear saved vertices and faces so they are recalculated.
+        self._vertices = None
+        self._faces = None
+
+        if self._c1_base < C1_BASE_RANGE[0]:
+            self._c1_base = C1_BASE_RANGE[0]
+        elif self._c1_base > C1_BASE_RANGE[1]:
+            self._c1_base = C1_BASE_RANGE[1]
+
+        if self._c2_base < C2_BASE_RANGE[0]:
+            self._c2_base = C2_BASE_RANGE[0]
+        elif self._c2_base > C2_BASE_RANGE[1]:
+            self._c2_base = C2_BASE_RANGE[1]
+
+        if self._c1_top < C1_TOP_RANGE[0]:
+            self._c1_top = C1_TOP_RANGE[0]
+        elif self._c1_top > C1_TOP_RANGE[1]:
+            self._c1_top = C1_TOP_RANGE[1]
+
+        if self._c2_top < C2_TOP_RANGE[0]:
+            self._c2_top = C2_TOP_RANGE[0]
+        elif self._c2_top > C2_TOP_RANGE[1]:
+            self._c2_top = C2_TOP_RANGE[1]
+
+        if self._twist_linear < TWIST_LINEAR_RANGE[0]:
+            self._twist_linear = TWIST_LINEAR_RANGE[0]
+        elif self._twist_linear > TWIST_LINEAR_RANGE[1]:
+            self._twist_linear = TWIST_LINEAR_RANGE[1]
+
+        if self._twist_amplitude < TWIST_AMPLITUDE_RANGE[0]:
+            self._twist_amplitude = TWIST_AMPLITUDE_RANGE[0]
+        elif self._twist_amplitude > TWIST_AMPLITUDE_RANGE[1]:
+            self._twist_amplitude = TWIST_AMPLITUDE_RANGE[1]
+
+        if self._twist_period < TWIST_PERIOD_RANGE[0]:
+            self._twist_period = TWIST_PERIOD_RANGE[0]
+        elif self._twist_period > TWIST_PERIOD_RANGE[1]:
+            self._twist_period = TWIST_PERIOD_RANGE[1]
+
+        if self._perimeter_ratio < PERIMETER_RATIO_RANGE[0]:
+            self._perimeter_ratio = PERIMETER_RATIO_RANGE[0]
+        elif self._perimeter_ratio > PERIMETER_RATIO_RANGE[1]:
+            self._perimeter_ratio = PERIMETER_RATIO_RANGE[1]
+
+        if self._height < MIN_HEIGHT:
+            self._height = MIN_HEIGHT
+
+        if self._mass < MIN_MASS:
+            self._mass = MIN_MASS
+
+        if self._thickness < THICKNESS_RANGE[0]:
+            self._thickness = THICKNESS_RANGE[0]
+        elif self._thickness > THICKNESS_RANGE[1]:
+            self._thickness = THICKNESS_RANGE[1]
 
     @property
     def parameters(self) -> dict:

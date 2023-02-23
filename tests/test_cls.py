@@ -52,7 +52,8 @@ class TestCLS:
             'thickness': 0.75,
         }
 
-        shape = CLS(fix=True, **parameters)
+        shape = CLS(**parameters)
+        shape.fix()
 
         assert DEFAULT_SHAPE.parameters == shape.parameters
 
