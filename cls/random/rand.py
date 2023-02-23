@@ -9,16 +9,14 @@ from cls import C2_TOP_RANGE
 from cls import TWIST_LINEAR_RANGE
 from cls import TWIST_AMPLITUDE_RANGE
 from cls import TWIST_PERIOD_RANGE
-from cls import HEIGHT_RANGE
-from cls import MASS_RANGE
 from cls import PERIMETER_RATIO_RANGE
 from cls import THICKNESS_RANGE
 from cls import CLS
 
-# Fixed mass range instead of [0, inf]
+# Fixed mass range
 MASS_RANGE = [2, 6]
 
-# Fixed height range instead of [0, inf]
+# Fixed height range
 HEIGHT_RANGE = [10, 30]
 
 

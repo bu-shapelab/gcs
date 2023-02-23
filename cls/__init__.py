@@ -38,8 +38,8 @@ from .shape import C2_TOP_RANGE
 from .shape import TWIST_LINEAR_RANGE
 from .shape import TWIST_AMPLITUDE_RANGE
 from .shape import TWIST_PERIOD_RANGE
-from .shape import HEIGHT_RANGE
-from .shape import MASS_RANGE
+from .shape import MIN_HEIGHT
+from .shape import MIN_MASS
 from .shape import PERIMETER_RATIO_RANGE
 from .shape import THICKNESS_RANGE
 from .shape import CLS
@@ -67,8 +67,8 @@ __all__ = submodules + [
     'TWIST_LINEAR_RANGE',
     'TWIST_AMPLITUDE_RANGE',
     'TWIST_PERIOD_RANGE',
-    'HEIGHT_RANGE',
-    'MASS_RANGE',
+    'MIN_HEIGHT',
+    'MIN_MASS',
     'PERIMETER_RATIO_RANGE',
     'THICKNESS_RANGE',
     'CLS',

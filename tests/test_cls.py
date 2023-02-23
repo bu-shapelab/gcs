@@ -38,6 +38,24 @@ class TestCLS:
 
         assert DEFAULT_SHAPE.parameters == parameters
 
+        parameters = {
+            'c1_base': -1,
+            'c2_base': 0,
+            'c1_top': 0,
+            'c2_top': 0,
+            'twist_linear': -1,
+            'twist_amplitude': 0,
+            'twist_period': 0,
+            'perimeter_ratio': 1,
+            'height': 19,
+            'mass': 2.1,
+            'thickness': 0.75,
+        }
+
+        shape = CLS(fix=True, **parameters)
+
+        assert DEFAULT_SHAPE.parameters == shape.parameters
+
     def test_base_perimeter(self):
         """Test ``cls.CLS.base_perimeter`` property.
 
@@ -103,4 +121,3 @@ class TestCLS:
 
         """
         assert DEFAULT_SHAPE.faces.shape == CUSTOM_SHAPE.faces.shape
-
