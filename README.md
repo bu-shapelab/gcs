@@ -82,6 +82,14 @@ The following are available subpackages within ``cls``
 * ``random``
   * Functions for generating random CLS shapes.
 
+## Testing
+
+To test, run
+
+```bash
+python -m pytest
+```
+
 ## Contact
 
 Maintainers:
