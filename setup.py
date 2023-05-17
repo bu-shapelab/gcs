@@ -14,7 +14,6 @@ setup(
     classifiers=[],
     install_requires=[
         'bentley-ottmann==7.3.0',
-        'mapbox-earcut==1.0.0',
         'matplotlib>=3.5.1',
         'numpy>=1.21.5',
         'numpy-stl>=2.17.1',

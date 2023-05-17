@@ -18,4 +18,3 @@ dependencies:
   - pip:
     - numpy-stl==2.17.1
     - bentley-ottmann==7.3.0
-    - mapbox-earcut==1.0.0
