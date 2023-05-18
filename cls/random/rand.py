@@ -11,25 +11,20 @@ from cls import TWIST_AMPLITUDE_RANGE
 from cls import TWIST_PERIOD_RANGE
 from cls import PERIMETER_RATIO_RANGE
 from cls import THICKNESS_RANGE
+from cls import MASS_RANGE
+from cls import HEIGHT_RANGE
 from cls import CLS
 
-# Fixed mass range
-MASS_RANGE = [2, 6]
-
-# Fixed height range
-HEIGHT_RANGE = [10, 30]
-
-
-def rand(fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) -> CLS:
-    """Creates a valid random CLS.
+def rand(seed: Optional[int] = None,
+         fixed_kwargs: Optional[dict] = None) -> CLS:
+    """Creates a random (valid) CLS.
 
     Parameters
     ----------
-    fixed_parameters : dict, optional
-        A dictionary of parameters with fixed-values to override randomization.
-        The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
     seed : int, optional
         A random seed.
+    fixed_kwargs : dict, optional
+        The kwargs of fixed parameters for ``cls.CLS`` initalization.
 
     Returns
     -------
@@ -40,78 +35,65 @@ def rand(fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) ->
     --------
     >>> shape = cls.random.rand()
 
-    >>> fixed_parameters = { 'c1_base': 0.5, 'height': 20 }
-    >>> shape = cls.random.rand(fixed_parameters=fixed_parameters)
+    >>> fixed_kwargs = { 'c1_base': 0.5, 'height': 20 }
+    >>> shape = cls.random.rand(fixed_kwargs=fixed_kwargs)
 
     """
     if seed is not None:
         random.seed(seed)
 
-    if fixed_parameters is None:
-        fixed_parameters = {}
-
     shape = None
 
     while True:
-        c1_base = random.uniform(a=C1_BASE_RANGE[0], b=C1_BASE_RANGE[1])
-        if 'c1_base' in fixed_parameters:
-            c1_base = fixed_parameters['c1_base']
+        kwargs = {}
+        if fixed_kwargs is not None:
+            kwargs = fixed_kwargs.copy()
 
-        c2_base = random.uniform(a=C2_BASE_RANGE[0], b=C2_BASE_RANGE[1])
-        if 'c2_base' in fixed_parameters:
-            c2_base = fixed_parameters['c2_base']
+        if 'c1_base' not in kwargs:
+            kwargs['c1_base'] = random.uniform(a=C1_BASE_RANGE[0],
+                                               b=C1_BASE_RANGE[1])
 
-        c1_top = random.uniform(a=C1_TOP_RANGE[0], b=C1_TOP_RANGE[1])
-        if 'c1_top' in fixed_parameters:
-            c1_top = fixed_parameters['c1_top']
+        if 'c2_base' not in kwargs:
+            kwargs['c2_base'] = random.uniform(a=C2_BASE_RANGE[0],
+                                               b=C2_BASE_RANGE[1])
 
-        c2_top = random.uniform(a=C2_TOP_RANGE[0], b=C2_TOP_RANGE[1])
-        if 'c2_top' in fixed_parameters:
-            c2_top = fixed_parameters['c2_top']
+        if 'c1_top' not in kwargs:
+            kwargs['c1_top'] = random.uniform(a=C1_TOP_RANGE[0],
+                                              b=C1_TOP_RANGE[1])
 
-        twist_linear = random.uniform(a=TWIST_LINEAR_RANGE[0],
-                                      b=TWIST_LINEAR_RANGE[1])
-        if 'twist_linear' in fixed_parameters:
-            twist_linear = fixed_parameters['twist_linear']
+        if 'c2_top' not in kwargs:
+            kwargs['c2_top'] = random.uniform(a=C2_TOP_RANGE[0],
+                                              b=C2_TOP_RANGE[1])
 
-        twist_amplitude = random.uniform(a=TWIST_AMPLITUDE_RANGE[0],
-                                         b=TWIST_AMPLITUDE_RANGE[1])
-        if 'twist_amplitude' in fixed_parameters:
-            twist_amplitude = fixed_parameters['twist_amplitude']
+        if 'twist_linear' not in kwargs:
+            kwargs['twist_linear'] = random.uniform(a=TWIST_LINEAR_RANGE[0],
+                                                    b=TWIST_LINEAR_RANGE[1])
 
-        twist_period = random.uniform(a=TWIST_PERIOD_RANGE[0],
-                                      b=TWIST_PERIOD_RANGE[1])
-        if 'twist_period' in fixed_parameters:
-            twist_period = fixed_parameters['twist_period']
+        if 'twist_amplitude' not in kwargs:
+            kwargs['twist_amplitude'] = random.uniform(a=TWIST_AMPLITUDE_RANGE[0],
+                                                       b=TWIST_AMPLITUDE_RANGE[1])
 
-        perimeter_ratio = random.uniform(a=PERIMETER_RATIO_RANGE[0],
-                                         b=PERIMETER_RATIO_RANGE[1])
-        if 'perimeter_ratio' in fixed_parameters:
-            perimeter_ratio = fixed_parameters['perimeter_ratio']
+        if 'twist_period' not in kwargs:
+            kwargs['twist_period'] = random.uniform(a=TWIST_PERIOD_RANGE[0],
+                                                    b=TWIST_PERIOD_RANGE[1])
 
-        height = random.uniform(a=HEIGHT_RANGE[0], b=HEIGHT_RANGE[1])
-        if 'height' in fixed_parameters:
-            height = fixed_parameters['height']
+        if 'perimeter_ratio' not in kwargs:
+            kwargs['perimeter_ratio'] = random.uniform(a=PERIMETER_RATIO_RANGE[0],
+                                                       b=PERIMETER_RATIO_RANGE[1])
 
-        mass = random.uniform(a=MASS_RANGE[0], b=MASS_RANGE[1])
-        if 'mass' in fixed_parameters:
-            mass = fixed_parameters['mass']
+        if 'height' not in kwargs:
+            kwargs['height'] = random.uniform(a=HEIGHT_RANGE[0],
+                                              b=HEIGHT_RANGE[1])
 
-        thickness = random.uniform(a=THICKNESS_RANGE[0], b=THICKNESS_RANGE[1])
-        if 'thickness' in fixed_parameters:
-            thickness = fixed_parameters['thickness']
+        if 'mass' not in kwargs:
+            kwargs['mass'] = random.uniform(a=MASS_RANGE[0],
+                                            b=MASS_RANGE[1])
 
-        shape = CLS(c1_base=c1_base,
-                    c2_base=c2_base,
-                    c1_top=c1_top,
-                    c2_top=c2_top,
-                    twist_linear=twist_linear,
-                    twist_amplitude=twist_amplitude,
-                    twist_period=twist_period,
-                    perimeter_ratio=perimeter_ratio,
-                    height=height,
-                    mass=mass,
-                    thickness=thickness)
+        if 'thickness' not in kwargs:
+            kwargs['thickness'] = random.uniform(a=THICKNESS_RANGE[0],
+                                                 b=THICKNESS_RANGE[1])
+
+        shape = CLS(**kwargs)
 
         if shape.valid:
             break

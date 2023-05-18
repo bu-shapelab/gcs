@@ -3,8 +3,9 @@ from __future__ import annotations
 from typing import Union
 import json
 import numpy as np
-import cls
 from stl.mesh import Mesh
+import cls
+
 
 # Parameter ranges
 C1_BASE_RANGE = [0, 1.2]

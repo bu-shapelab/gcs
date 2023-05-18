@@ -1,61 +1,50 @@
 from __future__ import annotations
 
 import random
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 from cls.random import rand
 
 if TYPE_CHECKING:
     from cls import CLS
 
 
-def randn(n: int, fixed_parameters: Optional[dict] = None, seed: Optional[int] = None) -> list[CLS]:
-    """Creates multiple valid random CLS.
+def randn(num: int,
+          seed: Optional[int] = None,
+          fixed_kwargs: Optional[dict] = None) -> List[CLS]:
+    """Creates multiple valid random (valid) CLS.
 
     Parameters
     ----------
-    n : int
+    num : int
         The number of CLS to generate.
-    fixed_parameters : dict, optional
-        A dictionary of parameters with fixed-values to override randomization.
-        The keys for ``fixed_parameters`` are the arguments to initialize a ``CLS``.
     seed : int, optional
         A random seed.
+    fixed_kwargs : dict, optional
+        The kwargs of fixed parameters for ``cls.CLS`` initalization.
 
     Returns
     -------
-    shape : list[cls.CLS]
+    shapes : List[cls.CLS]
         The random CLS.
-
-    Raises
-    ------
-    TypeError
-        If ``n`` is not an integer.
-    ValueError
-        If ``n`` is not positive.
 
     Examples
     --------
-    >>> shapes = cls.random.rand(n=1)
+    >>> shapes = cls.random.rand(num=1)
     >>> shape = shapes[0]
 
-    >>> shapes = cls.random.rand(n=3)
+    >>> shapes = cls.random.rand(num=3)
 
     >>> fixed_parameters = { 'c1_base': 0.5, 'height': 20 }
     >>> shapes = cls.random.randn(n=3, fixed_parameters=fixed_parameters)
 
     """
-    if not isinstance(n, int):
-        raise TypeError('n needs to be an integer.')
-    if n < 1:
-        raise ValueError('n needs to be positive.')
-
     if seed is not None:
         random.seed(seed)
 
     shapes = []
 
-    for _ in range(n):
-        shape = rand(fixed_parameters=fixed_parameters, seed=None)
+    for _ in range(num):
+        shape = rand(fixed_kwargs=fixed_kwargs)
         shapes.append(shape)
 
     return shapes
