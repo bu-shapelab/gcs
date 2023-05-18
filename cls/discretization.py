@@ -26,7 +26,7 @@ def discretize(shape: CLS,
     vertices : (n_vertices, 3) np.ndarray
         The vertices.
 
-    Examples
+    Examples # TODO: Implement
     --------
     >>> shape = cls.CLS()
     >>> vertices = cls.discretize(shape=shape)

@@ -17,7 +17,6 @@ setup(
         'numpy>=1.21.5',
         'numpy-stl>=2.17.1',
         'pandas>=1.4.1',
-        'plotly>=5.13.0',
         'scipy>=1.7.3',
     ],
     tests_require=[
