@@ -18,8 +18,7 @@ Loading CLS
 
 """
 from .load import load
-from .save_mesh import save_mesh
-from .save import save
+from .save import save, save_mesh
 
 __all__ = [
     'load',
