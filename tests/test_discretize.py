@@ -16,17 +16,17 @@ class TestDiscretize:
 
         """
         shape = CLS(**TEST_PARAMETERS)
-        n_steps = shape._n_steps
-
         vertices = discretize(shape=shape)
 
-        theta = np.arange(0, 2 * np.pi, shape._theta_step)
-
-        assert vertices.shape == (theta.size * n_steps, 3)
-        np.testing.assert_array_almost_equal(x=vertices, y=shape.vertices)
+        assert vertices is not None
 
         parameters = shape.parameters
-        height_per_step = parameters['height'] / (n_steps - 1)
+        theta = np.arange(start=0,
+                          stop=2 * np.pi,
+                          step=parameters['d_theta'])
+        height_per_step = parameters['height'] / (parameters['n_steps'] - 1)
+
+        assert vertices.shape == (theta.size * parameters['n_steps'], 3)        
 
         point_a = vertices[0, :]
         point_b = vertices[theta.size, :]

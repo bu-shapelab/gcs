@@ -152,9 +152,7 @@ class CLS:
 
         """
         if self._vertices is None:
-            self._vertices = cls.discretize(shape=self,
-                                            n_steps=self._n_steps,
-                                            theta_step=self._theta_step)
+            self._vertices = cls.discretize(shape=self)
         return self._vertices
 
     @property

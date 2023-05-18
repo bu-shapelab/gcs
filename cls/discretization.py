@@ -9,26 +9,21 @@ if TYPE_CHECKING:
     from cls import CLS
 
 
-def discretize(shape: CLS, n_steps: int = 100, theta_step: float = 0.01) -> np.ndarray:
-    """Discretizes a CLS shape into points.
-
-    The height of a ``CLS`` is divided into steps. At each step,
-    the polar curve is discretized to `X` evenly spaced points
-    where ``X=np.arange(0, 2 * np.pi, 0.01).size=629``.
+def discretize(shape: CLS,
+               verbose: bool = False) -> np.ndarray:
+    """Discretizes a ``cls.CLS``.
 
     Parameters
     ----------
     shape : cls.CLS
-        The CLS shape.
-    n_steps : int (default=100)
-        The number of height discretization steps.
-    theta_step : float (default=0.01)
-        The angular discretization step size.
+        The CLS.
+    verbose : bool, (default=`False`)
+        Set to `True` to receive discretization messages.
 
     Returns
     -------
-    points : (``629 x n_steps``, 3, ) np.ndarray
-        The matrix of points.
+    vertices : (n_vertices, 3) np.ndarray
+        The vertices.
 
     Examples
     --------
@@ -39,23 +34,30 @@ def discretize(shape: CLS, n_steps: int = 100, theta_step: float = 0.01) -> np.n
     >>> vertices = shape.vertices
 
     """
-    base_theta = np.arange(0, 2 * np.pi, theta_step)
-    n_theta = base_theta.size
-
     parameters = shape.parameters
-    height_per_step = parameters['height'] / (n_steps - 1)
 
-    points = np.empty((n_theta * n_steps, 3))
+    thetas = np.arange(start=0,
+                       stop=2 * np.pi,
+                       step=parameters['d_theta'])
+    height_per_step = parameters['height'] / (parameters['n_steps'] - 1)
 
-    c1s = np.linspace(parameters['c1_base'], parameters['c1_top'], n_steps)
-    c2s = np.linspace(parameters['c2_base'], parameters['c2_top'], n_steps)
-    perimeters = np.linspace(shape.base_perimeter,
-                             shape.top_perimeter, n_steps)
-    twists_linear = np.linspace(0, parameters['twist_linear'], n_steps)
-    twists_oscillating = parameters['twist_amplitude'] * np.sin(
-        np.linspace(0, 2 * np.pi * parameters['twist_period'], n_steps))
+    c1s = np.linspace(start=parameters['c1_base'],
+                      stop=parameters['c1_top'],
+                      num=parameters['n_steps'])
+    c2s = np.linspace(start=parameters['c2_base'],
+                      stop=parameters['c2_top'],
+                      num=parameters['n_steps'])
+    perimeters = np.linspace(start=shape.base_perimeter,
+                             stop=shape.top_perimeter,
+                             num=parameters['n_steps'])
+    twists_linear = np.linspace(start=0,
+                                stop=parameters['twist_linear'],
+                                num=parameters['n_steps'])
+    twists_oscillating = parameters['twist_amplitude'] * np.sin(np.linspace(0, 2 * np.pi * parameters['twist_period'], parameters['n_steps']))
 
-    for step in range(n_steps):
+    vertices = np.empty((thetas.size * parameters['n_steps'], 3))
+
+    for step in range(parameters['n_steps']):
         c1 = c1s[step]
         c2 = c2s[step]
         perimeter = perimeters[step]
@@ -65,16 +67,17 @@ def discretize(shape: CLS, n_steps: int = 100, theta_step: float = 0.01) -> np.n
 
         r0 = _optimal_scaling_factor(length=perimeter, c1=c1, c2=c2)
 
-        theta = base_theta + twist_linear + twist_oscillating
-        radii = _summed_cosine(theta=theta, r0=r0, c1=c1, c2=c2)
+        step_thetas = thetas + twist_linear + twist_oscillating
+        radii = _summed_cosine(theta=step_thetas, r0=r0, c1=c1, c2=c2)
 
-        points_2d_polar = np.vstack((base_theta, radii)).transpose()
+        # TODO: Why not step_thetas
+        points_2d_polar = np.vstack((thetas, radii)).transpose()
         points_2d_cartesian = _polar_to_cartesian(points=points_2d_polar)
 
-        idx_start = step * n_theta
-        idx_end = (step + 1) * n_theta
+        index_start = step * thetas.size
+        index_end = (step + 1) * thetas.size
 
-        points[idx_start:idx_end, :2] = points_2d_cartesian
-        points[idx_start:idx_end, 2] = height
+        vertices[index_start:index_end, :2] = points_2d_cartesian
+        vertices[index_start:index_end, 2] = height
 
-    return points
+    return vertices
