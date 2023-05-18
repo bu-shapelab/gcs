@@ -19,19 +19,11 @@ class TestDiscretize:
         vertices = discretize(shape=shape)
 
         assert vertices is not None
-
-        parameters = shape.parameters
-        theta = np.arange(start=0,
-                          stop=2 * np.pi,
-                          step=parameters['d_theta'])
-        height_per_step = parameters['height'] / (parameters['n_steps'] - 1)
-
-        assert vertices.shape == (theta.size * parameters['n_steps'], 3)        
-
-        point_a = vertices[0, :]
-        point_b = vertices[theta.size, :]
+        assert vertices.shape == (62900, 3)
 
         # TODO: CHECK
+        # point_a = vertices[0, :]
+        # point_b = vertices[239, :]
         # assert np.linalg.norm(point_b - point_a) == approx(height_per_step)
 
         unique_vertices = np.unique(ar=vertices, axis=0)

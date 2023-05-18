@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 from cls import CLS, triangulate
 from ._data import TEST_PARAMETERS
 
@@ -14,4 +15,10 @@ class TestTriangulate:
 
         """
         shape = CLS(**TEST_PARAMETERS)
-        triangulate(shape=shape)
+        faces = triangulate(shape=shape)
+
+        assert faces is not None
+        assert faces.shape == (124542, 3)
+        unique_indices = np.unique(ar=faces)
+
+        assert unique_indices.size == shape.vertices.shape[0]

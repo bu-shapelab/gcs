@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from numpy.testing import assert_almost_equal
 from pytest import approx
-from cls import CLS, discretize
+from cls import CLS, discretize, triangulate
 from ._data import TEST_PARAMETERS
 
 class TestCLS:
@@ -48,7 +48,9 @@ class TestCLS:
         """Test ``cls.CLS.faces`` property.
 
         """
-        pass
+        shape = CLS(**TEST_PARAMETERS)
+        assert_almost_equal(actual=shape.faces,
+                            desired=triangulate(shape=shape))
 
     def test_mesh(self):
         """Test ``cls.CLS.faces`` property.
