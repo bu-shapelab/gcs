@@ -47,9 +47,8 @@ def triangulate(shape: CLS,
     # faces = np.zeros((n_faces, 3), dtype=np.int32)
     faces = np.zeros((n_faces, 3), dtype=np.int32)
 
-    # TODO: Add offset to for loop argument
-    offset = 0
-    for _ in range(n_steps - 1):
+    for step in range(n_steps - 1):
+        offset = step * n_vertices_per_step
         for vertex_index in range(n_vertices_per_step):
             # bottom right vertex index
             index_br = offset + vertex_index
@@ -77,7 +76,5 @@ def triangulate(shape: CLS,
             upper_triangle_index = lower_triangle_index + \
                 n_vertices_per_step * (n_steps - 1)
             faces[upper_triangle_index, :] = upper_triangle
-
-        offset += n_vertices_per_step
 
     return faces
