@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Union
 import numpy as np
+from cls.verify import verify_parameters
 from cls._utils import _summed_cosine, _optimal_scaling_factor
 from cls._utils import _polar_to_cartesian
 
@@ -10,7 +11,7 @@ if TYPE_CHECKING:
 
 
 def discretize(shape: CLS,
-               verbose: bool = False) -> np.ndarray:
+               verbose: bool = False) -> Union[np.ndarray, None]:
     """Discretizes a ``cls.CLS``.
 
     Parameters
@@ -34,6 +35,9 @@ def discretize(shape: CLS,
     >>> vertices = shape.vertices
 
     """
+    if verify_parameters(shape=shape, verbose=verbose) is False:
+        return None
+
     parameters = shape.parameters
 
     thetas = np.arange(start=0,

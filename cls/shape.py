@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from typing import Union
 import json
 import numpy as np
 import cls
@@ -145,7 +146,7 @@ class CLS:
         return perimeter
 
     @property
-    def vertices(self) -> np.ndarray:
+    def vertices(self) -> Union[np.ndarray, None]:
         """The vertices.
 
         Refer to ``cls.discretize`` for full documentation.
