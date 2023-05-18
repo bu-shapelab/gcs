@@ -7,8 +7,8 @@ from cls import C2_TOP_RANGE
 from cls import TWIST_LINEAR_RANGE
 from cls import TWIST_AMPLITUDE_RANGE
 from cls import TWIST_PERIOD_RANGE
-from cls import MIN_HEIGHT
-from cls import MIN_MASS
+from cls import HEIGHT_RANGE
+from cls import MASS_RANGE
 from cls import PERIMETER_RATIO_RANGE
 from cls import THICKNESS_RANGE
 from cls import CLS
@@ -66,13 +66,13 @@ def verify_parameters(shape: CLS, verbose: bool = False) -> bool:
         if verbose:
             print(f'twist_period ({parameters["twist_period"]}) is outside range {TWIST_PERIOD_RANGE}.')
         valid = False
-    elif parameters['height'] < MIN_HEIGHT:
+    elif parameters['height'] < HEIGHT_RANGE[0] or parameters['height'] > HEIGHT_RANGE[1]:
         if verbose:
-            print(f'height ({parameters["height"]}) is less then minimum {MIN_HEIGHT}.')
+            print(f'height ({parameters["height"]}) is outside range {HEIGHT_RANGE}.')
         valid = False
-    elif parameters['mass'] < MIN_MASS:
+    elif parameters['mass'] < MASS_RANGE[0] or parameters['mass'] > MASS_RANGE[1]:
         if verbose:
-            print(f'mass ({parameters["mass"]}) is less then minimum {MIN_MASS}.')
+            print(f'mass ({parameters["mass"]}) is outside range {MASS_RANGE}.')
         valid = False
     elif parameters['perimeter_ratio'] < PERIMETER_RATIO_RANGE[0] or parameters['perimeter_ratio'] > PERIMETER_RATIO_RANGE[1]:
         if verbose:
