@@ -60,7 +60,7 @@ def discretize(shape: CLS,
     twists_oscillating = parameters['twist_amplitude'] * np.sin(
         np.linspace(0, 2 * np.pi * parameters['twist_period'], parameters['n_steps']))
 
-    vertices = np.empty((thetas.size * parameters['n_steps'], 3))
+    vertices = np.empty((thetas.size * parameters['n_steps'], 3), dtype=np.float16)
 
     for step in range(parameters['n_steps']):
         c1 = c1s[step]
