@@ -81,7 +81,6 @@ def discretize(shape: CLS,
                                     c1=c1,
                                     c2=c2)
 
-        # TODO: Why not step_thetas
         points_2d_polar = np.vstack((thetas, radii)).transpose()
         points_2d_cartesian = _polar_to_cartesian(points_polar=points_2d_polar)
 

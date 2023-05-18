@@ -53,8 +53,8 @@ class TestCLS:
 
         """
         shape = CLS(**TEST_PARAMETERS)
-        perimeter = approx(expected=148.14814814814818,
-                           abs=None)
+        perimeter = approx(expected=148.1481,
+                           abs=0.0001)
         assert shape.base_perimeter == perimeter
 
     def test_top_perimeter(self):
@@ -62,8 +62,8 @@ class TestCLS:
 
         """
         shape = CLS(**TEST_PARAMETERS)
-        perimeter = approx(expected=296.29629629629636,
-                           abs=None)
+        perimeter = approx(expected=296.2963,
+                           abs=0.0001)
         assert shape.top_perimeter == perimeter
 
     def test_vertices(self):
