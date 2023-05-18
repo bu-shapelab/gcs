@@ -11,58 +11,38 @@ def _offset_curve(points: np.ndarray, offset: float = 0) -> np.ndarray:
     Parameters
     ----------
     points : (N, 2) np.ndarray
-        Array of points. The first column contains the angles.
-        The second column contains the radii. `N`>2 to define a closed curve.
+        The polar points. Note, `N`>2 to define a closed curve.
+        The columns contain the angles and radii respectively.
     offset : float (default=0)
-        The offset amount. If ``offset``=0, the curve is unchanged. If ``offset``>0,
-        the curve is expanded. If ``offset``<0, the curve is shrank.
+        The offset amount.
+        If ``offset=0``, the curve is unchanged.
+        If ``offset>0``, the curve is expanded.
+        If ``offset<0``, the curve is shrank.
 
     Returns
     -------
-    points : (N, 2) np.ndarray
-        Array of offset points. The first column contains the angles.
-        The second column contains the radii.
-
-    Raises
-    ------
-    TypeError
-        If ``points`` is not an np.ndarray.
-        If ``offset`` is not a number.
-    ValueError
-        If ``points`` is not a (N, 2) matrix.
+    points_offset : (N, 2) np.ndarray
+        The offset points.
 
     """
-    if not isinstance(points, np.ndarray):
-        raise TypeError('points needs to be an np.ndarray.')
-
-    points = points.squeeze()
-
-    if points.ndim != 2 or points.shape[1] != 2:
-        raise ValueError('points needs to be an (N, 2) matrix.')
-
-    if points.shape[0] < 3:
-        raise ValueError('points needs to be an (N, 2) matrix where N>2.')
-
-    if not isinstance(offset, (int, float)):
-        raise TypeError('offset needs to be a number.')
-
     points_offset = np.empty(points.shape)
 
-    for idx in range(points.shape[0]):
-        point_before = points[idx - 1, :]
+    for index in range(points.shape[0]):
+        point_before = points[index - 1, :]
         point_after = None
 
-        if idx < points.shape[0] - 1:
-            point_after = points[idx + 1, :]
+        if index < points.shape[0] - 1:
+            point_after = points[index + 1, :]
         else:
             point_after = points[0, :]
 
         tangent = point_before - point_after
 
+        # 90 degree rotation
         normal = np.array([-tangent[1], tangent[0]])
         normal = normal / np.linalg.norm(normal)
 
-        points_offset[idx, :] = points[idx, :] + offset * normal
+        points_offset[index, :] = points[index, :] + offset * normal
 
     return points_offset
 
@@ -73,37 +53,23 @@ def _self_intersection(points: np.ndarray) -> bool:
     Parameters
     ----------
     points : (N, 2) np.ndarray
-        Array of points. The first column contains the angles.
-        The second column contains the radii.
+        The polar points.
+        The columns contain the angles and radii respectively.
 
     Returns
     -------
-    intersect : bool
-        `True` if the curve intersects itself, `False` otherwise.
-
-    Raises
-    ------
-    TypeError
-        If ``points`` is not an np.ndarray.
-    ValueError
-        If ``points`` is not a (N, 2) matrix.
+    result : bool
+        `True` if the curve intersects itself.
 
     """
-    if not isinstance(points, np.ndarray):
-        raise TypeError('points needs to be an np.ndarray.')
-
-    points = points.squeeze()
-
-    if points.ndim != 2 or points.shape[1] != 2:
-        raise ValueError('points needs to be an (N, 2) matrix.')
-
     context = get_context()
     point, contour = context.point_cls, context.contour_cls
 
     curve = []
-    for idx in range(points.shape[0]):
-        x = points[idx, 0]
-        y = points[idx, 1]
+    for index in range(points.shape[0]):
+        x = points[index, 0]
+        y = points[index, 1]
         curve.append(point(x, y))
 
-    return contour_self_intersects(contour(curve))
+    result = contour_self_intersects(contour(curve))
+    return result

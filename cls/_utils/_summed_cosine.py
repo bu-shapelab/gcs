@@ -2,19 +2,18 @@ from __future__ import annotations
 
 import numpy as np
 from scipy.optimize import minimize
+from scipy.integrate import simpson
 
-from cls._utils._integration import _simpsons_rule
-
-
-def _summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.ndarray:
-    """Calculates the radii of a summed cosine polar equation.
-
-    The summed cosine equation is inspired by [1].
+def _summed_cosine(theta: float,
+                   r0: float,
+                   c1: float,
+                   c2: float) -> float:
+    """The summed cosine polar equation.
 
     Parameters
     ----------
-    theta : np.ndarray
-        A vector of angles.
+    theta : float
+        The angle.
     r0 : float
         The scaling factor.
     c1 : float
@@ -24,18 +23,8 @@ def _summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.nda
 
     Returns
     -------
-    theta : np.ndarray
-        A vector of radii.
-
-    Raises
-    ------
-    TypeError
-        If ``theta`` is not an np.ndarray.
-        If ``r0`` is not a number.
-        If ``c1`` is not a number.
-        If ``c2`` is not a number.
-    ValueError
-        If ``theta`` is not a vector.
+    radius : float
+        The radius
 
     References
     ----------
@@ -43,28 +32,17 @@ def _summed_cosine(theta: np.ndarray, r0: float, c1: float, c2: float) -> np.nda
            elastomeric structures*, Journal of the Mechanics and Physics of Solids, 2014
 
     """
-    if not isinstance(theta, np.ndarray):
-        raise TypeError('theta needs to be an np.ndarray.')
-
-    theta = theta.squeeze()
-
-    if theta.ndim != 1:
-        raise ValueError('theta needs to be a vector.')
-
-    if not isinstance(r0, (int, float)):
-        raise TypeError('r0 needs to be a number.')
-
-    if not isinstance(c1, (int, float)):
-        raise TypeError('c1 needs to be a number.')
-
-    if not isinstance(c2, (int, float)):
-        raise TypeError('c2 needs to be a number.')
-
-    return r0 * (1 + c1 * np.cos(4 * theta) + c2 * np.cos(8 * theta))
+    radius = r0 * (1 + c1 * np.cos(4 * theta) + c2 * np.cos(8 * theta))
+    return radius
 
 
-def _arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
+def _arc_length(r0: float,
+                c1: float,
+                c2: float,
+                n_steps: int) -> float:
     """Approximate arc length of a summed cosine polar equation.
+
+    Simpson's rule is used to numerically calculate the arc length.
 
     Parameters
     ----------
@@ -74,7 +52,7 @@ def _arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
         The 4-lobe parameter.
     c2 : float
         The 8-lobe parameter.
-    n_steps : float (default=50)
+    n_steps : float
         The number of step to discritize the summed cosine equation.
 
     Returns
@@ -82,52 +60,35 @@ def _arc_length(r0: float, c1: float, c2: float, n_steps: int = 50) -> float:
     length : float
         The approximate arc length.
 
-    Raises
-    ------
-    TypeError
-        If ``r0`` is not a number.
-        If ``c1`` is not a number.
-        If ``c2`` is not a number.
-        If ``n_steps`` is not an integer.
-    ValueError
-        If ``n_steps`` is not positive.
-
     References
     ----------
     .. [1] Wikipedia page: https://en.wikipedia.org/wiki/Arc_length
+    .. [2] Wikipedia page: https://en.wikipedia.org/wiki/Simpson%27s_rule
+    .. [3] Wikipedia page: https://en.wikipedia.org/wiki/Line_element
 
     """
-    if not isinstance(r0, (int, float)):
-        raise TypeError('r0 needs to be a number.')
+    theta = np.linspace(0, 2 * np.pi, n_steps)
+    radii = np.apply_along_axis(_summed_cosine,
+                                axis=0,
+                                arr=theta,
+                                r0=r0,
+                                c1=c1,
+                                c2=c2)
 
-    if not isinstance(c1, (int, float)):
-        raise TypeError('c1 needs to be a number.')
+    d_radius_d_theta = -4 * r0 * (c1 * np.sin(4 * theta) + 2 * c2 * np.sin(8 * theta))
 
-    if not isinstance(c2, (int, float)):
-        raise TypeError('c2 needs to be a number.')
+    arc_length_element = np.sqrt(d_radius_d_theta ** 2 + radii ** 2)
 
-    if not isinstance(n_steps, int):
-        raise TypeError('n_steps needs to be an integer.')
-
-    if n_steps < 1:
-        raise ValueError('n_steps needs to be positive.')
-
-    theta = np.linspace(0, 2 * np.pi, n_steps + 1)
-    radii = _summed_cosine(theta, r0, c1, c2)
-
-    d_radius_d_theta = -4 * r0 * \
-        (c1 * np.sin(4 * theta) + 2 * c2 * np.sin(8 * theta))
-
-    arc_length_function = np.sqrt(d_radius_d_theta ** 2 + radii ** 2)
-
-    # approximate integral from 0 -> 2pi of arc_length_function using Simpson's rule
-    integral = _simpsons_rule(arc_length_function, 0, 2 * np.pi)
+    integral = simpson(y=arc_length_element, x=theta)
 
     return integral
 
 
-def _optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
-    """Approximate arc length of a summed cosine polar equation.
+def _optimal_scaling_factor(length: float,
+                            c1: float,
+                            c2: float,
+                            n_steps: int) -> float:
+    """Find the optimal scaling factor (r0) given an arc length, c1, and c2.
 
     Parameters
     ----------
@@ -137,57 +98,40 @@ def _optimal_scaling_factor(length: float, c1: float, c2: float) -> float:
         The 4-lobe parameter.
     c2 : float
         The 8-lobe parameter.
+    n_steps : float
+        The number of step to discritize the summed cosine equation.
 
     Returns
     -------
     r0 : float
-        The optimized scaling factor.
-
-    Raises
-    ------
-    TypeError
-        If ``length`` is not a number.
-        If ``c1`` is not a number.
-        If ``c2`` is not a number.
-    ValueError
-        If ``length`` is not positive.
+        The optimal scaling factor.
 
     """
-    if not isinstance(length, (int, float)):
-        raise TypeError('length needs to be a number.')
-
-    if length <= 0:
-        raise ValueError('length needs to be positive.')
-
-    if not isinstance(c1, (int, float)):
-        raise TypeError('c1 needs to be a number.')
-
-    if not isinstance(c2, (int, float)):
-        raise TypeError('c2 needs to be a number.')
-
     def absolute_error(r0: np.ndarray) -> float:
-        """Absolute error between the desired length and
-        arc length of the summed cosine.
+        """Absolute error between the current arc length and
+        target arc length given a choice of scaling factor (r0).
+
         """
         # when passed in by minimizer, r0 is a singleton
         r0 = r0.item()
-        return abs(length - _arc_length(r0, c1, c2))
+        curr_length = _arc_length(r0=r0,
+                                  c1=c1,
+                                  c2=c2,
+                                  n_steps=n_steps)
+        error = abs(length - curr_length)
+        return error
 
     # Inital guess of answer
     x0 = np.array([0])
 
-    # Optimization method and options
-    method = 'nelder-mead'
-    options = {
-        'xatol': 1e-8,
-        'disp': False,
-    }
-
     # Minimize the absolute error to get "best" scaling factors
     result = minimize(fun=absolute_error,
                       x0=x0,
-                      method=method,
-                      options=options)
+                      method='nelder-mead',
+                      options={
+                          'xatol': 1e-8,
+                          'disp': False,
+                      })
 
     r0 = abs(result.x[0])
 
