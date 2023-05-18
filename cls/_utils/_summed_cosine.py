@@ -4,6 +4,7 @@ import numpy as np
 from scipy.optimize import minimize
 from scipy.integrate import simpson
 
+
 def _summed_cosine(theta: float,
                    r0: float,
                    c1: float,
@@ -75,7 +76,8 @@ def _arc_length(r0: float,
                                 c1=c1,
                                 c2=c2)
 
-    d_radius_d_theta = -4 * r0 * (c1 * np.sin(4 * theta) + 2 * c2 * np.sin(8 * theta))
+    d_radius_d_theta = -4 * r0 * \
+        (c1 * np.sin(4 * theta) + 2 * c2 * np.sin(8 * theta))
 
     arc_length_element = np.sqrt(d_radius_d_theta ** 2 + radii ** 2)
 

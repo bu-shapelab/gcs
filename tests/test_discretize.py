@@ -5,6 +5,7 @@ import numpy as np
 from cls import CLS, discretize
 from ._data import TEST_PARAMETERS
 
+
 class TestDiscretize:
     """Tests for:
         - utils/discretize.py

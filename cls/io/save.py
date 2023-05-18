@@ -36,6 +36,7 @@ def save(shapes: List[CLS],
     csv = pd.DataFrame.from_records(parameters)
     csv.to_csv(path_or_buf=file, header=True, index=False)
 
+
 def save_mesh(shape: CLS, file: Union[str, bytes, PathLike]) -> None:
     """Saves ``cls.CLS`` mesh to an stl file.
 

@@ -167,7 +167,8 @@ class CLS:
         """The base perimeter.
 
         """
-        perimeter = (2 * self._mass) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        perimeter = (2 * self._mass) / \
+                    (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
         return perimeter
 
     @property
@@ -175,7 +176,8 @@ class CLS:
         """The top perimeter.
 
         """
-        perimeter = (2 * self._mass * self._perimeter_ratio) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        perimeter = (2 * self._mass * self._perimeter_ratio) / \
+                    (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
         return perimeter
 
     @property
@@ -192,7 +194,7 @@ class CLS:
     @property
     def faces(self) -> np.ndarray:
         """The faces.
-        
+
         Refer to ``cls.triangulate`` for full documentation.
 
         """
@@ -218,9 +220,10 @@ class CLS:
         for idx, face in enumerate(faces):
             for dim in range(3):
                 mesh.vectors[idx][dim] = vertices[face[dim], :]
-        
+
         return mesh
 
     def __str__(self):
-        output = f'{super().__str__()}: ' + json.dumps(obj=self.parameters, indent=2)
+        output = f'{super().__str__()}: ' + \
+            json.dumps(obj=self.parameters, indent=2)
         return output

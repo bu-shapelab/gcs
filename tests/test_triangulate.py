@@ -4,6 +4,7 @@ import numpy as np
 from cls import CLS, triangulate
 from ._data import TEST_PARAMETERS
 
+
 class TestTriangulate:
     """Tests for:
         - cls/triangulate.py

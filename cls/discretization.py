@@ -57,7 +57,8 @@ def discretize(shape: CLS,
     twists_linear = np.linspace(start=0,
                                 stop=parameters['twist_linear'],
                                 num=parameters['n_steps'])
-    twists_oscillating = parameters['twist_amplitude'] * np.sin(np.linspace(0, 2 * np.pi * parameters['twist_period'], parameters['n_steps']))
+    twists_oscillating = parameters['twist_amplitude'] * np.sin(
+        np.linspace(0, 2 * np.pi * parameters['twist_period'], parameters['n_steps']))
 
     vertices = np.empty((thetas.size * parameters['n_steps'], 3))
 
@@ -69,7 +70,8 @@ def discretize(shape: CLS,
         twist_oscillating = twists_oscillating[step]
         height = height_per_step * step
 
-        r0 = _optimal_scaling_factor(length=perimeter, c1=c1, c2=c2, n_steps=parameters['n_steps'])
+        r0 = _optimal_scaling_factor(
+            length=perimeter, c1=c1, c2=c2, n_steps=parameters['n_steps'])
 
         step_thetas = thetas + twist_linear + twist_oscillating
         radii = np.apply_along_axis(func1d=_summed_cosine,

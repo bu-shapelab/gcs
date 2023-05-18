@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-# import pytest
-
 from pathlib import Path
-import pandas as pd
 from cls import CLS
 from cls.io import load, save, save_mesh
 from ._data import TEST_PARAMETERS
+
 
 class TestIO:
     """Tests for:

@@ -15,6 +15,7 @@ from cls import MASS_RANGE
 from cls import HEIGHT_RANGE
 from cls import CLS
 
+
 def rand(seed: Optional[int] = None,
          fixed_kwargs: Optional[dict] = None) -> CLS:
     """Creates a random (valid) CLS.

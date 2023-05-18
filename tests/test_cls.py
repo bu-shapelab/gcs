@@ -6,6 +6,7 @@ from cls import CLS, discretize, triangulate
 from cls.verify import verify_parameters, verify_base_perimeter, verify_radius
 from ._data import TEST_PARAMETERS
 
+
 class TestCLS:
     """Tests for:
         - cls.py
@@ -85,4 +86,4 @@ class TestCLS:
         """Test ``cls.CLS.faces`` property.
 
         """
-        pass
+        pass # TODO: Implement

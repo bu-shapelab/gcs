@@ -67,12 +67,15 @@ def triangulate(shape: CLS,
                 index_tl += n_vertices_per_step
 
             # lower triangle
+            lower_triangle = np.array([index_br, index_tl, index_bl])
             lower_triangle_index = offset + vertex_index
-            faces[lower_triangle_index, :] = np.array([index_br, index_tl, index_bl])
+            faces[lower_triangle_index, :] = lower_triangle
 
             # upper triangle
-            upper_triangle_index = lower_triangle_index + n_vertices_per_step * (n_steps - 1)
-            faces[upper_triangle_index, :] = np.array([index_br, index_tr, index_tl])
+            upper_triangle = np.array([index_br, index_tr, index_tl])
+            upper_triangle_index = lower_triangle_index + \
+                n_vertices_per_step * (n_steps - 1)
+            faces[upper_triangle_index, :] = upper_triangle
 
         offset += n_vertices_per_step
 
