@@ -38,25 +38,6 @@ class TestCLS:
 
         assert DEFAULT_SHAPE.parameters == parameters
 
-        parameters = {
-            'c1_base': -1,
-            'c2_base': 0,
-            'c1_top': 0,
-            'c2_top': 0,
-            'twist_linear': -1,
-            'twist_amplitude': 0,
-            'twist_period': 0,
-            'perimeter_ratio': 1,
-            'height': 19,
-            'mass': 2.1,
-            'thickness': 0.75,
-        }
-
-        shape = CLS(**parameters)
-        shape.fix()
-
-        assert DEFAULT_SHAPE.parameters == shape.parameters
-
     def test_base_perimeter(self):
         """Test ``cls.CLS.base_perimeter`` property.
 
@@ -84,38 +65,6 @@ class TestCLS:
         """
         assert DEFAULT_SHAPE.max_radius == approx(19.93625076293947)
         assert CUSTOM_SHAPE.max_radius == approx(17.95458913788471, rel=1e-3)
-
-    def test_copy(self):
-        """Test ``cls.CLS.faces`` property.
-
-        """
-        copy_shape = DEFAULT_SHAPE.copy()
-        print(copy_shape.parameters)
-        print(DEFAULT_SHAPE.parameters)
-        assert copy_shape.parameters == DEFAULT_SHAPE.parameters
-        assert copy_shape.n_steps == DEFAULT_SHAPE.n_steps
-
-    def test_n_steps(self):
-        """Test ``cls.CLS.n_steps`` property.
-
-        """
-        steps = 101
-        shape = CUSTOM_SHAPE.copy()
-        shape.n_steps = steps
-
-        assert DEFAULT_SHAPE.n_steps == 100
-        assert shape.n_steps == steps
-    
-    def test_theta_step(self):
-        """Test ``cls.CLS.theta_step`` property.
-
-        """
-        step = 0.1
-        shape = CUSTOM_SHAPE.copy()
-        shape.theta_step = step
-
-        assert DEFAULT_SHAPE.theta_step == 0.01
-        assert shape.theta_step == step
 
     def test_faces(self):
         """Test ``cls.CLS.faces`` property.

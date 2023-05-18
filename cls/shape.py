@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import numpy as np
 import cls
 from cls._utils import _cartesian_to_polar
@@ -28,7 +29,8 @@ class CLS:
     def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
                  c2_top: float = 0, twist_linear: float = 0, twist_amplitude: float = 0,
                  twist_period: float = 0, perimeter_ratio: float = 1, height: float = 19,
-                 mass: float = 2.1, thickness: float = 0.75) -> None:
+                 mass: float = 2.1, thickness: float = 0.75, density: float = 0.0012,
+                 n_steps: int = 100, d_theta: float = 0.01) -> None:
         """Initialize the CLS.
 
         Parameters
@@ -55,6 +57,12 @@ class CLS:
             The target mass (g).
         thickness : float (default=0.75)
             The wall thickness (mm).
+        density : float (default=0.0012)
+            The material density (g/mm^3)
+        n_steps : int (default=100)
+            The number of height discretization steps.
+        d_theta : float (default=0.01)
+            The angular discretization step size.
 
         Examples
         --------
@@ -74,73 +82,12 @@ class CLS:
         self._height = height
         self._mass = mass
         self._thickness = thickness
-
-        # Material density (g/mm^3)
-        self._density = 0.0012
-
-        # The number of height discretization steps.
-        self._n_steps = 100
-
-        # The angular discretization step size
-        self._theta_step = 0.01
+        self._density = density
+        self._n_steps = n_steps
+        self._theta_step = d_theta
 
         self._vertices = None
         self._faces = None
-
-    def fix(self) -> None:
-        """Fix the CLS shape parameters.
-        
-        Parameters outside their valid range are set to the closest valid value.
-
-        """
-        # Clear saved vertices and faces so they are recalculated.
-        self._vertices = None
-        self._faces = None
-
-        if self._c1_base < C1_BASE_RANGE[0]:
-            self._c1_base = C1_BASE_RANGE[0]
-        elif self._c1_base > C1_BASE_RANGE[1]:
-            self._c1_base = C1_BASE_RANGE[1]
-
-        if self._c2_base < C2_BASE_RANGE[0]:
-            self._c2_base = C2_BASE_RANGE[0]
-        elif self._c2_base > C2_BASE_RANGE[1]:
-            self._c2_base = C2_BASE_RANGE[1]
-
-        if self._c1_top < C1_TOP_RANGE[0]:
-            self._c1_top = C1_TOP_RANGE[0]
-        elif self._c1_top > C1_TOP_RANGE[1]:
-            self._c1_top = C1_TOP_RANGE[1]
-
-        if self._c2_top < C2_TOP_RANGE[0]:
-            self._c2_top = C2_TOP_RANGE[0]
-        elif self._c2_top > C2_TOP_RANGE[1]:
-            self._c2_top = C2_TOP_RANGE[1]
-
-        if self._twist_linear < TWIST_LINEAR_RANGE[0]:
-            self._twist_linear = TWIST_LINEAR_RANGE[0]
-        elif self._twist_linear > TWIST_LINEAR_RANGE[1]:
-            self._twist_linear = TWIST_LINEAR_RANGE[1]
-
-        if self._twist_amplitude < TWIST_AMPLITUDE_RANGE[0]:
-            self._twist_amplitude = TWIST_AMPLITUDE_RANGE[0]
-        elif self._twist_amplitude > TWIST_AMPLITUDE_RANGE[1]:
-            self._twist_amplitude = TWIST_AMPLITUDE_RANGE[1]
-
-        if self._twist_period < TWIST_PERIOD_RANGE[0]:
-            self._twist_period = TWIST_PERIOD_RANGE[0]
-        elif self._twist_period > TWIST_PERIOD_RANGE[1]:
-            self._twist_period = TWIST_PERIOD_RANGE[1]
-
-        if self._perimeter_ratio < PERIMETER_RATIO_RANGE[0]:
-            self._perimeter_ratio = PERIMETER_RATIO_RANGE[0]
-        elif self._perimeter_ratio > PERIMETER_RATIO_RANGE[1]:
-            self._perimeter_ratio = PERIMETER_RATIO_RANGE[1]
-
-        if self._thickness < THICKNESS_RANGE[0]:
-            self._thickness = THICKNESS_RANGE[0]
-        elif self._thickness > THICKNESS_RANGE[1]:
-            self._thickness = THICKNESS_RANGE[1]
 
     @property
     def parameters(self) -> dict:
@@ -193,8 +140,8 @@ class CLS:
         """
         if self._vertices is None:
             self._vertices = cls.discretize(shape=self,
-                                            n_steps=self.n_steps,
-                                            theta_step=self.theta_step)
+                                            n_steps=self._n_steps,
+                                            theta_step=self._theta_step)
         return self._vertices
 
     @property
@@ -253,63 +200,6 @@ class CLS:
         
         return mesh
 
-    @property
-    def n_steps(self) -> int:
-        """The number of height discretization steps.
-
-        """
-        return self._n_steps
-    
-    @n_steps.setter
-    def n_steps(self, steps: int) -> None:
-        """Set the number of height discretization steps.
-
-        """
-        if isinstance(steps, int) and steps > 0:
-            self._n_steps = steps
-
-    @property
-    def theta_step(self) -> int:
-        """The angular discretization step size.
-
-        """
-        return self._theta_step
-    
-    @theta_step.setter
-    def theta_step(self, step: float) -> None:
-        """Set the angular discretization step size.
-
-        """
-        if isinstance(step, (int, float)) and step > 0 and step < 2 * np.pi:
-            self._theta_step = step
-
-    def copy(self) -> CLS:
-        """Get a copy of the CLS.
-
-        Returns
-        -------
-        shape : cls.CLS
-            A copy of the shape.
-
-        """
-        parameters = self.parameters
-        copy_shape = CLS(**parameters)
-        copy_shape.n_steps = self.n_steps
-
-        return copy_shape
-
     def __str__(self):
-        output = (super().__str__()
-                  + f':\n\tc1_base: {self._c1_base}'
-                  + f'\n\tc2_base: {self._c2_base}'
-                  + f'\n\tc1_top: {self._c1_top}'
-                  + f'\n\tc2_top: {self._c2_top}'
-                  + f'\n\ttwist_linear: {self._twist_linear}'
-                  + f'\n\ttwist_amplitude: {self._twist_amplitude}'
-                  + f'\n\ttwist_period: {self._twist_period}'
-                  + f'\n\tperimeter_ratio: {self._perimeter_ratio}'
-                  + f'\n\theight: {self._height}mm'
-                  + f'\n\tmass: {self._mass}g'
-                  + f'\n\tthickness: {self._thickness}mm')
-
+        output = f'{super().__str__()}: ' + json.dumps(obj=self.parameters, indent=2)
         return output

@@ -39,18 +39,6 @@ def discretize(shape: CLS, n_steps: int = 100, theta_step: float = 0.01) -> np.n
     >>> vertices = shape.vertices
 
     """
-    if shape.n_steps != n_steps:
-        shape.n_steps = n_steps
-        # if the provided n_steps is invalid, this ensures that it is set
-        # to the valid n_steps saved in shape
-        n_steps = shape.n_steps
-
-    if shape.theta_step != theta_step:
-        shape.theta_step = theta_step
-        # if the provided n_steps is invalid, this ensures that it is set
-        # to the valid n_steps saved in shape
-        theta_step = shape.theta_step
-
     base_theta = np.arange(0, 2 * np.pi, theta_step)
     n_theta = base_theta.size
 

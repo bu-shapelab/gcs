@@ -16,11 +16,11 @@ class TestDiscretize:
 
         """
         shape = CLS()
-        n_steps = shape.n_steps
+        n_steps = shape._n_steps
 
         vertices = discretize(shape=shape)
 
-        theta = np.arange(0, 2 * np.pi, shape.theta_step)
+        theta = np.arange(0, 2 * np.pi, shape._theta_step)
 
         assert vertices.shape == (theta.size * n_steps, 3)
         np.testing.assert_array_almost_equal(x=vertices, y=shape.vertices)

@@ -31,8 +31,8 @@ def triangulate(shape: CLS) -> np.ndarray:
     """
     vertices = shape.vertices
 
-    n_steps = shape.n_steps
-    n_vertices_per_step = vertices.shape[0] // shape.n_steps
+    n_steps = shape._n_steps
+    n_vertices_per_step = vertices.shape[0] // shape._n_steps
 
     n_facets = 2 * n_vertices_per_step * (n_steps - 1)
 
