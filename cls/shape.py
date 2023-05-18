@@ -127,7 +127,39 @@ class CLS:
         Refer to ``cls.verify.verify_parameters`` for full documentation.
 
         """
-        return cls.verify.verify_parameters(shape=self, verbose=False)
+        return cls.verify.verify_parameters(shape=self)
+
+    @property
+    def valid_base_perimeter(self) -> bool:
+        """`True` if the base perimeter is valid.
+
+        Refer to ``cls.verify.verify_base_perimeter`` for full documentation.
+
+        """
+        return cls.verify.verify_base_perimeter(shape=self)
+
+    @property
+    def valid_radius(self) -> bool:
+        """`True` if the radii are valid.
+
+        Refer to ``cls.verify.verify_radius`` for full documentation.
+
+        """
+        return cls.verify.verify_radius(shape=self)
+
+    @property
+    def valid(self) -> bool:
+        """`True` if all verify checks pass.
+
+        """
+        valid = True
+        if self.valid_parameters is False:
+            valid = False
+        elif self.valid_base_perimeter is False:
+            valid = False
+        elif self.valid_radius is False:
+            valid = False
+        return valid
 
     @property
     def base_perimeter(self) -> float:

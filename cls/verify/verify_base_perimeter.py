@@ -9,22 +9,24 @@ if TYPE_CHECKING:
 MIN_BASE_PERIMETER = 30
 
 
-def verify_base_perimeter(shape: CLS, verbose: bool = False) -> bool:
-    """Verifies the validity of a CLS base perimeter.
+def verify_base_perimeter(shape: CLS,
+                          verbose: bool = False) -> bool:
+    """Checks if the ``cls.CLS`` base perimeter is valid.
 
-    This validity check is to minimize the risk of printing failures.
+    This check reduces the risk of print defects by ensuring ``cls.CLS``
+    have a sufficiently large base.
 
     Parameters
     ----------
     shape : CLS.cls
         The CLS.
-    verbose : bool, (default=False)
-        Set to `True` to print validity messages.
+    verbose : bool, (default=`False`)
+        Set to `True` to receive verify messages.
 
     Returns
     -------
     valid : bool
-        `True` if ``shape`` has a valid base perimeter, `False` otherwise.
+        `True` if ``shape`` has a valid base perimeter.
 
     Examples
     --------

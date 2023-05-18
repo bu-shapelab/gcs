@@ -16,7 +16,8 @@ from cls import CLS
 def verify_parameters(shape: CLS, verbose: bool = False) -> bool:
     """Checks if the ``cls.CLS`` parameters are valid.
 
-    This check reduces the risk of print defects.
+    This check reduces the risk of print defects by ensuring ``cls.CLS``
+    have valid parameters.
 
     Parameters
     ----------
