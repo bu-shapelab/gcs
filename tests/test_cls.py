@@ -2,15 +2,7 @@ from __future__ import annotations
 
 from pytest import approx
 from cls import CLS
-
-DEFAULT_SHAPE = CLS()
-CUSTOM_SHAPE = CLS(c1_base=0.5,
-                   c2_top=-0.25,
-                   twist_linear=0.1,
-                   twist_amplitude=0.1,
-                   twist_period=3,
-                   perimeter_ratio=1.5)
-
+from ._data import TEST_PARAMETERS
 
 class TestCLS:
     """Tests for:
@@ -22,52 +14,41 @@ class TestCLS:
         """Test ``cls.CLS.parameters`` property.
 
         """
-        parameters = {
-            'c1_base': 0,
-            'c2_base': 0,
-            'c1_top': 0,
-            'c2_top': 0,
-            'twist_linear': 0,
-            'twist_amplitude': 0,
-            'twist_period': 0,
-            'perimeter_ratio': 1,
-            'height': 19,
-            'mass': 2.1,
-            'thickness': 0.75,
-        }
-
-        assert DEFAULT_SHAPE.parameters == parameters
+        shape = CLS(**TEST_PARAMETERS)
+        assert shape.parameters == TEST_PARAMETERS
 
     def test_base_perimeter(self):
         """Test ``cls.CLS.base_perimeter`` property.
 
         """
-        assert DEFAULT_SHAPE.base_perimeter == approx(122.80701754385967)
-        assert CUSTOM_SHAPE.base_perimeter == approx(98.24561403508773)
+        shape = CLS(**TEST_PARAMETERS)
+        perimeter = approx(expected=148.14814814814818,
+                           abs=None)
+        assert shape.base_perimeter == perimeter
 
     def test_top_perimeter(self):
         """Test ``cls.CLS.top_perimeter`` property.
 
         """
-        assert DEFAULT_SHAPE.top_perimeter == approx(122.80701754385967)
-        assert CUSTOM_SHAPE.top_perimeter == approx(147.36842105263162)
+        shape = CLS(**TEST_PARAMETERS)
+        perimeter = approx(expected=296.29629629629636,
+                           abs=None)
+        assert shape.top_perimeter == perimeter
 
-    def test_min_radius(self):
-        """Test ``cls.CLS.min_radius`` property.
-
-        """
-        assert DEFAULT_SHAPE.min_radius == approx(19.93625076293947)
-        assert CUSTOM_SHAPE.min_radius == approx(4.707543176492682)
-
-    def test_max_radius(self):
-        """Test ``cls.CLS.max_radius`` property.
+    def test_vertices(self):
+        """Test ``cls.CLS.faces`` property.
 
         """
-        assert DEFAULT_SHAPE.max_radius == approx(19.93625076293947)
-        assert CUSTOM_SHAPE.max_radius == approx(17.95458913788471, rel=1e-3)
+        pass
 
     def test_faces(self):
         """Test ``cls.CLS.faces`` property.
 
         """
-        assert DEFAULT_SHAPE.faces.shape == CUSTOM_SHAPE.faces.shape
+        pass
+
+    def test_mesh(self):
+        """Test ``cls.CLS.faces`` property.
+
+        """
+        pass

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from cls import CLS, triangulate
-
+from ._data import TEST_PARAMETERS
 
 class TestTriangulate:
     """Tests for:
@@ -13,6 +13,5 @@ class TestTriangulate:
         """Test ``cls.triangulate`` function.
 
         """
-        shape = CLS()
-
+        shape = CLS(**TEST_PARAMETERS)
         triangulate(shape=shape)

@@ -1,0 +1,16 @@
+TEST_PARAMETERS = {
+    'c1_base': 0.3,
+    'c2_base': 0.2,
+    'c1_top': 0.1,
+    'c2_top': -0.2,
+    'twist_linear': 1,
+    'twist_amplitude': 0.4,
+    'twist_period': 0.4,
+    'perimeter_ratio': 2,
+    'height': 15,
+    'mass': 3,
+    'thickness': 0.75,
+    'density': 0.0012,
+    'n_steps': 100,
+    'd_theta': 0.01,
+}

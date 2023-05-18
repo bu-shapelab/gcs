@@ -14,21 +14,21 @@ from cls import THICKNESS_RANGE
 from cls import CLS
 
 def verify_parameters(shape: CLS, verbose: bool = False) -> bool:
-    """Verifies the validity of the parameters of a CLS.
+    """Checks if the ``cls.CLS`` parameters are valid.
 
-    The validity check is to minimize the risk of printing failures.
+    This check reduces the risk of print defects.
 
     Parameters
     ----------
     shape : CLS.cls
         The CLS.
-    verbose : bool, (default=False)
-        Set to `True` to print validity messages.
+    verbose : bool, (default=`False`)
+        Set to `True` to receive verify messages.
 
     Returns
     -------
     valid : bool
-        `True` if ``shape`` has valid parameters, `False` otherwise.
+        `True` if ``shape`` has valid parameters.
 
     Examples
     --------

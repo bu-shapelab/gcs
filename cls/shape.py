@@ -3,9 +3,7 @@ from __future__ import annotations
 import json
 import numpy as np
 import cls
-from cls._utils import _cartesian_to_polar
 from stl.mesh import Mesh
-    
 
 # Parameter ranges
 C1_BASE_RANGE = [0, 1.2]
@@ -26,36 +24,46 @@ class CLS:
 
     """
 
-    def __init__(self, c1_base: float = 0, c2_base: float = 0, c1_top: float = 0,
-                 c2_top: float = 0, twist_linear: float = 0, twist_amplitude: float = 0,
-                 twist_period: float = 0, perimeter_ratio: float = 1, height: float = 19,
-                 mass: float = 2.1, thickness: float = 0.75, density: float = 0.0012,
-                 n_steps: int = 100, d_theta: float = 0.01) -> None:
+    def __init__(self,
+                 c1_base: float,
+                 c2_base: float,
+                 c1_top: float,
+                 c2_top: float,
+                 twist_linear: float,
+                 twist_amplitude: float,
+                 twist_period: float,
+                 perimeter_ratio: float,
+                 height: float,
+                 mass: float,
+                 thickness: float,
+                 density: float = 0.0012,
+                 n_steps: int = 100,
+                 d_theta: float = 0.01) -> None:
         """Initialize the CLS.
 
         Parameters
         ----------
-        c1_base : float (default=0)
+        c1_base : float
             The base 4-lobe parameter.
-        c2_base : float (default=0)
+        c2_base : float
             The base 8-lobe parameter.
-        c1_top : float (default=0)
+        c1_top : float
             The top 4-lobe parameter.
-        c2_top : float (default=0)
+        c2_top : float
             The top 8-lobe parameter.
-        twist_linear : float (default=0)
+        twist_linear : float
             The linear twist.
-        twist_amplitude : float (default=0)
+        twist_amplitude : float
             The oscillating twist amplitude.
-        twist_period : float (default=0)
+        twist_period : float
             The oscillating twist period.
-        perimeter_ratio : float (default=1)
+        perimeter_ratio : float
             The top/base perimeter ratio.
-        height : float (default=19)
+        height : float
             The target height (mm).
-        mass : float (default=2.1)
+        mass : float
             The target mass (g).
-        thickness : float (default=0.75)
+        thickness : float
             The wall thickness (mm).
         density : float (default=0.0012)
             The material density (g/mm^3)
@@ -106,34 +114,39 @@ class CLS:
             'height': self._height,
             'mass': self._mass,
             'thickness': self._thickness,
+            'density': self._density,
+            'n_steps': self._n_steps,
+            'd_theta': self._theta_step,
         }
 
     @property
-    def valid(self) -> bool:
-        """The CLS validity.
+    def valid_parameters(self) -> bool:
+        """`True` if the parameters are valid.
 
-        Refer to ``cls.verify.verify_all`` for full documentation.
+        Refer to ``cls.verify.verify_parameters`` for full documentation.
 
         """
-        return cls.verify.verify_all(shape=self, verbose=False)
+        return cls.verify.verify_parameters(shape=self, verbose=False)
 
     @property
     def base_perimeter(self) -> float:
-        """The CLS base perimeter.
+        """The base perimeter.
 
         """
-        return (2 * self._mass) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        perimeter = (2 * self._mass) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        return perimeter
 
     @property
     def top_perimeter(self) -> float:
-        """The CLS top perimeter.
+        """The top perimeter.
 
         """
-        return (2 * self._mass * self._perimeter_ratio) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        perimeter = (2 * self._mass * self._perimeter_ratio) / (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        return perimeter
 
     @property
     def vertices(self) -> np.ndarray:
-        """The CLS vertices.
+        """The vertices.
 
         Refer to ``cls.discretize`` for full documentation.
 
@@ -145,32 +158,8 @@ class CLS:
         return self._vertices
 
     @property
-    def min_radius(self) -> np.ndarray:
-        """The CLS minimum radius.
-
-        """
-        vertices = self.vertices
-        vertices_2d_cartesian = vertices[:, :2]
-        vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
-        radii = vertices_2d_polar[:, 1]
-        radius = np.amin(radii)
-        return radius
-
-    @property
-    def max_radius(self) -> np.ndarray:
-        """The CLS maximum radius.
-
-        """
-        vertices = self.vertices
-        vertices_2d_cartesian = vertices[:, :2]
-        vertices_2d_polar = _cartesian_to_polar(points=vertices_2d_cartesian)
-        radii = vertices_2d_polar[:, 1]
-        radius = np.amax(radii)
-        return radius
-
-    @property
     def faces(self) -> np.ndarray:
-        """The CLS faces defined by ``CLS.vertices``.
+        """The faces.
         
         Refer to ``cls.triangulate`` for full documentation.
 
@@ -181,7 +170,7 @@ class CLS:
 
     @property
     def mesh(self) -> Mesh:
-        """The CLS mesh.
+        """The mesh.
 
         References
         ----------
