@@ -23,8 +23,6 @@ Available subpackages
 ---------------------
 io
     Functions for loading/saving CLS shapes.
-preview
-    Functions for previewing CLS shapes.
 verify
     Functions for verifying the validity of CLS shapes.
 random
@@ -48,13 +46,11 @@ from .discretization import discretize
 from .triangulation import triangulate
 
 from . import io
-from . import preview
 from . import random
 from . import verify
 
 submodules = [
     'io',
-    'preview',
     'random',
     'verify',
 ]

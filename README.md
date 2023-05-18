@@ -73,9 +73,6 @@ The following are available subpackages within ``cls``
 * ``io``
   * Functions for loading/saving CLS shapes.
 
-* ``preview``
-  * Functions for previewing CLS shapes.
-
 * ``verify``
   * Functions for verifying the validity of CLS shapes.
 
