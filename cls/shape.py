@@ -150,16 +150,12 @@ class CLS:
 
     @property
     def valid(self) -> bool:
-        """`True` if all verify checks pass.
+        """`True` if the CLS is valid.
+
+        Refer to ``cls.verify.verify`` for full documentation.
 
         """
-        valid = True
-        if self.valid_parameters is False:
-            valid = False
-        elif self.valid_base_perimeter is False:
-            valid = False
-        elif self.valid_radius is False:
-            valid = False
+        valid = cls.verify.verify(shape=self)
         return valid
 
     @property

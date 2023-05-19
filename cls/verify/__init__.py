@@ -8,6 +8,7 @@ Functions present in ``cls.verify`` are listed below.
 Verifying CLS
 -------------
 
+   verify
    verify_base_perimeter
    verify_parameters
    verify_radius
@@ -16,9 +17,11 @@ Verifying CLS
 from .verify_base_perimeter import verify_base_perimeter
 from .verify_parameters import verify_parameters
 from .verify_radius import verify_radius
+from .verify import verify
 
 __all__ = [
     'verify_base_perimeter',
     'verify_parameters',
     'verify_radius',
+    'verify',
 ]

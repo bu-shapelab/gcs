@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 import numpy as np
-from cls._utils import _cartesian_to_polar
+from cls._utils import _optimal_scaling_factor, _summed_cosine
 
 if TYPE_CHECKING:
     from cls import CLS
@@ -36,15 +36,44 @@ def verify_radius(shape: CLS,
     >>> valid = cls.verify_radius(shape=shape)
 
     """
-    vertices = shape.vertices
-    vertices_2d_cartesian = vertices[:, :2]
-    vertices_2d_polar = _cartesian_to_polar(points_cartesian=vertices_2d_cartesian)
-    radii = vertices_2d_polar[:, 1]
-    min_radius = np.amin(radii)
+    parameters = shape.parameters
 
-    valid = True
-    if min_radius < MIN_RADIUS:
+    thetas = np.arange(start=0,
+                       stop=2 * np.pi,
+                       step=parameters['d_theta'])
+
+    r0_base = _optimal_scaling_factor(length=shape.base_perimeter,
+                                      c1=parameters['c1_base'],
+                                      c2=parameters['c2_base'],
+                                      n_steps=thetas.size)
+
+    radii_base = np.apply_along_axis(func1d=_summed_cosine,
+                                     axis=0,
+                                     arr=thetas,
+                                     r0=r0_base,
+                                     c1=parameters['c1_base'],
+                                     c2=parameters['c2_base'])
+
+    if np.min(radii_base) < MIN_RADIUS:
         if verbose:
-            print(f'minimum radius ({min_radius}) is less then {MIN_RADIUS}.')
-        valid = False
-    return valid
+            print(f'minimum base radius ({np.min(radii_base)}) is less then {MIN_RADIUS}.')
+        return False
+
+    r0_top = _optimal_scaling_factor(length=shape.top_perimeter,
+                                     c1=parameters['c1_top'],
+                                     c2=parameters['c2_top'],
+                                     n_steps=thetas.size)
+
+    radii_top = np.apply_along_axis(func1d=_summed_cosine,
+                                    axis=0,
+                                    arr=thetas,
+                                    r0=r0_top,
+                                    c1=parameters['c1_top'],
+                                    c2=parameters['c2_top'])
+
+    if np.min(radii_top) < MIN_RADIUS:
+        if verbose:
+            print(f'minimum top radius ({np.min(radii_top)}) is less then {MIN_RADIUS}.')
+        return False
+
+    return True

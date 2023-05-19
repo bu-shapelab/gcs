@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from cls import CLS
 from cls.io import load, save, save_mesh
-from ._data import TEST_PARAMETERS
+from ._data import TEST_1_PARAMETERS
 
 
 class TestIO:
@@ -18,7 +18,7 @@ class TestIO:
         - Single CLS
 
         """
-        shape = CLS(**TEST_PARAMETERS)
+        shape = CLS(**TEST_1_PARAMETERS)
         file = Path(Path(__file__).parent / 'test.csv').resolve()
 
         save(shapes=[shape, shape], file=file)
@@ -37,7 +37,7 @@ class TestIO:
         """Test ``cls.save_mesh`` function.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
+        shape = CLS(**TEST_1_PARAMETERS)
         file = Path(Path(__file__).parent / 'test.csv').resolve()
         save_mesh(shape=shape, file=file)
         assert file.exists() is True

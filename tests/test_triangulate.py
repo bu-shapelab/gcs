@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 from cls import CLS, triangulate
-from ._data import TEST_PARAMETERS
+from ._data import TEST_CYLINDER_PARAMETERS
 
 
 class TestTriangulate:
@@ -15,11 +15,21 @@ class TestTriangulate:
         """Test ``cls.triangulate`` function.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
+        shape = CLS(**TEST_CYLINDER_PARAMETERS)
         faces = triangulate(shape=shape)
 
         assert faces is not None
-        assert faces.shape == (124542, 3)
-        unique_indices = np.unique(ar=faces)
 
-        assert unique_indices.size == shape.vertices.shape[0]
+        parameters = shape.parameters
+        n_vertices_per_step = shape.vertices.shape[0] // parameters['n_steps']
+        n_faces = 2 * n_vertices_per_step * (parameters['n_steps'] - 1)
+
+        assert faces.shape == (n_faces, 3)
+        assert shape.vertices.shape[0] == np.unique(ar=faces).size
+
+        np.testing.assert_equal(actual=faces[0],
+                                desired=[0, 1257, 628])
+        np.testing.assert_equal(actual=faces[1],
+                                desired=[1, 629, 0])
+        np.testing.assert_equal(actual=faces[2],
+                                desired=[2, 630, 1])

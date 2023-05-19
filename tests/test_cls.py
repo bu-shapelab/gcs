@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+from pathlib import Path
 from numpy.testing import assert_almost_equal
+from stl import mesh
 from pytest import approx
 from cls import CLS, discretize, triangulate
-from cls.verify import verify_parameters, verify_base_perimeter, verify_radius
-from ._data import TEST_PARAMETERS
+from cls.verify import verify_parameters, verify_base_perimeter, verify_radius, verify
+from ._data import TEST_1_PARAMETERS, TEST_2_PARAMETERS
+
+TEST_1_SHAPE = CLS(**TEST_1_PARAMETERS)
+TEST_2_SHAPE = CLS(**TEST_2_PARAMETERS)
 
 
 class TestCLS:
@@ -17,73 +22,84 @@ class TestCLS:
         """Test ``cls.CLS.parameters`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        assert shape.parameters == TEST_PARAMETERS
+        assert TEST_1_SHAPE.parameters == TEST_1_PARAMETERS
+        assert TEST_2_SHAPE.parameters == TEST_2_PARAMETERS
 
     def test_valid_parameters(self):
         """Test ``cls.CLS.valid_parameters`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        assert shape.valid_parameters == verify_parameters(shape=shape)
+        assert TEST_1_SHAPE.valid_parameters == verify_parameters(
+            shape=TEST_1_SHAPE)
+        assert TEST_2_SHAPE.valid_parameters == verify_parameters(
+            shape=TEST_2_SHAPE)
 
     def test_valid_base_perimeter(self):
         """Test ``cls.CLS.valid_base_perimeter`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        assert shape.valid_base_perimeter == verify_base_perimeter(shape=shape)
+        assert TEST_1_SHAPE.valid_base_perimeter == verify_base_perimeter(
+            shape=TEST_1_SHAPE)
+        assert TEST_2_SHAPE.valid_base_perimeter == verify_base_perimeter(
+            shape=TEST_2_SHAPE)
 
     def test_valid_radius(self):
         """Test ``cls.CLS.valid_radius`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        assert shape.valid_radius == verify_radius(shape=shape)
+        assert TEST_1_SHAPE.valid_radius == verify_radius(shape=TEST_1_SHAPE)
+        assert TEST_2_SHAPE.valid_radius == verify_radius(shape=TEST_2_SHAPE)
 
     def test_valid(self):
-        """Test ``cls.CLS.valid_radius`` property.
+        """Test ``cls.CLS.valid`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        assert shape.valid is True
+        assert TEST_1_SHAPE.valid == verify(shape=TEST_1_SHAPE)
+        assert TEST_2_SHAPE.valid == verify(shape=TEST_2_SHAPE)
 
     def test_base_perimeter(self):
         """Test ``cls.CLS.base_perimeter`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        perimeter = approx(expected=148.1481,
-                           abs=0.0001)
-        assert shape.base_perimeter == perimeter
+        assert TEST_1_SHAPE.base_perimeter == approx(expected=137.5,
+                                                     abs=0.0001)
+        assert TEST_2_SHAPE.base_perimeter == approx(expected=97.52759019523566,
+                                                     abs=0.0001)
 
     def test_top_perimeter(self):
         """Test ``cls.CLS.top_perimeter`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        perimeter = approx(expected=296.2963,
-                           abs=0.0001)
-        assert shape.top_perimeter == perimeter
+        assert TEST_1_SHAPE.top_perimeter == approx(expected=412.5,
+                                                    abs=0.0001)
+        assert TEST_2_SHAPE.top_perimeter == approx(expected=140.98271236306823,
+                                                    abs=0.0001)
 
     def test_vertices(self):
-        """Test ``cls.CLS.faces`` property.
+        """Test ``cls.CLS.vertices`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        assert_almost_equal(actual=shape.vertices,
-                            desired=discretize(shape=shape))
+        assert_almost_equal(actual=TEST_1_SHAPE.vertices,
+                            desired=discretize(shape=TEST_1_SHAPE))
+        assert_almost_equal(actual=TEST_2_SHAPE.vertices,
+                            desired=discretize(shape=TEST_2_SHAPE))
 
     def test_faces(self):
         """Test ``cls.CLS.faces`` property.
 
         """
-        shape = CLS(**TEST_PARAMETERS)
-        assert_almost_equal(actual=shape.faces,
-                            desired=triangulate(shape=shape))
+        assert_almost_equal(actual=TEST_1_SHAPE.faces,
+                            desired=triangulate(shape=TEST_1_SHAPE))
+        assert_almost_equal(actual=TEST_2_SHAPE.faces,
+                            desired=triangulate(shape=TEST_2_SHAPE))
 
     def test_mesh(self):
-        """Test ``cls.CLS.faces`` property.
+        """Test ``cls.CLS.mesh`` property.
 
         """
-        pass # TODO: Implement
+        stl_file = (Path(__file__).parent / 'test1.stl').resolve()
+        assert_almost_equal(actual=TEST_1_SHAPE.mesh.vectors,
+                            desired=mesh.Mesh.from_file(filename=stl_file).vectors)
+        stl_file = (Path(__file__).parent / 'test2.stl').resolve()
+        assert_almost_equal(actual=TEST_2_SHAPE.mesh.vectors,
+                            desired=mesh.Mesh.from_file(filename=stl_file).vectors)
