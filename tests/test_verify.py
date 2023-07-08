@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from cls import CLS
-from cls.verify import verify_parameters, verify_base_perimeter, verify_radius, verify
+from cls.verify import verify_base_perimeter, verify_radius, verify
 from ._data import TEST_1_PARAMETERS, TEST_2_PARAMETERS
 
 TEST_1_SHAPE = CLS(**TEST_1_PARAMETERS)
@@ -10,19 +10,11 @@ TEST_2_SHAPE = CLS(**TEST_2_PARAMETERS)
 
 class TestVerify:
     """Tests for:
-        - verify/verify_parameters.py
         - verify/verify_base_perimeter.py
         - verify/verify_radius.py
         - verify/verify.py
 
     """
-
-    def test_verify_parameters(self):
-        """Test ``cls.verify.verify_parameters`` function.
-
-        """
-        assert verify_parameters(shape=TEST_1_SHAPE) is True
-        assert verify_parameters(shape=TEST_2_SHAPE) is True
 
     def test_verify_base_perimeter(self):
         """Test ``cls.verify.verify_base_perimeter`` function.

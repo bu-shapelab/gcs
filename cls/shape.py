@@ -7,20 +7,6 @@ from stl.mesh import Mesh
 import cls
 
 
-# Parameter ranges
-C1_BASE_RANGE = [0, 1.2]
-C2_BASE_RANGE = [-1, 1]
-C1_TOP_RANGE = [0, 1.2]
-C2_TOP_RANGE = [-1, 1]
-TWIST_LINEAR_RANGE = [0, 2 * np.pi]
-TWIST_AMPLITUDE_RANGE = [0, np.pi]
-TWIST_PERIOD_RANGE = [0, 3]
-HEIGHT_RANGE = [10, 30]
-MASS_RANGE = [1.5, 4]
-PERIMETER_RATIO_RANGE = [1, 3]
-THICKNESS_RANGE = [0.45, 1]
-
-
 class CLS:
     """The continuous line structure (CLS) class.
 
@@ -120,15 +106,6 @@ class CLS:
             'n_steps': self._n_steps,
             'd_theta': self._theta_step,
         }
-
-    @property
-    def valid_parameters(self) -> bool:
-        """`True` if the parameters are valid.
-
-        Refer to ``cls.verify.verify_parameters`` for full documentation.
-
-        """
-        return cls.verify.verify_parameters(shape=self)
 
     @property
     def valid_base_perimeter(self) -> bool:

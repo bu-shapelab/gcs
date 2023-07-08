@@ -5,7 +5,7 @@ from numpy.testing import assert_almost_equal
 from stl import mesh
 from pytest import approx
 from cls import CLS, discretize, triangulate
-from cls.verify import verify_parameters, verify_base_perimeter, verify_radius, verify
+from cls.verify import verify_base_perimeter, verify_radius, verify
 from ._data import TEST_1_PARAMETERS, TEST_2_PARAMETERS
 
 TEST_1_SHAPE = CLS(**TEST_1_PARAMETERS)
@@ -25,23 +25,12 @@ class TestCLS:
         assert TEST_1_SHAPE.parameters == TEST_1_PARAMETERS
         assert TEST_2_SHAPE.parameters == TEST_2_PARAMETERS
 
-    def test_valid_parameters(self):
-        """Test ``cls.CLS.valid_parameters`` property.
-
-        """
-        assert TEST_1_SHAPE.valid_parameters == verify_parameters(
-            shape=TEST_1_SHAPE)
-        assert TEST_2_SHAPE.valid_parameters == verify_parameters(
-            shape=TEST_2_SHAPE)
-
     def test_valid_base_perimeter(self):
         """Test ``cls.CLS.valid_base_perimeter`` property.
 
         """
-        assert TEST_1_SHAPE.valid_base_perimeter == verify_base_perimeter(
-            shape=TEST_1_SHAPE)
-        assert TEST_2_SHAPE.valid_base_perimeter == verify_base_perimeter(
-            shape=TEST_2_SHAPE)
+        assert TEST_1_SHAPE.valid_base_perimeter == verify_base_perimeter(shape=TEST_1_SHAPE)
+        assert TEST_2_SHAPE.valid_base_perimeter == verify_base_perimeter(shape=TEST_2_SHAPE)
 
     def test_valid_radius(self):
         """Test ``cls.CLS.valid_radius`` property.

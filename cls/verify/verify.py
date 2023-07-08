@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from cls.verify import verify_parameters, verify_base_perimeter, verify_radius
+from cls.verify import verify_base_perimeter, verify_radius
 
 if TYPE_CHECKING:
     from cls import CLS
@@ -32,9 +32,7 @@ def verify(shape: CLS,
 
     """
     valid = True
-    if verify_parameters(shape=shape, verbose=verbose) is False:
-        valid = False
-    elif verify_base_perimeter(shape=shape, verbose=verbose) is False:
+    if verify_base_perimeter(shape=shape, verbose=verbose) is False:
         valid = False
     elif verify_radius(shape=shape, verbose=verbose) is False:
         valid = False

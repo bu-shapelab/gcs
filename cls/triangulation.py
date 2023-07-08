@@ -2,22 +2,19 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Union
 import numpy as np
-from cls.verify import verify_parameters
+
 
 if TYPE_CHECKING:
     from cls import CLS
 
 
-def triangulate(shape: CLS,
-                verbose: bool = False) -> Union[np.ndarray, None]:
+def triangulate(shape: CLS) -> Union[np.ndarray, None]:
     """Triangulates a ``cls.CLS``.
 
     Parameters
     ----------
     shape : cls.CLS
         The CLS.
-    verbose : bool, (default=`False`)
-        Set to `True` to receive triangulation messages.
 
     Returns
     -------
@@ -33,9 +30,6 @@ def triangulate(shape: CLS,
     >>> triangles = shape.mesh
 
     """
-    if verify_parameters(shape=shape, verbose=verbose) is False:
-        return None
-
     vertices = shape.vertices
 
     parameters = shape.parameters
@@ -44,7 +38,6 @@ def triangulate(shape: CLS,
 
     n_faces = 2 * n_vertices_per_step * (n_steps - 1)
 
-    # faces = np.zeros((n_faces, 3), dtype=np.int32)
     faces = np.zeros((n_faces, 3), dtype=np.int32)
 
     for step in range(n_steps - 1):
