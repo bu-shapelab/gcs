@@ -56,9 +56,9 @@ def discretize(shape: CLS) -> Union[np.ndarray, None]:
         height = height_per_step * step
 
         r0 = optimal_scaling_factor(length=perimeter,
-                                     c1=c1,
-                                     c2=c2,
-                                     n_steps=thetas.size)
+                                    c1=c1,
+                                    c2=c2,
+                                    n_steps=thetas.size)
 
         step_thetas = thetas + twist_linear + twist_oscillating
         radii = np.apply_along_axis(func1d=summed_cosine,

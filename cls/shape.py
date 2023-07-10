@@ -7,7 +7,8 @@ from stl.mesh import Mesh
 import cls
 
 # The assumed material density
-MATERIAL_DENSITY = 0.0012 # g/mm^3
+MATERIAL_DENSITY = 0.0012  # g/mm^3
+
 
 class CLS:
     """The continuous line structure (CLS) class.
@@ -134,7 +135,7 @@ class CLS:
         """
         angle = np.deg2rad(self._angle)
         radius = self._mass / (2 * MATERIAL_DENSITY * np.pi * self._height * self._thickness) \
-                 - (self._height / 2) * np.tan(angle)
+            - (self._height / 2) * np.tan(angle)
         perimeter = 2 * np.pi * radius
         return perimeter
 
@@ -145,7 +146,7 @@ class CLS:
         """
         angle = np.deg2rad(self._angle)
         radius = self._mass / (2 * MATERIAL_DENSITY * np.pi * self._height * self._thickness) \
-                 + (self._height / 2) * np.tan(angle)
+            + (self._height / 2) * np.tan(angle)
         perimeter = 2 * np.pi * radius
         return perimeter
 

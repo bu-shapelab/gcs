@@ -7,8 +7,8 @@ from bentley_ottmann.planar import contour_self_intersects
 
 
 def offset_curve(radius: np.ndarray,
-                  theta: np.ndarray,
-                  offset: float = 0) -> Tuple[np.ndarray, np.ndarray]:
+                 theta: np.ndarray,
+                 offset: float = 0) -> Tuple[np.ndarray, np.ndarray]:
     """Offsets a closed polar curve in the normal direction.
 
     Parameters

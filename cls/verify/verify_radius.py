@@ -49,9 +49,11 @@ def verify_radius(shape: CLS,
                                      c1=parameters['c1_base'],
                                      c2=parameters['c2_base'])
 
-    if np.min(radii_base) < MIN_RADIUS:
+
+    min_radius = np.min(radii_base)
+    if min_radius < MIN_RADIUS:
         if verbose:
-            print(f'minimum base radius ({np.min(radii_base)}) is less then {MIN_RADIUS}.')
+            print(f'minimum base radius ({min_radius}) is less then {MIN_RADIUS}.')
         return False
 
     r0_top = optimal_scaling_factor(length=shape.top_perimeter,
@@ -66,9 +68,10 @@ def verify_radius(shape: CLS,
                                     c1=parameters['c1_top'],
                                     c2=parameters['c2_top'])
 
-    if np.min(radii_top) < MIN_RADIUS:
+    min_radius = np.min(radii_top)
+    if min_radius < MIN_RADIUS:
         if verbose:
-            print(f'minimum top radius ({np.min(radii_top)}) is less then {MIN_RADIUS}.')
+            print(f'minimum top radius ({min_radius}) is less then {MIN_RADIUS}.')
         return False
 
     return True

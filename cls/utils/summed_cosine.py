@@ -39,9 +39,9 @@ def summed_cosine(theta: float,
 
 
 def arc_length(r0: float,
-                c1: float,
-                c2: float,
-                n_steps: int) -> float:
+               c1: float,
+               c2: float,
+               n_steps: int) -> float:
     """Approximate arc length of a summed cosine polar equation using Simpson's rule.
 
     Parameters
@@ -87,9 +87,9 @@ def arc_length(r0: float,
 
 
 def optimal_scaling_factor(length: float,
-                            c1: float,
-                            c2: float,
-                            n_steps: int) -> float:
+                           c1: float,
+                           c2: float,
+                           n_steps: int) -> float:
     """Find the optimal scaling factor (r0) given an arc length, c1, and c2.
 
     Parameters
