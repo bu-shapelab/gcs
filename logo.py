@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from cls.utils.summed_cosine import summed_cosine
+from gcs.utils.summed_cosine import summed_cosine
 
 
 n_steps = 100

@@ -5,28 +5,28 @@ import pandas as pd
 
 if TYPE_CHECKING:
     from os import PathLike
-    from cls import CLS
+    from gcs import GCS
 
 
 def save(file: Union[str, bytes, PathLike],
-         shapes: List[CLS]) -> None:
-    """Saves ``CLS`` to a csv file.
+         shapes: List[GCS]) -> None:
+    """Saves ``GCS`` to a csv file.
 
     Parameters
     ----------
     file : {str, bytes, PathLike}
         The file.
-    shapes : List[cls.CLS]
-        The CLS.
+    shapes : List[gcs.GCS]
+        The GCS.
 
     Examples
     --------
-    >>> shape = cls.CLS(...)
-    >>> cls.io.save(file='saved.csv', shapes=[shape])
+    >>> shape = gcs.GCS(...)
+    >>> gcs.io.save(file='saved.csv', shapes=[shape])
 
-    >>> shape1 = cls.CLS(...)
-    >>> shape2 = cls.CLS(...)
-    >>> cls.io.save(file='saved.csv', shapes=[shape1, shape2])
+    >>> shape1 = gcs.GCS(...)
+    >>> shape2 = gcs.GCS(...)
+    >>> gcs.io.save(file='saved.csv', shapes=[shape1, shape2])
 
     """
     parameters = [shape.parameters for shape in shapes]
@@ -37,20 +37,20 @@ def save(file: Union[str, bytes, PathLike],
 
 
 def save_mesh(file: Union[str, bytes, PathLike],
-              shape: CLS) -> None:
-    """Saves ``CLS`` mesh to an stl file.
+              shape: GCS) -> None:
+    """Saves ``GCS`` mesh to an stl file.
 
     Parameters
     ----------
     file : {str, bytes, PathLike}
         The file.
-    shape : cls.CLS
-        The CLS.
+    shape : gcs.GCS
+        The GCS.
 
     Examples
     --------
-    >>> shape = cls.CLS(...)
-    >>> cls.io.save_mesh(file='saved.stl', shape=shape)
+    >>> shape = gcs.GCS(...)
+    >>> gcs.io.save_mesh(file='saved.stl', shape=shape)
 
     """
     shape.mesh.save(filename=file)

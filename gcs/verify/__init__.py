@@ -1,11 +1,11 @@
 """
-``cls.verify``
+``gcs.verify``
 ================
 
-Functions present in ``cls.verify`` are listed below.
+Functions present in ``gcs.verify`` are listed below.
 
 
-Verifying CLS
+Verifying GCS
 -------------
 
    verify

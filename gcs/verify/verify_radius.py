@@ -2,26 +2,26 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 import numpy as np
-from cls.utils import optimal_scaling_factor, summed_cosine
+from gcs.utils import optimal_scaling_factor, summed_cosine
 
 if TYPE_CHECKING:
-    from cls import CLS
+    from gcs import GCS
 
 # Minimum radius (mm)
 MIN_RADIUS = 0.01
 
 
-def verify_radius(shape: CLS,
+def verify_radius(shape: GCS,
                   verbose: bool = False) -> bool:
-    """Checks if the ``cls.CLS`` minimum radius is valid.
+    """Checks if the ``gcs.GCS`` minimum radius is valid.
 
-    This check reduces the risk of print defects by ensuring a ``CLS``
+    This check reduces the risk of print defects by ensuring a ``GCS``
     print paths are well spaced.
 
     Parameters
     ----------
-    shape : CLS.cls
-        The CLS.
+    shape : GCS.gcs
+        The GCS.
     verbose : bool, (default=`False`)
         Set to `True` to receive verify messages.
 
@@ -32,10 +32,10 @@ def verify_radius(shape: CLS,
 
     Examples
     --------
-    >>> shape = cls.CLS(...)
-    >>> check = cls.verify.verify_radius(shape=shape)
+    >>> shape = gcs.GCS(...)
+    >>> check = gcs.verify.verify_radius(shape=shape)
 
-    >>> shape = cls.CLS(...)
+    >>> shape = gcs.GCS(...)
     >>> check = shape.valid_radius
 
     """

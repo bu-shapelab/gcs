@@ -1,21 +1,21 @@
 from __future__ import annotations
 
 import numpy as np
-from cls import CLS, triangulate
+from gcs import GCS, triangulate
 from ._data import TEST_CYLINDER_PARAMETERS
 
 
 class TestTriangulate:
     """Tests for:
-        - cls/triangulate.py
+        - gcs/triangulate.py
 
     """
 
     def test_triangulate(self):
-        """Test ``cls.triangulate`` function.
+        """Test ``gcs.triangulate`` function.
 
         """
-        shape = CLS(**TEST_CYLINDER_PARAMETERS)
+        shape = GCS(**TEST_CYLINDER_PARAMETERS)
         faces = triangulate(shape=shape)
 
         assert faces is not None

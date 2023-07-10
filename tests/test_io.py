@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from pathlib import Path
-from cls import CLS
-from cls.io import load, save, save_mesh
+from gcs import GCS
+from gcs.io import load, save, save_mesh
 from ._data import TEST_1_PARAMETERS
 
 
@@ -14,10 +14,10 @@ class TestIO:
     """
 
     def test_save_and_load(self):
-        """Test ``cls.save`` and ``cls.load`` functions.
+        """Test ``gcs.save`` and ``gcs.load`` functions.
 
         """
-        shape = CLS(**TEST_1_PARAMETERS)
+        shape = GCS(**TEST_1_PARAMETERS)
         file = Path(Path(__file__).parent / 'test.csv').resolve()
 
         save(shapes=[shape, shape], file=file)
@@ -33,10 +33,10 @@ class TestIO:
         file.unlink()
 
     def test_save_mesh(self):
-        """Test ``cls.save_mesh`` function.
+        """Test ``gcs.save_mesh`` function.
 
         """
-        shape = CLS(**TEST_1_PARAMETERS)
+        shape = GCS(**TEST_1_PARAMETERS)
         file = Path(Path(__file__).parent / 'test.csv').resolve()
         save_mesh(shape=shape, file=file)
         assert file.exists() is True

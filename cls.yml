@@ -1,4 +1,4 @@
-name: cls
+name: gcs
 channels:
   - defaults
   - conda-forge

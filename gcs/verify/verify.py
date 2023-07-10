@@ -1,22 +1,22 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from cls.verify import verify_base_perimeter, verify_radius
+from gcs.verify import verify_base_perimeter, verify_radius
 
 if TYPE_CHECKING:
-    from cls import CLS
+    from gcs import GCS
 
 
-def verify(shape: CLS,
+def verify(shape: GCS,
            verbose: bool = False) -> bool:
-    """Performs all checks on a ``CLS``.
+    """Performs all checks on a ``GCS``.
 
     The checks reduces the risk of print defects.
 
     Parameters
     ----------
-    shape : CLS.cls
-        The CLS.
+    shape : GCS.gcs
+        The GCS.
     verbose : bool, (default=`False`)
         Set to `True` to receive verify messages.
 
@@ -27,10 +27,10 @@ def verify(shape: CLS,
 
     Examples
     --------
-    >>> shape = cls.CLS(...)
-    >>> check = cls.verify.verify(shape=shape)
+    >>> shape = gcs.GCS(...)
+    >>> check = gcs.verify.verify(shape=shape)
 
-    >>> shape = cls.CLS(...)
+    >>> shape = gcs.GCS(...)
     >>> check = shape.valid
 
     """

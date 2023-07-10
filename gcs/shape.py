@@ -1,17 +1,16 @@
 from __future__ import annotations
 
-from typing import Union
 import json
 import numpy as np
 from stl.mesh import Mesh
-import cls
+import gcs
 
 # The assumed material density
 MATERIAL_DENSITY = 0.0012  # g/mm^3
 
 
-class CLS:
-    """The continuous line structure (CLS) class.
+class GCS:
+    """The generalized cylindrical shell (GCS) class.
 
     """
 
@@ -29,7 +28,7 @@ class CLS:
                  thickness: float,
                  n_steps: int = 100,
                  d_theta: float = 0.01) -> None:
-        """Initialize ``CLS``.
+        """Initialize ``GCS``.
 
         Parameters
         ----------
@@ -63,7 +62,7 @@ class CLS:
 
         Examples
         --------
-        >>> shape = cls.CLS(c1_base=0.5, c2_base=0, ...)
+        >>> shape = gcs.GCS(c1_base=0.5, c2_base=0, ...)
 
         """
         self._c1_base = c1_base
@@ -85,7 +84,7 @@ class CLS:
 
     @property
     def parameters(self) -> dict:
-        """The CLS parameters.
+        """The GCS parameters.
 
         """
         return {
@@ -108,28 +107,28 @@ class CLS:
     def valid_base_perimeter(self) -> bool:
         """`True` if the base perimeter is valid.
 
-        Refer to ``cls.verify.verify_base_perimeter`` for full documentation.
+        Refer to ``gcs.verify.verify_base_perimeter`` for full documentation.
 
         """
-        return cls.verify.verify_base_perimeter(shape=self)
+        return gcs.verify.verify_base_perimeter(shape=self)
 
     @property
     def valid_radius(self) -> bool:
         """`True` if the radii are valid.
 
-        Refer to ``cls.verify.verify_radius`` for full documentation.
+        Refer to ``gcs.verify.verify_radius`` for full documentation.
 
         """
-        return cls.verify.verify_radius(shape=self)
+        return gcs.verify.verify_radius(shape=self)
 
     @property
     def valid(self) -> bool:
-        """`True` if the CLS is valid.
+        """`True` if the GCS is valid.
 
-        Refer to ``cls.verify.verify`` for full documentation.
+        Refer to ``gcs.verify.verify`` for full documentation.
 
         """
-        valid = cls.verify.verify(shape=self)
+        valid = gcs.verify.verify(shape=self)
         return valid
 
     @property
@@ -158,22 +157,22 @@ class CLS:
     def vertices(self) -> np.ndarray:
         """The vertices.
 
-        Refer to ``cls.discretize`` for full documentation.
+        Refer to ``gcs.discretize`` for full documentation.
 
         """
         if self._vertices is None:
-            self._vertices = cls.discretize(shape=self)
+            self._vertices = gcs.discretize(shape=self)
         return self._vertices
 
     @property
     def faces(self) -> np.ndarray:
         """The faces.
 
-        Refer to ``cls.triangulate`` for full documentation.
+        Refer to ``gcs.triangulate`` for full documentation.
 
         """
         if self._faces is None:
-            self._faces = cls.triangulate(shape=self)
+            self._faces = gcs.triangulate(shape=self)
         return self._faces
 
     @property
@@ -203,8 +202,8 @@ class CLS:
         return output
 
 
-class Cylinder(CLS):
-    """Cylindrical CLS.
+class Cylinder(GCS):
+    """Simple GCS cylinder.
 
     """
 
@@ -231,7 +230,7 @@ class Cylinder(CLS):
 
         Examples
         --------
-        >>> shape = cls.Cylinder(height=10, mass=4, ...)
+        >>> shape = gcs.Cylinder(height=10, mass=4, ...)
 
         """
         super().__init__(c1_base=0,

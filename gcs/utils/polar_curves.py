@@ -88,7 +88,7 @@ def self_intersection(x: np.ndarray,
 
     """
     context = get_context()
-    point, contour = context.point_cls, context.contour_cls
+    point, contour = context.point_gcs, context.contour_gcs
 
     curve = []
     for index in range(x.shape[0]):

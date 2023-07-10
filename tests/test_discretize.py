@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pytest import approx
 import numpy as np
-from cls import CLS, discretize
+from gcs import GCS, discretize
 from ._data import TEST_CYLINDER_PARAMETERS
 
 
@@ -13,10 +13,10 @@ class TestDiscretize:
     """
 
     def test_discretize(self):
-        """Test ``cls.discretize`` function.
+        """Test ``gcs.discretize`` function.
 
         """
-        shape = CLS(**TEST_CYLINDER_PARAMETERS)
+        shape = GCS(**TEST_CYLINDER_PARAMETERS)
         parameters = shape.parameters
         vertices = discretize(shape=shape)
 

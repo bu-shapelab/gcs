@@ -2,20 +2,20 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 import numpy as np
-from cls.utils import summed_cosine, optimal_scaling_factor
-from cls.utils import pol2cart
+from gcs.utils import summed_cosine, optimal_scaling_factor
+from gcs.utils import pol2cart
 
 if TYPE_CHECKING:
-    from cls import CLS
+    from gcs import GCS
 
 
-def discretize(shape: CLS) -> np.ndarray:
-    """Discretizes a ``CLS``.
+def discretize(shape: GCS) -> np.ndarray:
+    """Discretizes a ``GCS``.
 
     Parameters
     ----------
-    shape : cls.CLS
-        The CLS.
+    shape : gcs.GCS
+        The GCS.
 
     Returns
     -------
@@ -24,10 +24,10 @@ def discretize(shape: CLS) -> np.ndarray:
 
     Examples
     --------
-    >>> shape = cls.CLS(...)
-    >>> vertices = cls.discretize(shape=shape)
+    >>> shape = gcs.GCS(...)
+    >>> vertices = gcs.discretize(shape=shape)
 
-    >>> shape = cls.CLS(...)
+    >>> shape = gcs.GCS(...)
     >>> vertices = shape.vertices
 
     """

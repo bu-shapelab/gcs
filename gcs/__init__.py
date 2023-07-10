@@ -1,34 +1,34 @@
 """
-CLS
+Generalized Cylindrical Shells
 ===
 
 Provides
-  1. An object representing a continuous line structure.
-  2. Operations on CLS structures.
+  1. An object representing generalized cylindrical shell (GCS) structures.
+  2. Operations on GCS structures.
 
 How to use the documentation
 ----------------------------
 Documentation is available in docstrings provided with the code.
 
-The docstring examples assume that `cls` has been imported::
+The docstring examples assume that `gcs` has been imported::
 
-  >>> import cls
+  >>> import gcs
 
 Code snippets are indicated by three greater-than signs::
 
-  >>> shape = cls.CLS(...)
+  >>> shape = gcs.GCS(...)
   >>> shape.parameters
 
 Available subpackages
 ---------------------
 io
-    Functions for loading/saving CLS shapes.
+    Functions for loading/saving GCS shapes.
 verify
-    Functions for verifying the validity of CLS shapes.
+    Functions for verifying the validity of GCS shapes.
 
 """
 
-from .shape import CLS, Cylinder
+from .shape import GCS, Cylinder
 
 from .discretization import discretize
 from .triangulation import triangulate
@@ -42,7 +42,7 @@ submodules = [
 ]
 
 __all__ = submodules + [
-    'CLS',
+    'GCS',
     'Cylinder',
     'discretize',
     'triangulate',

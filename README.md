@@ -1,16 +1,16 @@
-# CLS # TODO: UPDATE
+# GCS # TODO: UPDATE
 
-![cls Spashscreen](misc/images/splashscreen.jpeg)
+![gcs Spashscreen](misc/images/splashscreen.jpeg)
 
-Simple library for creating continuous line structures (CLS). The library provides
+Simple library for creating continuous line structures (GCS). The library provides
 
 1. An object representing a continuous line structure.
 
-2. Operations on CLS structures.
+2. Operations on GCS structures.
 
 ## Getting Started
 
-These instructions will get you a copy of ``cls`` up and running on your local machine.
+These instructions will get you a copy of ``gcs`` up and running on your local machine.
 
 ### Prerequisites
 
@@ -23,19 +23,19 @@ You will need to install the following software:
 1. Clone the repository.
 
     ```bash
-    git clone https://github.com/samsilverman/cls.git
+    git clone https://github.com/samsilverman/gcs.git
     ```
 
 2. Create the conda environment.
 
     ```bash
-    conda env create --file /path/to/cls/cls.yml
+    conda env create --file /path/to/gcs/gcs.yml
     ```
 
-    **NOTE**: To use an existing conda environment instead of the ``cls`` conda environment, run:
+    **NOTE**: To use an existing conda environment instead of the ``gcs`` conda environment, run:
 
     ```bash
-    conda env update --name [env_name] --file /path/to/cls/cls.yml --prune
+    conda env update --name [env_name] --file /path/to/gcs/gcs.yml --prune
     ```
 
     For step 3, use the existing conda environment.
@@ -43,41 +43,41 @@ You will need to install the following software:
 3. Activate the conda environment.
 
     ```bash
-    conda activate cls
+    conda activate gcs
     ```
 
     **NOTE**: To deactivate the environment, run:
 
     ```bash
-    conda deactivate cls
+    conda deactivate gcs
     ```
 
-4. Locally install ``cls`` with pip:
+4. Locally install ``gcs`` with pip:
 
     ```bash
-    pip install /path/to/cls/
+    pip install /path/to/gcs/
     ```
 
 ## Usage
 
 Documentation is available in docstrings provided with the code.
 
-The docstring examples assume that ``cls`` has been imported:
+The docstring examples assume that ``gcs`` has been imported:
 
 ```python
->>> import cls
+>>> import gcs
 ```
 
-The following are available subpackages within ``cls``
+The following are available subpackages within ``gcs``
 
 * ``io``
-  * Functions for loading/saving CLS shapes.
+  * Functions for loading/saving GCS shapes.
 
 * ``verify``
-  * Functions for verifying the validity of CLS shapes.
+  * Functions for verifying the validity of GCS shapes.
 
 * ``random``
-  * Functions for generating random CLS shapes.
+  * Functions for generating random GCS shapes.
 
 ## Testing
 

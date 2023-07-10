@@ -5,16 +5,16 @@ import numpy as np
 
 
 if TYPE_CHECKING:
-    from cls import CLS
+    from gcs import GCS
 
 
-def triangulate(shape: CLS) -> np.ndarray:
-    """Triangulates a ``CLS``.
+def triangulate(shape: GCS) -> np.ndarray:
+    """Triangulates a ``GCS``.
 
     Parameters
     ----------
-    shape : cls.CLS
-        The CLS.
+    shape : gcs.GCS
+        The GCS.
 
     Returns
     -------
@@ -23,11 +23,11 @@ def triangulate(shape: CLS) -> np.ndarray:
 
     Examples
     --------
-    >>> shape = cls.CLS(...)
-    >>> faces = cls.triangulate(shape=shape)
+    >>> shape = gcs.GCS(...)
+    >>> faces = gcs.triangulate(shape=shape)
 
-    >>> shape = cls.CLS(...)
-    >>> faces = cls.faces
+    >>> shape = gcs.GCS(...)
+    >>> faces = gcs.faces
 
     """
     vertices = shape.vertices
