@@ -94,4 +94,14 @@ python -m pytest
 
 Maintainers:
 
-* Sam Silverman - [@sam_silverman](https://twitter.com/sam_silverman) - [sssilver@bu.edu](mailto:sssilver@bu.edu)
+* [Sam Silverman](https://github.com/samsilverman/) - [sssilver@bu.edu](mailto:sssilver@bu.edu)
+
+## Acknowledgements
+
+* [Best README Template](https://github.com/othneildrew/Best-README-Template)
+
+### Original Contributors
+
+* [Sam Silverman](https://github.com/samsilverman/) - [sssilver@bu.edu](mailto:sssilver@bu.edu)
+* [Kelsey Snapp](https://github.com/KelseyEng/) - [ksnapp@bu.edu](mailto:ksnapp@bu.edu)
+* [Benjamin Verdier](https://github.com/BenjaminVerdier)
