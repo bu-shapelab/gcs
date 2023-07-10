@@ -1,4 +1,6 @@
-![logo](misc/images/logo.jpeg)
+<h1 align="center">
+  <img src="misc/images/logo.jpeg" width="300">
+</h1>
 
 | [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
 |--------------------|-------------|--------------|-------------------|
