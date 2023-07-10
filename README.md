@@ -1,8 +1,8 @@
 <h1 align="center">
   <img src="misc/images/logo.svg" width="250">
+  <br>
+  GCS
 </h1>
-
-# Generalized Cylindrical Shells (GCS)
 
 | [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
 |--------------------|-------------|--------------|-------------------|
