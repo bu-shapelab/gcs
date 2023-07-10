@@ -1,9 +1,9 @@
+![gcs Spashscreen](misc/images/logo.svg)
+
 # GCS
 
 | [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
 |--------------------|-------------|--------------|-------------------|
-
-![gcs Spashscreen](misc/images/logo.svg)
 
 GCS is a Python library for creating continuous line structures (GCS). The library provides
 
