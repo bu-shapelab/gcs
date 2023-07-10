@@ -1,13 +1,15 @@
-![gcs Spashscreen](misc/images/logo.svg)
+<h1 align="center">
+  <img src="misc/images/logo.svg" width="250">
+</h1>
 
-# GCS
+# Generalized Cylindrical Shells (GCS)
 
 | [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
 |--------------------|-------------|--------------|-------------------|
 
-GCS is a Python library for creating continuous line structures (GCS). The library provides
+GCS is a Python library for creating generalized cylindrical shells (GCS). The library provides
 
-1. An object representing a continuous line structure.
+1. An object representing GCS structures.
 
 2. Operations on GCS structures.
 
