@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 import numpy as np
 from cls.utils import summed_cosine, optimal_scaling_factor
 from cls.utils import pol2cart
@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from cls import CLS
 
 
-def discretize(shape: CLS) -> Union[np.ndarray, None]:
+def discretize(shape: CLS) -> np.ndarray:
     """Discretizes a ``CLS``.
 
     Parameters
@@ -21,6 +21,14 @@ def discretize(shape: CLS) -> Union[np.ndarray, None]:
     -------
     vertices : (N, 3) np.ndarray
         The vertices.
+
+    Examples
+    --------
+    >>> shape = cls.CLS(...)
+    >>> vertices = cls.discretize(shape=shape)
+
+    >>> shape = cls.CLS(...)
+    >>> vertices = shape.vertices
 
     """
     parameters = shape.parameters

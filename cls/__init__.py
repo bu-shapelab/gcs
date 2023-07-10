@@ -16,7 +16,7 @@ The docstring examples assume that `cls` has been imported::
 
 Code snippets are indicated by three greater-than signs::
 
-  >>> shape = cls.CLS()
+  >>> shape = cls.CLS(...)
   >>> shape.parameters
 
 Available subpackages

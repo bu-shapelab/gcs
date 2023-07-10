@@ -25,6 +25,14 @@ def verify(shape: CLS,
     valid : bool
         `True` if ``shape`` passes all checks.
 
+    Examples
+    --------
+    >>> shape = cls.CLS(...)
+    >>> check = cls.verify.verify(shape=shape)
+
+    >>> shape = cls.CLS(...)
+    >>> check = shape.valid
+
     """
     valid = verify_base_perimeter(shape=shape,
                                   verbose=verbose)

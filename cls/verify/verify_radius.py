@@ -30,6 +30,14 @@ def verify_radius(shape: CLS,
     valid : bool
        `True` if ``shape`` passes the radius check.
 
+    Examples
+    --------
+    >>> shape = cls.CLS(...)
+    >>> check = cls.verify.verify_radius(shape=shape)
+
+    >>> shape = cls.CLS(...)
+    >>> check = shape.valid_radius
+
     """
     parameters = shape.parameters
 

@@ -22,6 +22,10 @@ def load(file: Union[str, bytes, PathLike]) -> List[CLS]:
     shapes : List[cls.CLS]
         The loaded ``CLS``.
 
+    Examples
+    --------
+    >>> shapes = cls.io.load(file='saved.csv')
+
     """
     csv = pd.read_csv(filepath_or_buffer=file,
                       sep=',',

@@ -61,6 +61,10 @@ class CLS:
         d_theta : float (default=0.01)
             The angular discretization step size.
 
+        Examples
+        --------
+        >>> shape = cls.CLS(c1_base=0.5, c2_base=0, ...)
+
         """
         self._c1_base = c1_base
         self._c2_base = c2_base
@@ -130,7 +134,7 @@ class CLS:
 
     @property
     def base_perimeter(self) -> float:
-        """The base perimeter.
+        """The base perimeter (mm).
 
         """
         angle = np.deg2rad(self._angle)
@@ -141,7 +145,7 @@ class CLS:
 
     @property
     def top_perimeter(self) -> float:
-        """The top perimeter.
+        """The top perimeter (mm).
 
         """
         angle = np.deg2rad(self._angle)
@@ -151,7 +155,7 @@ class CLS:
         return perimeter
 
     @property
-    def vertices(self) -> Union[np.ndarray, None]:
+    def vertices(self) -> np.ndarray:
         """The vertices.
 
         Refer to ``cls.discretize`` for full documentation.
@@ -224,6 +228,10 @@ class Cylinder(CLS):
             The number of height discretization steps.
         d_theta : float (default=0.01)
             The angular discretization step size.
+
+        Examples
+        --------
+        >>> shape = cls.Cylinder(height=10, mass=4, ...)
 
         """
         super().__init__(c1_base=0,

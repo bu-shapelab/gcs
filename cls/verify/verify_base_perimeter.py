@@ -28,6 +28,14 @@ def verify_base_perimeter(shape: CLS,
     valid : bool
         `True` if ``shape`` passes the base perimeter check.
 
+    Examples
+    --------
+    >>> shape = cls.CLS(...)
+    >>> check = cls.verify.verify_base_perimeter(shape=shape)
+
+    >>> shape = cls.CLS(...)
+    >>> check = shape.valid_base_perimeter
+
     """
     perimeter = shape.base_perimeter
     valid = True

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 import numpy as np
 
 
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from cls import CLS
 
 
-def triangulate(shape: CLS) -> Union[np.ndarray, None]:
+def triangulate(shape: CLS) -> np.ndarray:
     """Triangulates a ``CLS``.
 
     Parameters
@@ -20,6 +20,14 @@ def triangulate(shape: CLS) -> Union[np.ndarray, None]:
     -------
     faces : (N, 3) np.ndarray
         The faces.
+
+    Examples
+    --------
+    >>> shape = cls.CLS(...)
+    >>> faces = cls.triangulate(shape=shape)
+
+    >>> shape = cls.CLS(...)
+    >>> faces = cls.faces
 
     """
     vertices = shape.vertices
