@@ -15,7 +15,6 @@ class TestIO:
 
     def test_save_and_load(self):
         """Test ``cls.save`` and ``cls.load`` functions.
-        - Single CLS
 
         """
         shape = CLS(**TEST_1_PARAMETERS)

@@ -87,10 +87,10 @@ class TestCLS:
         """Test ``cls.CLS.mesh`` property.
 
         """
-        stl_file = (Path(__file__).parent / 'test1.stl').resolve()
+        stl_file = (Path(__file__).parent / '_test1.stl').resolve()
         assert_almost_equal(actual=TEST_1_SHAPE.mesh.vectors,
                             desired=mesh.Mesh.from_file(filename=stl_file).vectors)
-        stl_file = (Path(__file__).parent / 'test2.stl').resolve()
+        stl_file = (Path(__file__).parent / '_test2.stl').resolve()
         assert_almost_equal(actual=TEST_2_SHAPE.mesh.vectors,
                             desired=mesh.Mesh.from_file(filename=stl_file).vectors)
 
