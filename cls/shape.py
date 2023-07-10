@@ -28,7 +28,7 @@ class CLS:
                  thickness: float,
                  n_steps: int = 100,
                  d_theta: float = 0.01) -> None:
-        """Initialize the CLS.
+        """Initialize ``CLS``.
 
         Parameters
         ----------
@@ -196,3 +196,45 @@ class CLS:
         output = f'{super().__str__()}: ' + \
             json.dumps(obj=self.parameters, indent=2)
         return output
+
+
+class Cylinder(CLS):
+    """Cylindrical CLS.
+
+    """
+
+    def __init__(self,
+                 height: float,
+                 mass: float,
+                 thickness: float,
+                 n_steps: int = 100,
+                 d_theta: float = 0.01) -> None:
+        """Initialize ``Cylinder``.
+
+        Parameters
+        ----------
+        height : float
+            The target height (mm).
+        mass : float
+            The target mass (g).
+        thickness : float
+            The wall thickness (mm).
+        n_steps : int (default=100)
+            The number of height discretization steps.
+        d_theta : float (default=0.01)
+            The angular discretization step size.
+
+        """
+        super().__init__(c1_base=0,
+                         c2_base=0,
+                         c1_top=0,
+                         c2_top=0,
+                         twist_linear=0,
+                         twist_amplitude=0,
+                         twist_period=0,
+                         angle=0,
+                         height=height,
+                         mass=mass,
+                         thickness=thickness,
+                         n_steps=n_steps,
+                         d_theta=d_theta)

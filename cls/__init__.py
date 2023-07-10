@@ -28,7 +28,7 @@ verify
 
 """
 
-from .shape import CLS
+from .shape import CLS, Cylinder
 
 from .discretization import discretize
 from .triangulation import triangulate
@@ -43,6 +43,7 @@ submodules = [
 
 __all__ = submodules + [
     'CLS',
+    'Cylinder',
     'discretize',
     'triangulate',
 ]

@@ -4,12 +4,13 @@ from pathlib import Path
 from numpy.testing import assert_almost_equal
 from stl import mesh
 from pytest import approx
-from cls import CLS, discretize, triangulate
+from cls import CLS, Cylinder, discretize, triangulate
 from cls.verify import verify_base_perimeter, verify_radius, verify
-from ._data import TEST_1_PARAMETERS, TEST_2_PARAMETERS
+from ._data import TEST_1_PARAMETERS, TEST_2_PARAMETERS, TEST_CYLINDER_PARAMETERS
 
 TEST_1_SHAPE = CLS(**TEST_1_PARAMETERS)
 TEST_2_SHAPE = CLS(**TEST_2_PARAMETERS)
+TEST_3_SHAPE = CLS(**TEST_CYLINDER_PARAMETERS)
 
 
 class TestCLS:
@@ -92,3 +93,14 @@ class TestCLS:
         stl_file = (Path(__file__).parent / 'test2.stl').resolve()
         assert_almost_equal(actual=TEST_2_SHAPE.mesh.vectors,
                             desired=mesh.Mesh.from_file(filename=stl_file).vectors)
+
+    def test_cylinder(self):
+        """Test ``cls.Cylinder``.
+
+        """
+        cylinder = Cylinder(height=TEST_CYLINDER_PARAMETERS['height'],
+                            mass=TEST_CYLINDER_PARAMETERS['mass'],
+                            thickness=TEST_CYLINDER_PARAMETERS['thickness'],
+                            n_steps=TEST_CYLINDER_PARAMETERS['n_steps'],
+                            d_theta=TEST_CYLINDER_PARAMETERS['d_theta'])
+        assert TEST_3_SHAPE.parameters == cylinder.parameters
