@@ -2,15 +2,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Union
 import numpy as np
-from cls._utils import _summed_cosine, _optimal_scaling_factor
-from cls._utils import _polar_to_cartesian
+from cls.utils import summed_cosine, optimal_scaling_factor
+from cls.utils import pol2cart
 
 if TYPE_CHECKING:
     from cls import CLS
 
 
 def discretize(shape: CLS) -> Union[np.ndarray, None]:
-    """Discretizes a ``cls.CLS``.
+    """Discretizes a ``CLS``.
 
     Parameters
     ----------
@@ -19,16 +19,8 @@ def discretize(shape: CLS) -> Union[np.ndarray, None]:
 
     Returns
     -------
-    vertices : (n_vertices, 3) np.ndarray
+    vertices : (N, 3) np.ndarray
         The vertices.
-
-    Examples # TODO: Implement
-    --------
-    >>> shape = cls.CLS()
-    >>> vertices = cls.discretize(shape=shape)
-
-    >>> shape = cls.CLS()
-    >>> vertices = shape.vertices
 
     """
     parameters = shape.parameters
@@ -63,26 +55,26 @@ def discretize(shape: CLS) -> Union[np.ndarray, None]:
         twist_oscillating = twists_oscillating[step]
         height = height_per_step * step
 
-        r0 = _optimal_scaling_factor(length=perimeter,
+        r0 = optimal_scaling_factor(length=perimeter,
                                      c1=c1,
                                      c2=c2,
                                      n_steps=thetas.size)
 
         step_thetas = thetas + twist_linear + twist_oscillating
-        radii = np.apply_along_axis(func1d=_summed_cosine,
+        radii = np.apply_along_axis(func1d=summed_cosine,
                                     axis=0,
                                     arr=step_thetas,
                                     r0=r0,
                                     c1=c1,
                                     c2=c2)
 
-        points_2d_polar = np.vstack((thetas, radii)).transpose()
-        points_2d_cartesian = _polar_to_cartesian(points_polar=points_2d_polar)
+        x, y = pol2cart(radius=radii, theta=thetas)
 
         index_start = step * thetas.size
         index_end = (step + 1) * thetas.size
 
-        vertices[index_start:index_end, :2] = points_2d_cartesian
+        vertices[index_start:index_end, 0] = x
+        vertices[index_start:index_end, 1] = y
         vertices[index_start:index_end, 2] = height
 
     return vertices

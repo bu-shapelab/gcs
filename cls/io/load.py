@@ -10,26 +10,22 @@ if TYPE_CHECKING:
 
 
 def load(file: Union[str, bytes, PathLike]) -> List[CLS]:
-    """Loads ``cls.CLS`` from a csv file.
-    See ``cls.save`` for how to save to a csv file.
+    """Loads ``CLS`` from a csv file.
 
     Parameters
     ----------
     file : {str, bytes, PathLike}
-        The csv.
+        The file.
 
     Returns
     -------
-    shapes : list[cls.CLS]
-        The loaded CLS.
-
-    Examples
-    --------
-    >>> file = 'saved_shapes.csv'
-    >>> shapes = cls.load(file=file)
+    shapes : List[cls.CLS]
+        The loaded ``CLS``.
 
     """
-    csv = pd.read_csv(filepath_or_buffer=file, sep=',', header=0)
+    csv = pd.read_csv(filepath_or_buffer=file,
+                      sep=',',
+                      header=0)
 
     shapes = []
     for _, row in csv.iterrows():

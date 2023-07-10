@@ -8,50 +8,35 @@ if TYPE_CHECKING:
     from cls import CLS
 
 
-def save(shapes: List[CLS],
-         file: Union[str, bytes, PathLike]) -> None:
-    """Saves ``cls.CLS`` parameters to a csv file.
+def save(file: Union[str, bytes, PathLike],
+         shapes: List[CLS]) -> None:
+    """Saves ``CLS`` to a csv file.
 
     Parameters
     ----------
-    shapes : list[cls.CLS]
-        The CLS.
     file : {str, bytes, PathLike}
-        The csv file.
-
-    Examples
-    --------
-    >>> shape = cls.CLS()
-    >>> file = 'saved_shapes.csv'
-    >>> cls.save(shapes=[shape], file=file)
-
-    >>> shape1 = cls.CLS()
-    >>> shape2 = cls.CLS()
-    >>> shapes = [shape1, shape2]
-    >>> file = 'saved_shapes.csv'
-    >>> cls.save(shapes=shapes, file=file)
+        The file.
+    shapes : List[cls.CLS]
+        The CLS.
 
     """
     parameters = [shape.parameters for shape in shapes]
     csv = pd.DataFrame.from_records(parameters)
-    csv.to_csv(path_or_buf=file, header=True, index=False)
+    csv.to_csv(path_or_buf=file,
+               header=True,
+               index=False)
 
 
-def save_mesh(shape: CLS, file: Union[str, bytes, PathLike]) -> None:
-    """Saves ``cls.CLS`` mesh to an stl file.
+def save_mesh(file: Union[str, bytes, PathLike],
+              shape: CLS) -> None:
+    """Saves ``CLS`` mesh to an stl file.
 
     Parameters
     ----------
+    file : {str, bytes, PathLike}
+        The file.
     shape : cls.CLS
         The CLS.
-    file : {str, bytes, PathLike}
-        The stl file.
-
-    Examples
-    --------
-    >>> shape = cls.CLS()
-    >>> file = 'saved_mesh.stl'
-    >>> cls.save_mesh(shape=shape, file=file)
 
     """
     shape.mesh.save(filename=file)

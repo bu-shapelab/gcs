@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 def triangulate(shape: CLS) -> Union[np.ndarray, None]:
-    """Triangulates a ``cls.CLS``.
+    """Triangulates a ``CLS``.
 
     Parameters
     ----------
@@ -18,16 +18,8 @@ def triangulate(shape: CLS) -> Union[np.ndarray, None]:
 
     Returns
     -------
-    faces : (n_faces, 3) np.ndarray
+    faces : (N, 3) np.ndarray
         The faces.
-
-    Examples
-    --------
-    >>> shape = cls.CLS()
-    >>> triangles = cls.triangulate(shape=shape)
-
-    >>> shape = cls.CLS()
-    >>> triangles = shape.mesh
 
     """
     vertices = shape.vertices

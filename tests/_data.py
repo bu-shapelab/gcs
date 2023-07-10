@@ -6,15 +6,15 @@ TEST_CYLINDER_PARAMETERS = {
     'twist_linear': 0,
     'twist_amplitude': 0,
     'twist_period': 0,
-    'perimeter_ratio': 1,
+    'angle': 0,
     'height': 19,
     'mass': 3,
     'thickness': 0.48,
-    'density': 0.0012,
     'n_steps': 100,
     'd_theta': 0.01,
 }
 
+# ID: 4431
 TEST_1_PARAMETERS = {
     'c1_base': 0.165274665352508,
     'c2_base': 0.991647992115047,
@@ -23,15 +23,15 @@ TEST_1_PARAMETERS = {
     'twist_linear': 0,
     'twist_amplitude': 3.14159265358979,
     'twist_period': 2,
-    'perimeter_ratio': 3,
+    'angle': 66.5338056421408,
     'height': 19,
     'mass': 3.3,
     'thickness': 0.526315789473684,
-    'density': 0.0012,
     'n_steps': 100,
     'd_theta': 0.01,
 }
 
+# ID: 10663
 TEST_2_PARAMETERS = {
     'c1_base': 0.911368679743863,
     'c2_base': 0.0832226366494784,
@@ -40,11 +40,10 @@ TEST_2_PARAMETERS = {
     'twist_linear': 1.87396163183677,
     'twist_amplitude': 0,
     'twist_period': 0,
-    'perimeter_ratio': 1.44556747563271,
+    'angle': 20.0017655440006,
     'height': 19,
     'mass': 2.1,
     'thickness': 0.772337816605466,
-    'density': 0.0012,
     'n_steps': 100,
     'd_theta': 0.01,
 }

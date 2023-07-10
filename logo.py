@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from cls._utils._summed_cosine import _summed_cosine
+from cls.utils.summed_cosine import summed_cosine
 
 
 n_steps = 100
@@ -34,7 +34,7 @@ cmap = cm.get_cmap('plasma')
 fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
 
 for step in range(n_steps):
-    radii = np.apply_along_axis(func1d=_summed_cosine,
+    radii = np.apply_along_axis(func1d=summed_cosine,
                 axis=0,
                 arr=thetas + twists_linear[step] + twists_oscillating[step],
                 r0=r0s[step],

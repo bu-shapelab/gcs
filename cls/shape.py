@@ -6,6 +6,8 @@ import numpy as np
 from stl.mesh import Mesh
 import cls
 
+# The assumed material density
+MATERIAL_DENSITY = 0.0012 # g/mm^3
 
 class CLS:
     """The continuous line structure (CLS) class.
@@ -20,11 +22,10 @@ class CLS:
                  twist_linear: float,
                  twist_amplitude: float,
                  twist_period: float,
-                 perimeter_ratio: float,
+                 angle: float,
                  height: float,
                  mass: float,
                  thickness: float,
-                 density: float = 0.0012,
                  n_steps: int = 100,
                  d_theta: float = 0.01) -> None:
         """Initialize the CLS.
@@ -45,26 +46,19 @@ class CLS:
             The oscillating twist amplitude.
         twist_period : float
             The oscillating twist period.
-        perimeter_ratio : float
-            The top/base perimeter ratio.
+        angle : float
+            The angle (degrees) from the top to base when
+            ``c1_base=c2_base=c1_top=c2_top=0``.
         height : float
             The target height (mm).
         mass : float
             The target mass (g).
         thickness : float
             The wall thickness (mm).
-        density : float (default=0.0012)
-            The material density (g/mm^3)
         n_steps : int (default=100)
             The number of height discretization steps.
         d_theta : float (default=0.01)
             The angular discretization step size.
-
-        Examples
-        --------
-        >>> shape = cls.CLS()
-
-        >>> shape = cls.CLS(mass=3.3, thickness=0.83)
 
         """
         self._c1_base = c1_base
@@ -74,11 +68,10 @@ class CLS:
         self._twist_linear = twist_linear
         self._twist_amplitude = twist_amplitude
         self._twist_period = twist_period
-        self._perimeter_ratio = perimeter_ratio
+        self._angle = angle
         self._height = height
         self._mass = mass
         self._thickness = thickness
-        self._density = density
         self._n_steps = n_steps
         self._theta_step = d_theta
 
@@ -98,11 +91,10 @@ class CLS:
             'twist_linear': self._twist_linear,
             'twist_amplitude': self._twist_amplitude,
             'twist_period': self._twist_period,
-            'perimeter_ratio': self._perimeter_ratio,
+            'angle': self._angle,
             'height': self._height,
             'mass': self._mass,
             'thickness': self._thickness,
-            'density': self._density,
             'n_steps': self._n_steps,
             'd_theta': self._theta_step,
         }
@@ -140,8 +132,10 @@ class CLS:
         """The base perimeter.
 
         """
-        perimeter = (2 * self._mass) / \
-                    (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        angle = np.deg2rad(self._angle)
+        radius = self._mass / (2 * MATERIAL_DENSITY * np.pi * self._height * self._thickness) \
+                 - (self._height / 2) * np.tan(angle)
+        perimeter = 2 * np.pi * radius
         return perimeter
 
     @property
@@ -149,8 +143,10 @@ class CLS:
         """The top perimeter.
 
         """
-        perimeter = (2 * self._mass * self._perimeter_ratio) / \
-                    (self._density * self._height * self._thickness * (1 + self._perimeter_ratio))
+        angle = np.deg2rad(self._angle)
+        radius = self._mass / (2 * MATERIAL_DENSITY * np.pi * self._height * self._thickness) \
+                 + (self._height / 2) * np.tan(angle)
+        perimeter = 2 * np.pi * radius
         return perimeter
 
     @property
@@ -181,7 +177,7 @@ class CLS:
 
         References
         ----------
-        .. [1] Creating Mesh objects from a list of vertices and faces:
+        [1] Creating Mesh objects from a list of vertices and faces:
             https://pypi.org/project/numpy-stl/
 
         """

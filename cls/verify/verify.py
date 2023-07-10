@@ -9,9 +9,9 @@ if TYPE_CHECKING:
 
 def verify(shape: CLS,
            verbose: bool = False) -> bool:
-    """Performs all validity checks on a ``cls.CLS``.
+    """Performs all checks on a ``CLS``.
 
-    This check reduces the risk of print defects.
+    The checks reduces the risk of print defects.
 
     Parameters
     ----------
@@ -23,17 +23,15 @@ def verify(shape: CLS,
     Returns
     -------
     valid : bool
-        `True` if ``shape`` is valid.
-
-    Examples
-    --------
-    >>> shape = cls.CLS()
-    >>> valid = cls.verify_base_perimeter(shape=shape)
+        `True` if ``shape`` passes all checks.
 
     """
-    valid = True
-    if verify_base_perimeter(shape=shape, verbose=verbose) is False:
-        valid = False
-    elif verify_radius(shape=shape, verbose=verbose) is False:
-        valid = False
+    valid = verify_base_perimeter(shape=shape,
+                                  verbose=verbose)
+    if not valid:
+        return valid
+
+    valid = verify_radius(shape=shape,
+                          verbose=verbose)
+
     return valid

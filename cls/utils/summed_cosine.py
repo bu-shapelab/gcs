@@ -5,11 +5,11 @@ from scipy.optimize import minimize
 from scipy.integrate import simpson
 
 
-def _summed_cosine(theta: float,
-                   r0: float,
-                   c1: float,
-                   c2: float) -> float:
-    """The summed cosine polar equation.
+def summed_cosine(theta: float,
+                  r0: float,
+                  c1: float,
+                  c2: float) -> float:
+    """Summed cosine polar equation.
 
     Parameters
     ----------
@@ -25,25 +25,24 @@ def _summed_cosine(theta: float,
     Returns
     -------
     radius : float
-        The radius
+        The radius.
 
     References
     ----------
-    .. [1] Overvelde and Bertoldi, *Relating pore shape to the non-linear response of periodic
-           elastomeric structures*, Journal of the Mechanics and Physics of Solids, 2014
+    [1] Overvelde and Bertoldi, *Relating pore shape to the non-linear response of periodic
+        elastomeric structures*, Journal of the Mechanics and Physics of Solids, 2014,
+        https://doi.org/10.1016/j.jmps.2013.11.014.
 
     """
     radius = r0 * (1 + c1 * np.cos(4 * theta) + c2 * np.cos(8 * theta))
     return radius
 
 
-def _arc_length(r0: float,
+def arc_length(r0: float,
                 c1: float,
                 c2: float,
                 n_steps: int) -> float:
-    """Approximate arc length of a summed cosine polar equation.
-
-    Simpson's rule is used to numerically calculate the arc length.
+    """Approximate arc length of a summed cosine polar equation using Simpson's rule.
 
     Parameters
     ----------
@@ -54,7 +53,7 @@ def _arc_length(r0: float,
     c2 : float
         The 8-lobe parameter.
     n_steps : float
-        The number of step to discritize the summed cosine equation.
+        The number of angular discritization steps.
 
     Returns
     -------
@@ -63,30 +62,31 @@ def _arc_length(r0: float,
 
     References
     ----------
-    .. [1] Wikipedia page: https://en.wikipedia.org/wiki/Arc_length
-    .. [2] Wikipedia page: https://en.wikipedia.org/wiki/Simpson%27s_rule
-    .. [3] Wikipedia page: https://en.wikipedia.org/wiki/Line_element
+    [1] Wikipedia page: https://en.wikipedia.org/wiki/Arc_length
+    [2] Wikipedia page: https://en.wikipedia.org/wiki/Simpson%27s_rule
+    [3] Wikipedia page: https://en.wikipedia.org/wiki/Line_element
 
     """
     theta = np.linspace(0, 2 * np.pi, n_steps)
-    radii = np.apply_along_axis(_summed_cosine,
-                                axis=0,
-                                arr=theta,
-                                r0=r0,
-                                c1=c1,
-                                c2=c2)
+    radius = np.apply_along_axis(summed_cosine,
+                                 axis=0,
+                                 arr=theta,
+                                 r0=r0,
+                                 c1=c1,
+                                 c2=c2)
 
     d_radius_d_theta = -4 * r0 * \
         (c1 * np.sin(4 * theta) + 2 * c2 * np.sin(8 * theta))
 
-    arc_length_element = np.sqrt(d_radius_d_theta ** 2 + radii ** 2)
+    arc_length_element = np.sqrt(d_radius_d_theta ** 2 + radius ** 2)
 
-    integral = simpson(y=arc_length_element, x=theta)
+    integral = simpson(y=arc_length_element,
+                       x=theta)
 
     return integral
 
 
-def _optimal_scaling_factor(length: float,
+def optimal_scaling_factor(length: float,
                             c1: float,
                             c2: float,
                             n_steps: int) -> float:
@@ -95,13 +95,13 @@ def _optimal_scaling_factor(length: float,
     Parameters
     ----------
     length : float
-        The desired arc length for the summed cosine curve.
+        The arc length.
     c1 : float
         The 4-lobe parameter.
     c2 : float
         The 8-lobe parameter.
     n_steps : float
-        The number of step to discritize the summed cosine equation.
+        The number of angular discritization steps.
 
     Returns
     -------
@@ -116,10 +116,10 @@ def _optimal_scaling_factor(length: float,
         """
         # when passed in by minimizer, r0 is a singleton
         r0 = r0.item()
-        curr_length = _arc_length(r0=r0,
-                                  c1=c1,
-                                  c2=c2,
-                                  n_steps=n_steps)
+        curr_length = arc_length(r0=r0,
+                                 c1=c1,
+                                 c2=c2,
+                                 n_steps=n_steps)
         error = abs(length - curr_length)
         return error
 

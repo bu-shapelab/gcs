@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 import numpy as np
-from cls._utils import _optimal_scaling_factor, _summed_cosine
+from cls.utils import optimal_scaling_factor, summed_cosine
 
 if TYPE_CHECKING:
     from cls import CLS
@@ -15,8 +15,8 @@ def verify_radius(shape: CLS,
                   verbose: bool = False) -> bool:
     """Checks if the ``cls.CLS`` minimum radius is valid.
 
-    This check reduces the risk of print defects by ensuring ``cls.CLS``
-    have sufficiently large radii.
+    This check reduces the risk of print defects by ensuring a ``CLS``
+    print paths are well spaced.
 
     Parameters
     ----------
@@ -28,12 +28,7 @@ def verify_radius(shape: CLS,
     Returns
     -------
     valid : bool
-       `True` if ``shape`` has a valid radii.
-
-    Examples
-    --------
-    >>> shape = cls.CLS()
-    >>> valid = cls.verify_radius(shape=shape)
+       `True` if ``shape`` passes the radius check.
 
     """
     parameters = shape.parameters
@@ -42,12 +37,12 @@ def verify_radius(shape: CLS,
                        stop=2 * np.pi,
                        step=parameters['d_theta'])
 
-    r0_base = _optimal_scaling_factor(length=shape.base_perimeter,
-                                      c1=parameters['c1_base'],
-                                      c2=parameters['c2_base'],
-                                      n_steps=thetas.size)
+    r0_base = optimal_scaling_factor(length=shape.base_perimeter,
+                                     c1=parameters['c1_base'],
+                                     c2=parameters['c2_base'],
+                                     n_steps=thetas.size)
 
-    radii_base = np.apply_along_axis(func1d=_summed_cosine,
+    radii_base = np.apply_along_axis(func1d=summed_cosine,
                                      axis=0,
                                      arr=thetas,
                                      r0=r0_base,
@@ -59,12 +54,12 @@ def verify_radius(shape: CLS,
             print(f'minimum base radius ({np.min(radii_base)}) is less then {MIN_RADIUS}.')
         return False
 
-    r0_top = _optimal_scaling_factor(length=shape.top_perimeter,
-                                     c1=parameters['c1_top'],
-                                     c2=parameters['c2_top'],
-                                     n_steps=thetas.size)
+    r0_top = optimal_scaling_factor(length=shape.top_perimeter,
+                                    c1=parameters['c1_top'],
+                                    c2=parameters['c2_top'],
+                                    n_steps=thetas.size)
 
-    radii_top = np.apply_along_axis(func1d=_summed_cosine,
+    radii_top = np.apply_along_axis(func1d=summed_cosine,
                                     axis=0,
                                     arr=thetas,
                                     r0=r0_top,
