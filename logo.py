@@ -1,3 +1,6 @@
+"""Create svg of package logo.
+
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -7,8 +10,8 @@ from gcs.utils.summed_cosine import summed_cosine
 n_steps = 100
 
 thetas = np.arange(start=0,
-                  stop=2 * np.pi,
-                  step=0.01)
+                   stop=2 * np.pi,
+                   step=0.01)
 
 c1s = np.linspace(start=0.5,
                   stop=0.2,
@@ -29,17 +32,17 @@ twists_oscillating = 0.8 * np.sin(np.linspace(start=0,
 color_steps = np.linspace(start=0,
                           stop=1,
                           num=n_steps)
-cmap = cm.get_cmap('plasma')
-
+cmap = cm.get_cmap()
 fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
 
 for step in range(n_steps):
     radii = np.apply_along_axis(func1d=summed_cosine,
-                axis=0,
-                arr=thetas + twists_linear[step] + twists_oscillating[step],
-                r0=r0s[step],
-                c1=c1s[step],
-                c2=c2s[step])
+                                axis=0,
+                                arr=thetas +
+                                twists_linear[step] + twists_oscillating[step],
+                                r0=r0s[step],
+                                c1=c1s[step],
+                                c2=c2s[step])
     ax.fill(thetas, radii, color=cmap(color_steps[step]))
 
 ax.axis('off')

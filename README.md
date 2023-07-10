@@ -1,8 +1,11 @@
-# GCS # TODO: UPDATE
+# GCS
 
-![gcs Spashscreen](misc/images/splashscreen.jpeg)
+| [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
+|--------------------|-------------|--------------|-------------------|
 
-Simple library for creating continuous line structures (GCS). The library provides
+![gcs Spashscreen](misc/images/logo.svg)
+
+GCS is a Python library for creating continuous line structures (GCS). The library provides
 
 1. An object representing a continuous line structure.
 
@@ -12,83 +15,52 @@ Simple library for creating continuous line structures (GCS). The library provid
 
 These instructions will get you a copy of ``gcs`` up and running on your local machine.
 
-### Prerequisites
-
-You will need to install the following software:
-
-* [Conda](https://docs.conda.io/en/latest/)
-
-### Installation
-
-1. Clone the repository.
-
-    ```bash
-    git clone https://github.com/samsilverman/gcs.git
-    ```
-
-2. Create the conda environment.
-
-    ```bash
-    conda env create --file /path/to/gcs/gcs.yml
-    ```
-
-    **NOTE**: To use an existing conda environment instead of the ``gcs`` conda environment, run:
-
-    ```bash
-    conda env update --name [env_name] --file /path/to/gcs/gcs.yml --prune
-    ```
-
-    For step 3, use the existing conda environment.
-
-3. Activate the conda environment.
-
-    ```bash
-    conda activate gcs
-    ```
-
-    **NOTE**: To deactivate the environment, run:
-
-    ```bash
-    conda deactivate gcs
-    ```
-
-4. Locally install ``gcs`` with pip:
-
-    ```bash
-    pip install /path/to/gcs/
-    ```
-
-## Usage
-
-Documentation is available in docstrings provided with the code.
-
-The docstring examples assume that ``gcs`` has been imported:
-
-```python
->>> import gcs
-```
-
-The following are available subpackages within ``gcs``
-
-* ``io``
-  * Functions for loading/saving GCS shapes.
-
-* ``verify``
-  * Functions for verifying the validity of GCS shapes.
-
-* ``random``
-  * Functions for generating random GCS shapes.
-
-## Testing
-
-To test, run
+## Installation
 
 ```bash
-python -m pytest
+pip install gcs
 ```
+
+### Requirements
+
+* [bentley-ottmann](https://pypi.org/project/bentley-ottmann/) (version: 7.3.0)
+* [numpy](https://pypi.org/project/numpy/) (version: 1.21.5 or higher)
+* [numpy-stl](https://pypi.org/project/numpy-stl/) (version: 2.17.1 or higher)
+* [pandas](https://pypi.org/project/pandas/) (version: 1.4.1 or higher)
+* [scipy](https://pypi.org/project/scipy/) (version: 1.7.3 or higher)
+
+## Contributing
+
+1. Fork the project.
+
+2. Create your feature branch:
+
+    ```bash
+    git checkout -b feature/NewFeature
+    ```
+
+3. Commit your changes:
+
+    ```bash
+    git commit -m 'Add a new feature.'
+    ```
+
+4. Run the unit tests:
+
+    ```bash
+    python -m pytest
+    ```
+
+5. Push to the branch:
+
+    ```bash
+    git push origin feature/NewFeature
+    ```
+
+6. Open a pull request.
 
 ## Contact
 
 Maintainers:
 
-* Sam Silverman - [@sam_silverman](https://twitter.com/sam_silverman) - [sssilver@bu.edu](mailto:sssilver@bu.edu)
+* Sam Silverman - [sssilver@bu.edu](mailto:sssilver@bu.edu)
