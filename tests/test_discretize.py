@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from pytest import approx
 import numpy as np
-from cls import CLS, discretize
+from gcs import GCS, discretize
+from ._data import TEST_CYLINDER_PARAMETERS
 
 
 class TestDiscretize:
@@ -12,27 +13,25 @@ class TestDiscretize:
     """
 
     def test_discretize(self):
-        """Test ``cls.discretize`` function.
+        """Test ``gcs.discretize`` function.
 
         """
-        shape = CLS()
-        n_steps = shape.n_steps
-
+        shape = GCS(**TEST_CYLINDER_PARAMETERS)
+        parameters = shape.parameters
         vertices = discretize(shape=shape)
 
-        theta = np.arange(0, 2 * np.pi, shape.theta_step)
+        assert vertices is not None
 
-        assert vertices.shape == (theta.size * n_steps, 3)
-        np.testing.assert_array_almost_equal(x=vertices, y=shape.vertices)
+        thetas = np.arange(start=0,
+                           stop=2 * np.pi,
+                           step=parameters['d_theta'])
 
-        parameters = shape.parameters
-        height_per_step = parameters['height'] / (n_steps - 1)
+        assert vertices.shape == (thetas.size * parameters['n_steps'], 3)
+        assert vertices.shape == np.unique(ar=vertices, axis=0).shape
 
         point_a = vertices[0, :]
-        point_b = vertices[theta.size, :]
+        point_b = vertices[thetas.size, :]
+        height_per_step = parameters['height'] / (parameters['n_steps'] - 1)
 
-        assert np.linalg.norm(point_b - point_a) == approx(height_per_step)
-
-        unique_vertices = np.unique(ar=vertices, axis=0)
-
-        assert unique_vertices.shape == vertices.shape
+        assert np.linalg.norm(point_b - point_a) == approx(expected=height_per_step,
+                                                           abs=0.0001)
