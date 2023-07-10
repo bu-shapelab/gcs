@@ -11,6 +11,8 @@ GCS is a Python library for creating generalized cylindrical shells (GCS). The l
 
 2. Operations on GCS structures.
 
+![GCS examples](misc/images/examples.jpeg)
+
 ## Getting Started
 
 These instructions will get you a copy of ``gcs`` up and running on your local machine.
