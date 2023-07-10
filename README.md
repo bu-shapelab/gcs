@@ -2,12 +2,8 @@
   <img src="misc/images/logo.jpeg" width="400">
 </h1>
 
-<center>
-
 | [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
 |--------------------|-------------|--------------|-------------------|
-
-</center>
 
 GCS is a Python library for creating generalized cylindrical shells (GCS). The library provides
 
