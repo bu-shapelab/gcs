@@ -20,10 +20,10 @@ GCS are parameterized by 11 values:
 | `twist_linear` | The linear twist. | - |
 | `twist_amplitude` | The oscillating twist amplitude. | - |
 | `twist_period` | The oscillating twist period. | - |
-| `angle` | The angle from the top to base. | $\text{degrees}$ |
-| `height` | The height. | $\text{mm}$ |
-| `mass` | The mass. | $\text{g}$ |
-| `thickness` | The wall thickness. | $\text{mm}$ |
+| `angle` | The angle from the top to base. | degrees |
+| `height` | The height. | mm |
+| `mass` | The mass. | g |
+| `thickness` | The wall thickness. | mm |
 
 **Note**: Visit the [documentation](https://github.com/samsilverman/gcs/wiki) for detailed descriptions and visualizations of each parameter.
 
