@@ -4,7 +4,7 @@ setup(
     name='gcs',
     packages=find_packages(),
     version='1.0.0',
-    description='Continuous line structure library for Python.',
+    description='Generalized cylindrical shell library for Python.',
     author='Samuel Silverman',
     license='',
     author_email='sssilver@bu.edu',
