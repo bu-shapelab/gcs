@@ -5,13 +5,27 @@
 | [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
 |--------------------|-------------|--------------|-------------------|
 
-GCS is a Python library for creating generalized cylindrical shells (GCS). The library provides
-
-1. An object representing GCS structures.
-
-2. Operations on GCS structures.
+`gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
 ![GCS examples](misc/images/examples.jpeg)
+
+GCS are parameterized by 11 values:
+
+| Syntax | Description | Units |
+| - | - | - |
+| `c1_base` | The base $4$-lobe parameter. | - |
+| `c2_base` | The base $8$-lobe parameter. | - |
+| `c1_top` | The top $4$-lobe parameter. | -
+| `c2_top` | The top $8$-lobe parameter. | - |
+| `twist_linear` | The linear twist. | - |
+| `twist_amplitude` | The oscillating twist amplitude. | - |
+| `twist_period` | The oscillating twist period. | - |
+| `angle` | The angle from the top to base. | degrees |
+| `height` | The height. | mm |
+| `mass` | The mass. | g |
+| `thickness` | The wall thickness. | mm |
+
+**Note**: Visit the [documentation](https://github.com/samsilverman/gcs/wiki) for detailed descriptions and visualizations of each parameter.
 
 ## Getting Started
 

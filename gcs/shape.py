@@ -50,9 +50,9 @@ class GCS:
             The angle (degrees) from the top to base when
             ``c1_base=c2_base=c1_top=c2_top=0``.
         height : float
-            The target height (mm).
+            The height (mm).
         mass : float
-            The target mass (g).
+            The mass (g).
         thickness : float
             The wall thickness (mm).
         n_steps : int (default=100)
@@ -218,9 +218,9 @@ class Cylinder(GCS):
         Parameters
         ----------
         height : float
-            The target height (mm).
+            The height (mm).
         mass : float
-            The target mass (g).
+            The mass (g).
         thickness : float
             The wall thickness (mm).
         n_steps : int (default=100)
