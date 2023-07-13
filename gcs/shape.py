@@ -22,7 +22,7 @@ class GCS:
                  twist_linear: float,
                  twist_amplitude: float,
                  twist_period: float,
-                 angle: float,
+                 perimeter_ratio: float,
                  height: float,
                  mass: float,
                  thickness: float,
@@ -46,9 +46,8 @@ class GCS:
             The oscillating twist amplitude.
         twist_period : float
             The oscillating twist period.
-        angle : float
-            The angle (degrees) from the top to base when
-            ``c1_base=c2_base=c1_top=c2_top=0``.
+        perimeter_ratio : float
+            The ratio between the top and base perimeters.
         height : float
             The height (mm).
         mass : float
@@ -72,7 +71,7 @@ class GCS:
         self._twist_linear = twist_linear
         self._twist_amplitude = twist_amplitude
         self._twist_period = twist_period
-        self._angle = angle
+        self._perimeter_ratio = perimeter_ratio
         self._height = height
         self._mass = mass
         self._thickness = thickness
@@ -95,7 +94,7 @@ class GCS:
             'twist_linear': self._twist_linear,
             'twist_amplitude': self._twist_amplitude,
             'twist_period': self._twist_period,
-            'angle': self._angle,
+            'perimeter_ratio': self._perimeter_ratio,
             'height': self._height,
             'mass': self._mass,
             'thickness': self._thickness,
@@ -136,10 +135,8 @@ class GCS:
         """The base perimeter (mm).
 
         """
-        angle = np.deg2rad(self._angle)
-        radius = self._mass / (2 * MATERIAL_DENSITY * np.pi * self._height * self._thickness) \
-            - (self._height / 2) * np.tan(angle)
-        perimeter = 2 * np.pi * radius
+        perimeter = (2 * self._mass) / \
+            (MATERIAL_DENSITY * self._height * self._thickness * (1 + self._perimeter_ratio))
         return perimeter
 
     @property
@@ -147,10 +144,8 @@ class GCS:
         """The top perimeter (mm).
 
         """
-        angle = np.deg2rad(self._angle)
-        radius = self._mass / (2 * MATERIAL_DENSITY * np.pi * self._height * self._thickness) \
-            + (self._height / 2) * np.tan(angle)
-        perimeter = 2 * np.pi * radius
+        perimeter = (2 * self._mass * self._perimeter_ratio) / \
+            (MATERIAL_DENSITY * self._height * self._thickness * (1 + self._perimeter_ratio))
         return perimeter
 
     @property
@@ -240,7 +235,7 @@ class Cylinder(GCS):
                          twist_linear=0,
                          twist_amplitude=0,
                          twist_period=0,
-                         angle=0,
+                         perimeter_ratio=1,
                          height=height,
                          mass=mass,
                          thickness=thickness,
