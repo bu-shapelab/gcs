@@ -1,0 +1,26 @@
+[report]
+fail_under = 100
+
+; Regexes for lines to exclude from consideration
+exclude_also =
+    ; Don't complain if non-runnable code isn't run:
+    if TYPE_CHECKING:
+      
+    ; Don't compain about __str__ methods:
+    def __str__
+
+    ; Don't complain about verbosity mode
+    if verbose:
+
+; When running a summary report, show missing lines.
+show_missing = True
+
+; Don't report files that have no executable code (such as __init__.py files).
+skip_empty = True
+
+; Don't report files that are 100% covered.
+skip_covered = True
+
+[run]
+source = gcs 
+branch = True

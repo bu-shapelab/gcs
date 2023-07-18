@@ -34,12 +34,12 @@ def verify(shape: GCS,
     >>> check = shape.valid
 
     """
-    valid = verify_base_perimeter(shape=shape,
-                                  verbose=verbose)
-    if not valid:
-        return valid
+    valid_base = verify_base_perimeter(shape=shape,
+                                       verbose=verbose)
 
-    valid = verify_radius(shape=shape,
+    valid_radius = verify_radius(shape=shape,
                           verbose=verbose)
+
+    valid = valid_base and valid_radius
 
     return valid

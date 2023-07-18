@@ -38,9 +38,8 @@ def verify_base_perimeter(shape: GCS,
 
     """
     perimeter = shape.base_perimeter
-    valid = True
-    if perimeter < MIN_BASE_PERIMETER:
-        if verbose:
+    valid = perimeter >= MIN_BASE_PERIMETER
+    if verbose:
+        if not valid:
             print(f'base perimeter ({perimeter}) is less then {MIN_BASE_PERIMETER}.')
-        valid = False
     return valid

@@ -1,10 +1,6 @@
-# VS Code stuff
-.vscode/
-
-# Python stuff
+.coverage
+.DS_Store
+*.egg-info/
 __pycache__/
 .pytest_cache/
-*.egg-info/
-
-# Mac stuff
-.DS_Store
+.vscode/
