@@ -1,6 +1,6 @@
 """
 Generalized Cylindrical Shells
-===
+==============================
 
 Provides
   1. An object representing generalized cylindrical shell (GCS) structures.

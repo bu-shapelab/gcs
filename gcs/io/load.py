@@ -2,15 +2,14 @@ from __future__ import annotations
 
 from typing import Union, TYPE_CHECKING, List
 import pandas as pd
-
-from gcs import GCS
+import gcs
 
 if TYPE_CHECKING:
     from os import PathLike
 
 
-def load(file: Union[str, bytes, PathLike]) -> List[GCS]:
-    """Loads ``GCS`` from a csv file.
+def load(file: Union[str, bytes, PathLike]) -> List[gcs.GCS]:
+    """Loads GCS from a csv file.
 
     Parameters
     ----------
@@ -20,7 +19,7 @@ def load(file: Union[str, bytes, PathLike]) -> List[GCS]:
     Returns
     -------
     shapes : List[gcs.GCS]
-        The loaded ``GCS``.
+        The loaded GCS.
 
     Examples
     --------
@@ -34,7 +33,7 @@ def load(file: Union[str, bytes, PathLike]) -> List[GCS]:
     shapes = []
     for _, row in csv.iterrows():
         parameters = row.to_dict()
-        shape = GCS(**parameters)
+        shape = gcs.GCS(**parameters)
         shapes.append(shape)
 
     return shapes

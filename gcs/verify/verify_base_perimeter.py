@@ -3,18 +3,18 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from gcs import GCS
+    import gcs
 
 # Minimum base perimeter (mm)
 MIN_BASE_PERIMETER = 30
 
 
-def verify_base_perimeter(shape: GCS,
+def verify_base_perimeter(shape: gcs.GCS,
                           verbose: bool = False) -> bool:
-    """Checks if the ``GCS`` base perimeter is valid.
+    """Checks if the GCS base perimeter is valid.
 
-    This check reduces the risk of print defects by ensuring a ``GCS``
-    has a sufficiently large base for adhesion.
+    This check reduces the risk of print defects by ensuring
+    a sufficiently large base for adhesion.
 
     Parameters
     ----------

@@ -4,12 +4,12 @@ from typing import TYPE_CHECKING
 from gcs.verify import verify_base_perimeter, verify_radius
 
 if TYPE_CHECKING:
-    from gcs import GCS
+    import gcs
 
 
-def verify(shape: GCS,
+def verify(shape: gcs.GCS,
            verbose: bool = False) -> bool:
-    """Performs all checks on a ``GCS``.
+    """Performs all checks on a GCS.
 
     The checks reduces the risk of print defects.
 

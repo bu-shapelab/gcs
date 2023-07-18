@@ -176,8 +176,7 @@ class GCS:
 
         References
         ----------
-        [1] Creating Mesh objects from a list of vertices and faces:
-            https://pypi.org/project/numpy-stl/
+        .. [1] https://github.com/wolph/numpy-stl/tree/develop#creating-mesh-objects-from-a-list-of-vertices-and-faces
 
         """
         vertices = self.vertices

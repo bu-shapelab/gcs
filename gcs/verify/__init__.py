@@ -9,7 +9,9 @@ Verifying GCS
 -------------
 
    verify
+
    verify_base_perimeter
+
    verify_radius
 
 """

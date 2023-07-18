@@ -5,18 +5,18 @@ import numpy as np
 from gcs.utils import optimal_scaling_factor, summed_cosine
 
 if TYPE_CHECKING:
-    from gcs import GCS
+    import gcs
 
 # Minimum radius (mm)
 MIN_RADIUS = 0.01
 
 
-def verify_radius(shape: GCS,
+def verify_radius(shape: gcs.GCS,
                   verbose: bool = False) -> bool:
-    """Checks if the ``gcs.GCS`` minimum radius is valid.
+    """Checks if the GCS minimum radius is valid.
 
-    This check reduces the risk of print defects by ensuring a ``GCS``
-    print paths are well spaced.
+    This check reduces the risk of print defects by ensuring print
+    paths are well spaced.
 
     Parameters
     ----------

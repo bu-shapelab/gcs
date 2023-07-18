@@ -6,11 +6,11 @@ from gcs.utils import summed_cosine, optimal_scaling_factor
 from gcs.utils import pol2cart
 
 if TYPE_CHECKING:
-    from gcs import GCS
+    import gcs
 
 
-def discretize(shape: GCS) -> np.ndarray:
-    """Discretizes a ``GCS``.
+def discretize(shape: gcs.GCS) -> np.ndarray:
+    """Discretizes a GCS.
 
     Parameters
     ----------

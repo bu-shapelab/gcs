@@ -5,11 +5,11 @@ import numpy as np
 
 
 if TYPE_CHECKING:
-    from gcs import GCS
+    import gcs
 
 
-def triangulate(shape: GCS) -> np.ndarray:
-    """Triangulates a ``GCS``.
+def triangulate(shape: gcs.GCS) -> np.ndarray:
+    """Triangulates a GCS.
 
     Parameters
     ----------
