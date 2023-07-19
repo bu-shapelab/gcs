@@ -37,7 +37,7 @@ def save(file: Union[str, bytes, PathLike],
 
 
 def save_mesh(file: Union[str, bytes, PathLike],
-              shape: gcs,GCS) -> None:
+              shape: gcs.GCS) -> None:
     """Saves GCS mesh to an stl file.
 
     Parameters
