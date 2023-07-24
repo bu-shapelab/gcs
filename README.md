@@ -35,7 +35,7 @@ GCS are parameterized by 11 values:
 
 ### `twist_linear`, `twist_amplitude`, and `twist_period` Relationship
 
-![twist relationship](misc/images/twist.svg) |
+![twist relationship](misc/images/twist.svg)
 
 ## Download
 
