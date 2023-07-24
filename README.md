@@ -2,8 +2,10 @@
   <img src="misc/images/logo.jpeg" width="400">
 </h1>
 
-| [Explore the Docs 📚](https://github.com/samsilverman/gcs/wiki) | [Read the Paper 📖](https://github.com/samsilverman/gcs/) | [Report a Bug 🐛](https://github.com/samsilverman/gcs/issues) | [Request a Feature 💻](https://github.com/samsilverman/gcs/issues) |
-|--------------------|-------------|--------------|-------------------|
+![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)
+![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=green)
+![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=green)
+![Read the Paper](https://img.shields.io/static/v1.svg?label=DOI&message=TODO&color=blue)
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
@@ -25,13 +27,17 @@ GCS are parameterized by 11 values:
 | `mass` | The mass (g). |
 | `thickness` | The wall thickness (mm). |
 
-**Note**: Visit the [documentation](https://github.com/samsilverman/gcs/wiki) for detailed descriptions and visualizations of each parameter.
+### `c1` and `c2` Relationship
 
-## Getting Started
+![c1 & c2 relationship](misc/images/cs.svg)
 
-These instructions will get you a copy of ``gcs`` up and running on your local machine.
+* Adopted from [*Overvelde and Bertoldi, 2014*](https://doi.org/10.1016/j.jmps.2013.11.014)
 
-## Installation
+### `twist_linear`, `twist_amplitude`, and `twist_period` Relationship
+
+![twist relationship](misc/images/twist.svg) |
+
+## Download
 
 ```bash
 pip install gcs
@@ -42,51 +48,20 @@ pip install gcs
 * [bentley-ottmann](https://pypi.org/project/bentley-ottmann/) (version: 7.3.0)
 * [numpy](https://pypi.org/project/numpy/) (version: 1.21.5 or higher)
 * [numpy-stl](https://pypi.org/project/numpy-stl/) (version: 2.17.1 or higher)
+* [matplotlib](https://pypi.org/project/matplotlib/) (version: 3.5.1 or higher)
 * [pandas](https://pypi.org/project/pandas/) (version: 1.4.1 or higher)
 * [scipy](https://pypi.org/project/scipy/) (version: 1.7.3 or higher)
 
 ## Contributing
 
-1. Fork the project.
+The contribution guidelines can be found in [CONTRIBUTING.md](https://github.com/samsilverman/gcs/CONTRIBUTING.md).
 
-2. Create your feature branch:
-
-    ```bash
-    git checkout -b feature/NewFeature
-    ```
-
-3. Commit your changes:
-
-    ```bash
-    git commit -m 'Add a new feature.'
-    ```
-
-4. Run the unit tests:
-
-    ```bash
-    python -m pytest
-    ```
-
-5. Push to the branch:
-
-    ```bash
-    git push origin feature/NewFeature
-    ```
-
-6. Open a pull request.
-
-## Contact
-
-Maintainers:
+## Maintainers
 
 * [Sam Silverman](https://github.com/samsilverman/) - [sssilver@bu.edu](mailto:sssilver@bu.edu)
 
-## Acknowledgements
+## Citation
 
-* [Best README Template](https://github.com/othneildrew/Best-README-Template)
-
-### Original Contributors
-
-* [Sam Silverman](https://github.com/samsilverman/) - [sssilver@bu.edu](mailto:sssilver@bu.edu)
-* [Kelsey Snapp](https://github.com/KelseyEng/) - [ksnapp@bu.edu](mailto:ksnapp@bu.edu)
-* [Benjamin Verdier](https://github.com/BenjaminVerdier)
+```text
+TODO
+```
