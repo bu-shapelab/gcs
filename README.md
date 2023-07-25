@@ -53,7 +53,7 @@ pip install gcs
 
 ## Contributing
 
-The contribution guidelines can be found in [CONTRIBUTING.md](https://github.com/bu-shapelab/gcs/CONTRIBUTING.md).
+The contribution guidelines can be found in [CONTRIBUTING.md](https://github.com/bu-shapelab/gcs/blob/main/CONTRIBUTING.md).
 
 ## Maintainers
 
