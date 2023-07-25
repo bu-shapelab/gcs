@@ -1,17 +1,39 @@
+from pathlib import Path
 from setuptools import setup, find_packages
+
 
 setup(
     name='gcs',
-    packages=find_packages(),
     version='1.0.0',
     description='Generalized cylindrical shell library for Python.',
-    author='Samuel Silverman',
-    license='',
-    author_email='sssilver@bu.edu',
-    url='https://github.com/samsilverman/gcs',
-    keywords=[],
+    long_description=Path('README.md').read_text(encoding='utf-8'),
+    long_description_content_type='text/markdown',
+    author='Kelsey L. Snapp et al.',
+    maintainer='Samuel Silverman',
+    maintainer_email='sssilver@bu.edu',
+    url='https://github.com/bu-shapelab/gcs',
+    download_url='https://pypi.python.org/pypi/gcs',
+    project_urls={
+            'Bug Tracker': 'https://github.com/bu-shapelab/gcs/issues',
+            'Documentation': 'TODO',
+            'Source Code': 'https://github.com/bu-shapelab/gcs',
+    },
+    license='MIT',
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Multimedia :: Graphics :: 3D Modeling',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Typing :: Typed',
+    ],
     python_requires='>=3.6',
-    classifiers=[],
+    packages=find_packages(exclude=['tests*']),
     install_requires=[
         'bentley-ottmann==7.3.0',
         'numpy>=1.21.5',
@@ -19,7 +41,5 @@ setup(
         'pandas>=1.4.1',
         'scipy>=1.7.3',
     ],
-    tests_require=[
-        'pytest',
-    ],
+    test_suite='pytest',
 )
