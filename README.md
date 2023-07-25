@@ -2,10 +2,10 @@
   <img src="misc/images/logo.jpeg" width="400">
 </h1>
 
-![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)
-![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=green)
-![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=green)
-![Read the Paper](https://img.shields.io/static/v1.svg?label=DOI&message=TODO&color=blue)
+[![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)](TODO)
+[![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=green)](https://github.com/bu-shapelab/gcs/issues)
+[![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=green)](https://github.com/bu-shapelab/gcs/issues)
+[![Read the Paper](https://img.shields.io/static/v1.svg?label=DOI&message=TODO&color=blue)](TODO)
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
@@ -48,7 +48,6 @@ pip install gcs
 * [bentley-ottmann](https://pypi.org/project/bentley-ottmann/) (version: 7.3.0)
 * [numpy](https://pypi.org/project/numpy/) (version: 1.21.5 or higher)
 * [numpy-stl](https://pypi.org/project/numpy-stl/) (version: 2.17.1 or higher)
-* [matplotlib](https://pypi.org/project/matplotlib/) (version: 3.5.1 or higher)
 * [pandas](https://pypi.org/project/pandas/) (version: 1.4.1 or higher)
 * [scipy](https://pypi.org/project/scipy/) (version: 1.7.3 or higher)
 
