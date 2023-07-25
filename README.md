@@ -9,7 +9,7 @@
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
-![GCS examples](misc/images/examples.jpeg)
+![GCS examples](https://github.com/bu-shapelab/gcs/blob/main/misc/images/examples.jpeg)
 
 GCS are parameterized by 11 values:
 
