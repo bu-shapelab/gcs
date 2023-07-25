@@ -5,12 +5,12 @@ import pandas as pd
 
 if TYPE_CHECKING:
     from os import PathLike
-    from gcs import GCS
+    import gcs
 
 
 def save(file: Union[str, bytes, PathLike],
-         shapes: List[GCS]) -> None:
-    """Saves ``GCS`` to a csv file.
+         shapes: List[gcs.GCS]) -> None:
+    """Saves GCS to a csv file.
 
     Parameters
     ----------
@@ -37,8 +37,8 @@ def save(file: Union[str, bytes, PathLike],
 
 
 def save_mesh(file: Union[str, bytes, PathLike],
-              shape: GCS) -> None:
-    """Saves ``GCS`` mesh to an stl file.
+              shape: gcs.GCS) -> None:
+    """Saves GCS mesh to an stl file.
 
     Parameters
     ----------

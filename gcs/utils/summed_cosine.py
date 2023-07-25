@@ -29,7 +29,7 @@ def summed_cosine(theta: float,
 
     References
     ----------
-    [1] Overvelde and Bertoldi, *Relating pore shape to the non-linear response of periodic
+    .. [1] Overvelde and Bertoldi, *Relating pore shape to the non-linear response of periodic
         elastomeric structures*, Journal of the Mechanics and Physics of Solids, 2014,
         https://doi.org/10.1016/j.jmps.2013.11.014.
 
@@ -62,9 +62,9 @@ def arc_length(r0: float,
 
     References
     ----------
-    [1] Wikipedia page: https://en.wikipedia.org/wiki/Arc_length
-    [2] Wikipedia page: https://en.wikipedia.org/wiki/Simpson%27s_rule
-    [3] Wikipedia page: https://en.wikipedia.org/wiki/Line_element
+    .. [1] https://en.wikipedia.org/wiki/Arc_length
+    .. [2] https://en.wikipedia.org/wiki/Simpson%27s_rule
+    .. [3] https://en.wikipedia.org/wiki/Line_element
 
     """
     theta = np.linspace(0, 2 * np.pi, n_steps)

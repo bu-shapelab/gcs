@@ -5,18 +5,18 @@ import numpy as np
 from gcs.utils import optimal_scaling_factor, summed_cosine
 
 if TYPE_CHECKING:
-    from gcs import GCS
+    import gcs
 
 # Minimum radius (mm)
 MIN_RADIUS = 0.01
 
 
-def verify_radius(shape: GCS,
+def verify_radius(shape: gcs.GCS,
                   verbose: bool = False) -> bool:
-    """Checks if the ``gcs.GCS`` minimum radius is valid.
+    """Checks if the GCS minimum radius is valid.
 
-    This check reduces the risk of print defects by ensuring a ``GCS``
-    print paths are well spaced.
+    This check reduces the risk of print defects by ensuring print
+    paths are well spaced.
 
     Parameters
     ----------
@@ -45,41 +45,39 @@ def verify_radius(shape: GCS,
                        stop=2 * np.pi,
                        step=parameters['d_theta'])
 
-    r0_base = optimal_scaling_factor(length=shape.base_perimeter,
-                                     c1=parameters['c1_base'],
-                                     c2=parameters['c2_base'],
-                                     n_steps=thetas.size)
+    r0 = optimal_scaling_factor(length=shape.base_perimeter,
+                                c1=parameters['c1_base'],
+                                c2=parameters['c2_base'],
+                                n_steps=thetas.size)
 
-    radii_base = np.apply_along_axis(func1d=summed_cosine,
-                                     axis=0,
-                                     arr=thetas,
-                                     r0=r0_base,
-                                     c1=parameters['c1_base'],
-                                     c2=parameters['c2_base'])
+    radii = np.apply_along_axis(func1d=summed_cosine,
+                                axis=0,
+                                arr=thetas,
+                                r0=r0,
+                                c1=parameters['c1_base'],
+                                c2=parameters['c2_base'])
 
+    min_base_radius = np.min(radii)
 
-    min_radius = np.min(radii_base)
-    if min_radius < MIN_RADIUS:
-        if verbose:
-            print(f'minimum base radius ({min_radius}) is less then {MIN_RADIUS}.')
-        return False
+    r0 = optimal_scaling_factor(length=shape.top_perimeter,
+                                c1=parameters['c1_top'],
+                                c2=parameters['c2_top'],
+                                n_steps=thetas.size)
 
-    r0_top = optimal_scaling_factor(length=shape.top_perimeter,
-                                    c1=parameters['c1_top'],
-                                    c2=parameters['c2_top'],
-                                    n_steps=thetas.size)
+    radii = np.apply_along_axis(func1d=summed_cosine,
+                                axis=0,
+                                arr=thetas,
+                                r0=r0,
+                                c1=parameters['c1_top'],
+                                c2=parameters['c2_top'])
 
-    radii_top = np.apply_along_axis(func1d=summed_cosine,
-                                    axis=0,
-                                    arr=thetas,
-                                    r0=r0_top,
-                                    c1=parameters['c1_top'],
-                                    c2=parameters['c2_top'])
+    min_top_radius = np.min(radii)
 
-    min_radius = np.min(radii_top)
-    if min_radius < MIN_RADIUS:
-        if verbose:
-            print(f'minimum top radius ({min_radius}) is less then {MIN_RADIUS}.')
-        return False
+    min_radius = np.min([min_base_radius, min_top_radius])
+    valid = bool(min_radius >= MIN_RADIUS)
 
-    return True
+    if verbose:
+        if not valid:
+            print(f'minimum radius ({min_radius}) is less then {MIN_RADIUS}.')
+
+    return valid

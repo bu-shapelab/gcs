@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-from typing import Tuple
 import numpy as np
 from ground.base import get_context
 from bentley_ottmann.planar import contour_self_intersects
 
 
-def offset_curve(radius: np.ndarray,
-                 theta: np.ndarray,
-                 offset: float = 0) -> Tuple[np.ndarray, np.ndarray]:
-    """Offsets a closed polar curve in the normal direction.
+def offset_radius(radius: np.ndarray,
+                  theta: np.ndarray,
+                  offset: float = 0) -> np.ndarray:
+    """Offsets the radius of a closed polar curve in the normal direction.
 
     Parameters
     ----------
@@ -27,19 +26,18 @@ def offset_curve(radius: np.ndarray,
     -------
     radius_offset : (N,) np.ndarray
         The offset radial values.
-    theta_offset : (N,) np.ndarray
-        The offset angular values.
 
     """
     radius_offset = np.empty_like(radius)
-    theta_offset = np.empty_like(radius)
 
     for index in range(radius.shape[0]):
         index_before = index - 1
         index_after = index + 1
 
-        if index == radius.shape[0] - 1:
-            index_after = 0
+        if index_before == -1:
+            index_before, index_after = index_after, index_before
+        if index_after == radius.shape[0]:
+            index_before, index_after = 0, index_before
 
         point_before = np.array([
             radius[index_before],
@@ -65,9 +63,8 @@ def offset_curve(radius: np.ndarray,
         point = point + offset * normal
 
         radius_offset[index] = point[0]
-        theta_offset[index] = point[1]
 
-    return radius_offset, theta_offset
+    return radius_offset
 
 
 def self_intersection(x: np.ndarray,
@@ -88,7 +85,7 @@ def self_intersection(x: np.ndarray,
 
     """
     context = get_context()
-    point, contour = context.point_gcs, context.contour_gcs
+    point, contour = context.point_cls, context.contour_cls
 
     curve = []
     for index in range(x.shape[0]):
