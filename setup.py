@@ -15,7 +15,7 @@ setup(
     download_url='https://pypi.python.org/pypi/gcs',
     project_urls={
             'Bug Tracker': 'https://github.com/bu-shapelab/gcs/issues',
-            'Documentation': 'TODO',
+            # 'Documentation': 'TODO',
             'Source Code': 'https://github.com/bu-shapelab/gcs',
     },
     license='MIT',

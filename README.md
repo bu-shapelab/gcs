@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="misc/images/logo.jpeg" width="400">
+  <img src="https://github.com/bu-shapelab/gcs/blob/main/misc/images/logo.jpeg" width="400">
 </h1>
 
 [![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)](TODO)
@@ -29,13 +29,13 @@ GCS are parameterized by 11 values:
 
 ### `c1` and `c2` Relationship
 
-![c1 & c2 relationship](misc/images/cs.svg)
+![c1 & c2 relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/cs.svg)
 
 * Adopted from [*Overvelde and Bertoldi, 2014*](https://doi.org/10.1016/j.jmps.2013.11.014)
 
 ### `twist_linear`, `twist_amplitude`, and `twist_period` Relationship
 
-![twist relationship](misc/images/twist.svg)
+![twist relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/twist.svg)
 
 ## Download
 
