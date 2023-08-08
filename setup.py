@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gcs-shape',
-    version='1.0.0',
+    version='1.0.2',
     description='Generalized cylindrical shell library for Python.',
     long_description=Path('README.md').read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
@@ -12,10 +12,10 @@ setup(
     maintainer='Samuel Silverman',
     maintainer_email='sssilver@bu.edu',
     url='https://github.com/bu-shapelab/gcs',
-    download_url='https://pypi.python.org/pypi/gcs',
+    download_url='https://pypi.python.org/pypi/gcs-shape',
     project_urls={
             'Bug Tracker': 'https://github.com/bu-shapelab/gcs/issues',
-            'Documentation': 'https://gcs.readthedocs.io/',
+            'Documentation': 'https://gcs-shape.readthedocs.io/',
             'Source Code': 'https://github.com/bu-shapelab/gcs',
     },
     license='MIT',
@@ -32,7 +32,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Typing :: Typed',
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'bentley-ottmann==7.3.0',
