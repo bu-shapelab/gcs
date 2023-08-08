@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='gcs',
+    name='gcs-shape',
     version='1.0.0',
     description='Generalized cylindrical shell library for Python.',
     long_description=Path('README.md').read_text(encoding='utf-8'),

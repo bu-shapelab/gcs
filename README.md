@@ -1,15 +1,15 @@
 <h1 align="center">
-  <img src="misc/images/logo.jpeg" width="400">
+  <img src="https://github.com/bu-shapelab/gcs/blob/main/misc/images/logo.jpeg" width="400">
 </h1>
 
-[![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)](https://gcs.readthedocs.io/)
+[![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)](https://gcs-shape.readthedocs.io/)
 [![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=green)](https://github.com/bu-shapelab/gcs/issues)
 [![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=green)](https://github.com/bu-shapelab/gcs/issues)
 [![Read the Paper](https://img.shields.io/static/v1.svg?label=arXiv&message=Read%20the%20Paper&color=red)](https://arxiv.org/abs/2308.02315)
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
-![GCS examples](misc/images/examples.jpeg)
+![GCS examples](https://github.com/bu-shapelab/gcs/blob/main/misc/images/examples.jpeg)
 
 GCS are parameterized by 11 values:
 
@@ -29,18 +29,18 @@ GCS are parameterized by 11 values:
 
 ### `c1` and `c2` Relationship
 
-![c1 & c2 relationship](misc/images/cs.svg)
+![c1 & c2 relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/cs.svg)
 
 * Adopted from [*Overvelde and Bertoldi, 2014*](https://doi.org/10.1016/j.jmps.2013.11.014)
 
 ### `twist_linear`, `twist_amplitude`, and `twist_period` Relationship
 
-![twist relationship](misc/images/twist.svg)
+![twist relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/twist.svg)
 
 ## Download
 
 ```bash
-pip install gcs
+pip install gcs-shape
 ```
 
 ### Requirements
@@ -50,6 +50,31 @@ pip install gcs
 * [numpy-stl](https://pypi.org/project/numpy-stl/) (version: 2.17.1 or higher)
 * [pandas](https://pypi.org/project/pandas/) (version: 1.4.1 or higher)
 * [scipy](https://pypi.org/project/scipy/) (version: 1.7.3 or higher)
+
+## Quickstart
+
+```python
+import gcs
+
+# Create a generalized cylindrical shell
+shape = gcs.GCS(c1_base=0.3,
+                c2_base=-0.2,
+                c1_top=0.4,
+                c2_top=-0.3,
+                twist_linear=2,
+                twist_amplitude=0.05,
+                twist_period=3,
+                perimeter_ratio=1.5,
+                height=20,
+                mass=2.1,
+                thickness=0.48)
+
+# Assert the shape is valid
+print(shape.valid)
+
+# Save shape to STL file
+gcs.io.save_mesh(file='shape.stl', shape=shape)
+```
 
 ## Contributing
 
