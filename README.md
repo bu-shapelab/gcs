@@ -39,6 +39,8 @@ GCS are parameterized by 11 values:
 
 ## Download
 
+`gcs` requires [Python](https://www.python.org) version 3.8 (or higher). To install, run the command:
+
 ```bash
 pip install gcs-shape
 ```
@@ -50,6 +52,14 @@ pip install gcs-shape
 * [numpy-stl](https://pypi.org/project/numpy-stl/) (version: 2.17.1 or higher)
 * [pandas](https://pypi.org/project/pandas/) (version: 1.4.1 or higher)
 * [scipy](https://pypi.org/project/scipy/) (version: 1.7.3 or higher)
+
+### Supported Operating Systems
+
+`gcs` is operating system independent. The package has been tested on the following operating systems:
+
+* MacOS Ventura 13.4.1
+* Ubuntu 22.04
+* Windows 10
 
 ## Quickstart
 
