@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gcs-shape',
-    version='1.0.4',
+    version='1.0.5',
     description='Generalized cylindrical shell library for Python.',
     long_description=Path('README.md').read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
@@ -36,10 +36,10 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'bentley-ottmann==7.3.0',
-        'numpy==1.21.5',
-        'numpy-stl==2.17.1',
-        'pandas==1.4.1',
-        'scipy==1.7.3',
+        'numpy>=1.21.5',
+        'numpy-stl>=2.17.1',
+        'pandas>=1.4.1',
+        'scipy>=1.7.3',
     ],
     test_suite='pytest',
 )
