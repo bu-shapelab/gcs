@@ -27,7 +27,8 @@ class GCS:
                  mass: float,
                  thickness: float,
                  n_steps: int = 100,
-                 d_theta: float = 0.01) -> None:
+                 d_theta: float = 0.01,
+                 triangulate_faces: bool = True) -> None:
         """Initialize ``GCS``.
 
         Parameters
@@ -58,6 +59,8 @@ class GCS:
             The number of height discretization steps.
         d_theta : float (default=0.01)
             The angular discretization step size.
+        triangulate_faces : bool (default=`True`)
+            Set to `True` to triangulate the top and bottom faces.
 
         Examples
         --------
@@ -77,6 +80,7 @@ class GCS:
         self._thickness = thickness
         self._n_steps = n_steps
         self._theta_step = d_theta
+        self._triangulate_faces = triangulate_faces
 
         self._vertices = None
         self._faces = None
@@ -100,6 +104,7 @@ class GCS:
             'thickness': self._thickness,
             'n_steps': self._n_steps,
             'd_theta': self._theta_step,
+            'triangulate_faces': self._triangulate_faces,
         }
 
     @property
@@ -206,7 +211,8 @@ class Cylinder(GCS):
                  mass: float,
                  thickness: float,
                  n_steps: int = 100,
-                 d_theta: float = 0.01) -> None:
+                 d_theta: float = 0.01,
+                 triangulate_faces: bool = True) -> None:
         """Initialize ``Cylinder``.
 
         Parameters
@@ -221,6 +227,8 @@ class Cylinder(GCS):
             The number of height discretization steps.
         d_theta : float (default=0.01)
             The angular discretization step size.
+        triangulate_faces : bool (default=`True`)
+            Set to `True` to triangulate the top and bottom faces.
 
         Examples
         --------
@@ -239,4 +247,5 @@ class Cylinder(GCS):
                          mass=mass,
                          thickness=thickness,
                          n_steps=n_steps,
-                         d_theta=d_theta)
+                         d_theta=d_theta,
+                         triangulate_faces=triangulate_faces)

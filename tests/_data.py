@@ -12,6 +12,7 @@ TEST_CYLINDER_PARAMETERS = {
     'thickness': 0.48,
     'n_steps': 100,
     'd_theta': 0.01,
+    'triangulate_faces': False,
 }
 
 # ID: 4431
@@ -29,6 +30,7 @@ TEST_1_PARAMETERS = {
     'thickness': 0.526315789473684,
     'n_steps': 100,
     'd_theta': 0.01,
+    'triangulate_faces': True,
 }
 
 # ID: 10663
@@ -46,4 +48,5 @@ TEST_2_PARAMETERS = {
     'thickness': 0.772337816605466,
     'n_steps': 100,
     'd_theta': 0.01,
+    'triangulate_faces': True,
 }

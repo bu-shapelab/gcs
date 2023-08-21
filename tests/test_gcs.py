@@ -102,5 +102,6 @@ class TestGCS:
                             mass=TEST_CYLINDER_PARAMETERS['mass'],
                             thickness=TEST_CYLINDER_PARAMETERS['thickness'],
                             n_steps=TEST_CYLINDER_PARAMETERS['n_steps'],
-                            d_theta=TEST_CYLINDER_PARAMETERS['d_theta'])
+                            d_theta=TEST_CYLINDER_PARAMETERS['d_theta'],
+                            triangulate_faces=TEST_CYLINDER_PARAMETERS['triangulate_faces'])
         assert TEST_3_SHAPE.parameters == cylinder.parameters
