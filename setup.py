@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gcs-shape',
-    version='1.0.5',
+    version='1.1.0',
     description='Generalized cylindrical shell library for Python.',
     long_description=Path('README.md').read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
