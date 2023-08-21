@@ -48,6 +48,7 @@ pip install gcs-shape
 ### Requirements
 
 * [bentley-ottmann](https://pypi.org/project/bentley-ottmann/) (version: 7.3.0)
+* [mapbox_earcut](https://pypi.org/project/mapbox-earcut/) (version: 1.0.0 or higher)
 * [numpy](https://pypi.org/project/numpy/) (version: 1.21.5 or higher)
 * [numpy-stl](https://pypi.org/project/numpy-stl/) (version: 2.17.1 or higher)
 * [pandas](https://pypi.org/project/pandas/) (version: 1.4.1 or higher)

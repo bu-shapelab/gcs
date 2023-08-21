@@ -87,11 +87,8 @@ class TestGCS:
         """Test ``gcs.GCS.mesh`` property.
 
         """
-        stl_file = (Path(__file__).parent / '_test1.stl').resolve()
-        assert_almost_equal(actual=TEST_1_SHAPE.mesh.vectors,
-                            desired=mesh.Mesh.from_file(filename=stl_file).vectors)
-        stl_file = (Path(__file__).parent / '_test2.stl').resolve()
-        assert_almost_equal(actual=TEST_2_SHAPE.mesh.vectors,
+        stl_file = (Path(__file__).parent / '_test3.stl').resolve()
+        assert_almost_equal(actual=TEST_3_SHAPE.mesh.vectors,
                             desired=mesh.Mesh.from_file(filename=stl_file).vectors)
 
     def test_cylinder(self):
@@ -102,5 +99,6 @@ class TestGCS:
                             mass=TEST_CYLINDER_PARAMETERS['mass'],
                             thickness=TEST_CYLINDER_PARAMETERS['thickness'],
                             n_steps=TEST_CYLINDER_PARAMETERS['n_steps'],
-                            d_theta=TEST_CYLINDER_PARAMETERS['d_theta'])
+                            d_theta=TEST_CYLINDER_PARAMETERS['d_theta'],
+                            triangulate_faces=TEST_CYLINDER_PARAMETERS['triangulate_faces'])
         assert TEST_3_SHAPE.parameters == cylinder.parameters
