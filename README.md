@@ -19,9 +19,9 @@ GCS are parameterized by 11 values:
 | `c8_base` | The parameter controlling the size and shape of the base $8$-lobe feature. |
 | `c4_top` | The parameter controlling the size and shape of the top $4$-lobe feature. |
 | `c8_top` | The parameter controlling the size and shape of the top $8$-lobe feature. |
-| `twist_linear` | The rotation (rad) of the top face. This creates a linear twist between the base and top faces. |
-| `twist_amplitude` | The amplitude (rad) of the oscillating twist between the base and top faces. |
-| `twist_period` | The oscillating twist period. |
+| `twist_linear` | The rotation (rad) of the top. This creates a linear twist between the base and top. |
+| `twist_amplitude` | The amplitude (rad) of the oscillating twist between the base and top. |
+| `twist_period` | The number of cycles of the oscillating twist between the base and top. |
 | `perimeter_ratio` | The ratio between the top and base perimeters. |
 | `height` | The height (mm). |
 | `mass` | The mass (g). |

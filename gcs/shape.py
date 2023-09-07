@@ -42,12 +42,11 @@ class GCS:
         c8_top : float
             The parameter controlling the size and shape of the top 8-lobe feature.
         twist_linear : float
-            The rotation (rad) of the top face.
-            This creates a linear twist between the base and top faces.
+            The rotation (rad) of the top. This creates a linear twist between the base and top.
         twist_amplitude : float
-            The oscillating twist amplitude.
+            The amplitude (rad) of the oscillating twist between the base and top.
         twist_period : float
-            The oscillating twist period.
+            The number of cycles of the oscillating twist between the base and top.
         perimeter_ratio : float
             The ratio between the top and base perimeters.
         height : float
