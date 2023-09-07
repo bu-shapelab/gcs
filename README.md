@@ -15,21 +15,21 @@ GCS are parameterized by 11 values:
 
 | Syntax | Description |
 | - | - |
-| `c1_base` | The base $4$-lobe parameter. |
-| `c2_base` | The base $8$-lobe parameter. |
-| `c1_top` | The top $4$-lobe parameter. |
-| `c2_top` | The top $8$-lobe parameter. |
-| `twist_linear` | The linear twist. |
-| `twist_amplitude` | The oscillating twist amplitude. |
+| `c4_base` | The parameter controlling the size and shape of the base $4$-lobe feature. |
+| `c8_base` | The parameter controlling the size and shape of the base $8$-lobe feature. |
+| `c4_top` | The parameter controlling the size and shape of the top $4$-lobe feature. |
+| `c8_top` | The parameter controlling the size and shape of the top $8$-lobe feature. |
+| `twist_linear` | The rotation (rad) of the top face. This creates a linear twist between the base and top faces. |
+| `twist_amplitude` | The amplitude (rad) of the oscillating twist between the base and top faces. |
 | `twist_period` | The oscillating twist period. |
 | `perimeter_ratio` | The ratio between the top and base perimeters. |
 | `height` | The height (mm). |
 | `mass` | The mass (g). |
 | `thickness` | The wall thickness (mm). |
 
-### `c1` and `c2` Relationship
+### `c4` and `c8` Relationship
 
-![c1 & c2 relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/cs.svg)
+![c4 & c8 relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/cs.svg)
 
 * Adopted from [*Overvelde and Bertoldi, 2014*](https://doi.org/10.1016/j.jmps.2013.11.014)
 
@@ -68,10 +68,10 @@ pip install gcs-shape
 import gcs
 
 # Create a generalized cylindrical shell
-shape = gcs.GCS(c1_base=0.3,
-                c2_base=-0.2,
-                c1_top=0.4,
-                c2_top=-0.3,
+shape = gcs.GCS(c4_base=0.3,
+                c8_base=-0.2,
+                c4_top=0.4,
+                c8_top=-0.3,
                 twist_linear=2,
                 twist_amplitude=0.05,
                 twist_period=3,

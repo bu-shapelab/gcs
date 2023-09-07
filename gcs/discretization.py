@@ -38,11 +38,11 @@ def discretize(shape: gcs.GCS) -> np.ndarray:
                        step=parameters['d_theta'])
     height_per_step = parameters['height'] / (parameters['n_steps'] - 1)
 
-    c1s = np.linspace(start=parameters['c1_base'],
-                      stop=parameters['c1_top'],
+    c4s = np.linspace(start=parameters['c4_base'],
+                      stop=parameters['c4_top'],
                       num=parameters['n_steps'])
-    c2s = np.linspace(start=parameters['c2_base'],
-                      stop=parameters['c2_top'],
+    c8s = np.linspace(start=parameters['c8_base'],
+                      stop=parameters['c8_top'],
                       num=parameters['n_steps'])
     perimeters = np.linspace(start=shape.base_perimeter,
                              stop=shape.top_perimeter,
@@ -56,16 +56,16 @@ def discretize(shape: gcs.GCS) -> np.ndarray:
     vertices = np.empty((thetas.size * parameters['n_steps'], 3), dtype=np.float16)
 
     for step in range(parameters['n_steps']):
-        c1 = c1s[step]
-        c2 = c2s[step]
+        c4 = c4s[step]
+        c8 = c8s[step]
         perimeter = perimeters[step]
         twist_linear = twists_linear[step]
         twist_oscillating = twists_oscillating[step]
         height = height_per_step * step
 
         r0 = optimal_scaling_factor(length=perimeter,
-                                    c1=c1,
-                                    c2=c2,
+                                    c4=c4,
+                                    c8=c8,
                                     n_steps=thetas.size)
 
         step_thetas = thetas + twist_linear + twist_oscillating
@@ -73,8 +73,8 @@ def discretize(shape: gcs.GCS) -> np.ndarray:
                                     axis=0,
                                     arr=step_thetas,
                                     r0=r0,
-                                    c1=c1,
-                                    c2=c2)
+                                    c4=c4,
+                                    c8=c8)
 
         x, y = pol2cart(radius=radii, theta=thetas)
 

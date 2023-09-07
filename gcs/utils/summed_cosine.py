@@ -7,8 +7,8 @@ from scipy.integrate import simpson
 
 def summed_cosine(theta: float,
                   r0: float,
-                  c1: float,
-                  c2: float) -> float:
+                  c4: float,
+                  c8: float) -> float:
     """Summed cosine polar equation.
 
     Parameters
@@ -17,9 +17,9 @@ def summed_cosine(theta: float,
         The angle.
     r0 : float
         The scaling factor.
-    c1 : float
+    c4 : float
         The 4-lobe parameter.
-    c2 : float
+    c8 : float
         The 8-lobe parameter.
 
     Returns
@@ -34,13 +34,13 @@ def summed_cosine(theta: float,
         https://doi.org/10.1016/j.jmps.2013.11.014.
 
     """
-    radius = r0 * (1 + c1 * np.cos(4 * theta) + c2 * np.cos(8 * theta))
+    radius = r0 * (1 + c4 * np.cos(4 * theta) + c8 * np.cos(8 * theta))
     return radius
 
 
 def arc_length(r0: float,
-               c1: float,
-               c2: float,
+               c4: float,
+               c8: float,
                n_steps: int) -> float:
     """Approximate arc length of a summed cosine polar equation using Simpson's rule.
 
@@ -48,9 +48,9 @@ def arc_length(r0: float,
     ----------
     r0 : float
         The scaling factor.
-    c1 : float
+    c4 : float
         The 4-lobe parameter.
-    c2 : float
+    c8 : float
         The 8-lobe parameter.
     n_steps : float
         The number of angular discritization steps.
@@ -72,11 +72,11 @@ def arc_length(r0: float,
                                  axis=0,
                                  arr=theta,
                                  r0=r0,
-                                 c1=c1,
-                                 c2=c2)
+                                 c4=c4,
+                                 c8=c8)
 
     d_radius_d_theta = -4 * r0 * \
-        (c1 * np.sin(4 * theta) + 2 * c2 * np.sin(8 * theta))
+        (c4 * np.sin(4 * theta) + 2 * c8 * np.sin(8 * theta))
 
     arc_length_element = np.sqrt(d_radius_d_theta ** 2 + radius ** 2)
 
@@ -87,18 +87,18 @@ def arc_length(r0: float,
 
 
 def optimal_scaling_factor(length: float,
-                           c1: float,
-                           c2: float,
+                           c4: float,
+                           c8: float,
                            n_steps: int) -> float:
-    """Find the optimal scaling factor (r0) given an arc length, c1, and c2.
+    """Find the optimal scaling factor (r0) given an arc length, c4, and c8.
 
     Parameters
     ----------
     length : float
         The arc length.
-    c1 : float
+    c4 : float
         The 4-lobe parameter.
-    c2 : float
+    c8 : float
         The 8-lobe parameter.
     n_steps : float
         The number of angular discritization steps.
@@ -117,8 +117,8 @@ def optimal_scaling_factor(length: float,
         # when passed in by minimizer, r0 is a singleton
         r0 = r0.item()
         curr_length = arc_length(r0=r0,
-                                 c1=c1,
-                                 c2=c2,
+                                 c4=c4,
+                                 c8=c8,
                                  n_steps=n_steps)
         error = abs(length - curr_length)
         return error
