@@ -15,10 +15,10 @@ thetas = np.arange(start=0,
                    stop=2 * np.pi,
                    step=0.01)
 
-c1s = np.linspace(start=0.5,
+c4s = np.linspace(start=0.5,
                   stop=0.2,
                   num=n_steps)
-c2s = np.linspace(start=0.2,
+c8s = np.linspace(start=0.2,
                   stop=0.1,
                   num=n_steps)
 r0s = np.linspace(start=1,
@@ -43,8 +43,8 @@ for step in range(n_steps):
                                 arr=thetas +
                                 twists_linear[step] + twists_oscillating[step],
                                 r0=r0s[step],
-                                c1=c1s[step],
-                                c2=c2s[step])
+                                c4=c4s[step],
+                                c8=c8s[step])
     ax.fill(thetas, radii, color=cmap(color_steps[step]))
 
 ax.axis('off')
@@ -64,33 +64,33 @@ fig, axs = plt.subplots(nrows=7,
 
 for row in range(7):
     for col in range(7):
-        c1 = (col - 3) * 0.1
-        c2 = (row - 3) * -0.1
+        c4 = (col - 3) * 0.1
+        c8 = (row - 3) * -0.1
         radius = summed_cosine(theta=theta,
                                r0=1,
-                               c1=c1,
-                               c2=c2)
+                               c4=c4,
+                               c8=c8)
         axs[row, col].plot(theta, radius, color='black')
 
-        if c1 == 0:
-            c1 = 0
+        if c4 == 0:
+            c4 = 0
         else:
-            c1 = round(c1, 1)
-        if c2 == 0:
-            c2 = 0
+            c4 = round(c4, 1)
+        if c8 == 0:
+            c8 = 0
         else:
-            c2 = round(c2, 1)
+            c8 = round(c8, 1)
 
         if row == 6:
-            axs[row, col].set_xlabel(c1)
+            axs[row, col].set_xlabel(c4)
         if col == 0:
-            axs[row, col].set_ylabel(c2)
+            axs[row, col].set_ylabel(c8)
         axs[row, col].set_xticks([])
         axs[row, col].set_yticks([])
         axs[row, col].spines['polar'].set_visible(False)
 
-fig.supxlabel('$\mathtt{c1}$')
-fig.supylabel('$\mathtt{c2}$')
+fig.supxlabel('$\mathtt{c4}$')
+fig.supylabel('$\mathtt{c8}$')
 plt.tight_layout()
 plt.savefig('misc/images/cs.svg', format='svg', dpi=300)
 plt.show()
@@ -100,34 +100,17 @@ plt.show()
 ################################
 
 height = 1
-amplitude = 0.25
-period = 2
-linear = 1.75
+amplitude = np.pi / 16
+cycles = 2
+linear = 2
 
 y = np.linspace(0, height, 100)
 x_linear = np.linspace(0, linear, 100)
-x_oscillating = amplitude * np.sin(np.linspace(0, 2 * np.pi * period, 100))
+x_oscillating = amplitude * np.sin(np.linspace(0, 2 * np.pi * cycles, 100))
 plt.plot(x_linear, y, label='Linear Twist')
 plt.plot(x_oscillating, y, label='Oscillating Twist')
 plt.plot(x_linear+x_oscillating, y, label='Combined Twist')
-plt.vlines(x=linear,
-           ymin=0,
-           ymax=height,
-           linestyles=':',
-           colors='C0',
-           label='$\mathtt{twist\_linear}$')
-plt.vlines(x=-0.25,
-           ymin=0.37,
-           ymax=0.88,
-           linestyles='--',
-           colors='C1',
-           label='$\mathtt{twist\_period}$')
-plt.hlines(y=0.88,
-           xmin=-0.25,
-           xmax=0,
-           linestyles=':',
-           colors='C1',
-           label='$\mathtt{twist\_amplitude}$')
+
 plt.xlabel('Rotation (rad)')
 plt.xticks([-0.5, 0, 0.5, 1, 1.5, 2])
 plt.ylabel('$z$ (mm)')

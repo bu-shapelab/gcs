@@ -15,13 +15,13 @@ class GCS:
     """
 
     def __init__(self,
-                 c1_base: float,
-                 c2_base: float,
-                 c1_top: float,
-                 c2_top: float,
+                 c4_base: float,
+                 c8_base: float,
+                 c4_top: float,
+                 c8_top: float,
                  twist_linear: float,
                  twist_amplitude: float,
-                 twist_period: float,
+                 twist_cycles: float,
                  perimeter_ratio: float,
                  height: float,
                  mass: float,
@@ -33,20 +33,20 @@ class GCS:
 
         Parameters
         ----------
-        c1_base : float
-            The base 4-lobe parameter.
-        c2_base : float
-            The base 8-lobe parameter.
-        c1_top : float
-            The top 4-lobe parameter.
-        c2_top : float
-            The top 8-lobe parameter.
+        c4_base : float
+            The parameter controlling the size and shape of the base 4-lobe feature.
+        c8_base : float
+            The parameter controlling the size and shape of the base 8-lobe feature.
+        c4_top : float
+            The parameter controlling the size and shape of the top 4-lobe feature.
+        c8_top : float
+            The parameter controlling the size and shape of the top 8-lobe feature.
         twist_linear : float
-            The linear twist.
+            The rotation (rad) of the top. This creates a linear twist between the base and top.
         twist_amplitude : float
-            The oscillating twist amplitude.
-        twist_period : float
-            The oscillating twist period.
+            The amplitude (rad) of the oscillating twist between the base and top.
+        twist_cycles : float
+            The number of cycles of the oscillating twist between the base and top.
         perimeter_ratio : float
             The ratio between the top and base perimeters.
         height : float
@@ -64,16 +64,16 @@ class GCS:
 
         Examples
         --------
-        >>> shape = gcs.GCS(c1_base=0.5, c2_base=0, ...)
+        >>> shape = gcs.GCS(c4_base=0.5, c8_base=0, ...)
 
         """
-        self._c1_base = c1_base
-        self._c2_base = c2_base
-        self._c1_top = c1_top
-        self._c2_top = c2_top
+        self._c4_base = c4_base
+        self._c8_base = c8_base
+        self._c4_top = c4_top
+        self._c8_top = c8_top
         self._twist_linear = twist_linear
         self._twist_amplitude = twist_amplitude
-        self._twist_period = twist_period
+        self._twist_cycles = twist_cycles
         self._perimeter_ratio = perimeter_ratio
         self._height = height
         self._mass = mass
@@ -91,13 +91,13 @@ class GCS:
 
         """
         return {
-            'c1_base': self._c1_base,
-            'c2_base': self._c2_base,
-            'c1_top': self._c1_top,
-            'c2_top': self._c2_top,
+            'c4_base': self._c4_base,
+            'c8_base': self._c8_base,
+            'c4_top': self._c4_top,
+            'c8_top': self._c8_top,
             'twist_linear': self._twist_linear,
             'twist_amplitude': self._twist_amplitude,
-            'twist_period': self._twist_period,
+            'twist_cycles': self._twist_cycles,
             'perimeter_ratio': self._perimeter_ratio,
             'height': self._height,
             'mass': self._mass,
@@ -235,13 +235,13 @@ class Cylinder(GCS):
         >>> shape = gcs.Cylinder(height=10, mass=4, ...)
 
         """
-        super().__init__(c1_base=0,
-                         c2_base=0,
-                         c1_top=0,
-                         c2_top=0,
+        super().__init__(c4_base=0,
+                         c8_base=0,
+                         c4_top=0,
+                         c8_top=0,
                          twist_linear=0,
                          twist_amplitude=0,
-                         twist_period=0,
+                         twist_cycles=0,
                          perimeter_ratio=1,
                          height=height,
                          mass=mass,

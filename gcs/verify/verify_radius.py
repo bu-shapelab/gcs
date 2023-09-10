@@ -46,30 +46,30 @@ def verify_radius(shape: gcs.GCS,
                        step=parameters['d_theta'])
 
     r0 = optimal_scaling_factor(length=shape.base_perimeter,
-                                c1=parameters['c1_base'],
-                                c2=parameters['c2_base'],
+                                c4=parameters['c4_base'],
+                                c8=parameters['c8_base'],
                                 n_steps=thetas.size)
 
     radii = np.apply_along_axis(func1d=summed_cosine,
                                 axis=0,
                                 arr=thetas,
                                 r0=r0,
-                                c1=parameters['c1_base'],
-                                c2=parameters['c2_base'])
+                                c4=parameters['c4_base'],
+                                c8=parameters['c8_base'])
 
     min_base_radius = np.min(radii)
 
     r0 = optimal_scaling_factor(length=shape.top_perimeter,
-                                c1=parameters['c1_top'],
-                                c2=parameters['c2_top'],
+                                c4=parameters['c4_top'],
+                                c8=parameters['c8_top'],
                                 n_steps=thetas.size)
 
     radii = np.apply_along_axis(func1d=summed_cosine,
                                 axis=0,
                                 arr=thetas,
                                 r0=r0,
-                                c1=parameters['c1_top'],
-                                c2=parameters['c2_top'])
+                                c4=parameters['c4_top'],
+                                c8=parameters['c8_top'])
 
     min_top_radius = np.min(radii)
 
