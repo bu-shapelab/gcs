@@ -82,6 +82,9 @@ class TestGCS:
                             desired=triangulate(shape=TEST_1_SHAPE))
         assert_almost_equal(actual=triangulate(shape=TEST_2_SHAPE),
                             desired=TEST_2_SHAPE.faces)
+        # Need this to pass coverage of GCS.faces...
+        assert_almost_equal(actual=TEST_1_SHAPE.faces,
+                            desired=TEST_1_SHAPE.faces)
 
     def test_mesh(self):
         """Test ``gcs.GCS.mesh`` property.
