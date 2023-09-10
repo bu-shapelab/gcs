@@ -100,34 +100,17 @@ plt.show()
 ################################
 
 height = 1
-amplitude = 0.25
-period = 2
-linear = 1.75
+amplitude = np.pi / 16
+cycles = 2
+linear = 2
 
 y = np.linspace(0, height, 100)
 x_linear = np.linspace(0, linear, 100)
-x_oscillating = amplitude * np.sin(np.linspace(0, 2 * np.pi * period, 100))
+x_oscillating = amplitude * np.sin(np.linspace(0, 2 * np.pi * cycles, 100))
 plt.plot(x_linear, y, label='Linear Twist')
 plt.plot(x_oscillating, y, label='Oscillating Twist')
 plt.plot(x_linear+x_oscillating, y, label='Combined Twist')
-plt.vlines(x=linear,
-           ymin=0,
-           ymax=height,
-           linestyles=':',
-           colors='C0',
-           label='$\mathtt{twist\_linear}$')
-plt.vlines(x=-0.25,
-           ymin=0.37,
-           ymax=0.88,
-           linestyles='--',
-           colors='C1',
-           label='$\mathtt{twist\_period}$')
-plt.hlines(y=0.88,
-           xmin=-0.25,
-           xmax=0,
-           linestyles=':',
-           colors='C1',
-           label='$\mathtt{twist\_amplitude}$')
+
 plt.xlabel('Rotation (rad)')
 plt.xticks([-0.5, 0, 0.5, 1, 1.5, 2])
 plt.ylabel('$z$ (mm)')
