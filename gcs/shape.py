@@ -21,7 +21,7 @@ class GCS:
                  c8_top: float,
                  twist_linear: float,
                  twist_amplitude: float,
-                 twist_period: float,
+                 twist_cycles: float,
                  perimeter_ratio: float,
                  height: float,
                  mass: float,
@@ -45,7 +45,7 @@ class GCS:
             The rotation (rad) of the top. This creates a linear twist between the base and top.
         twist_amplitude : float
             The amplitude (rad) of the oscillating twist between the base and top.
-        twist_period : float
+        twist_cycles : float
             The number of cycles of the oscillating twist between the base and top.
         perimeter_ratio : float
             The ratio between the top and base perimeters.
@@ -73,7 +73,7 @@ class GCS:
         self._c8_top = c8_top
         self._twist_linear = twist_linear
         self._twist_amplitude = twist_amplitude
-        self._twist_period = twist_period
+        self._twist_cycles = twist_cycles
         self._perimeter_ratio = perimeter_ratio
         self._height = height
         self._mass = mass
@@ -97,7 +97,7 @@ class GCS:
             'c8_top': self._c8_top,
             'twist_linear': self._twist_linear,
             'twist_amplitude': self._twist_amplitude,
-            'twist_period': self._twist_period,
+            'twist_cycles': self._twist_cycles,
             'perimeter_ratio': self._perimeter_ratio,
             'height': self._height,
             'mass': self._mass,
@@ -241,7 +241,7 @@ class Cylinder(GCS):
                          c8_top=0,
                          twist_linear=0,
                          twist_amplitude=0,
-                         twist_period=0,
+                         twist_cycles=0,
                          perimeter_ratio=1,
                          height=height,
                          mass=mass,

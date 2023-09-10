@@ -21,7 +21,7 @@ GCS are parameterized by 11 values:
 | `c8_top` | The parameter controlling the size and shape of the top $8$-lobe feature. |
 | `twist_linear` | The rotation (rad) of the top. This creates a linear twist between the base and top. |
 | `twist_amplitude` | The amplitude (rad) of the oscillating twist between the base and top. |
-| `twist_period` | The number of cycles of the oscillating twist between the base and top. |
+| `twist_cycles` | The number of cycles of the oscillating twist between the base and top. |
 | `perimeter_ratio` | The ratio between the top and base perimeters. |
 | `height` | The height (mm). |
 | `mass` | The mass (g). |
@@ -33,7 +33,7 @@ GCS are parameterized by 11 values:
 
 * Adopted from [*Overvelde and Bertoldi, 2014*](https://doi.org/10.1016/j.jmps.2013.11.014)
 
-### `twist_linear`, `twist_amplitude`, and `twist_period` Relationship
+### `twist_linear`, `twist_amplitude`, and `twist_cycles` Relationship
 
 ![twist relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/twist.svg)
 
@@ -74,7 +74,7 @@ shape = gcs.GCS(c4_base=0.3,
                 c8_top=-0.3,
                 twist_linear=2,
                 twist_amplitude=0.05,
-                twist_period=3,
+                twist_cycles=3,
                 perimeter_ratio=1.5,
                 height=20,
                 mass=2.1,

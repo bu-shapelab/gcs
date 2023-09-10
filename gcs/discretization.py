@@ -51,7 +51,7 @@ def discretize(shape: gcs.GCS) -> np.ndarray:
                                 stop=parameters['twist_linear'],
                                 num=parameters['n_steps'])
     twists_oscillating = parameters['twist_amplitude'] * np.sin(
-        np.linspace(0, 2 * np.pi * parameters['twist_period'], parameters['n_steps']))
+        np.linspace(0, 2 * np.pi * parameters['twist_cycles'], parameters['n_steps']))
 
     vertices = np.empty((thetas.size * parameters['n_steps'], 3), dtype=np.float16)
 
