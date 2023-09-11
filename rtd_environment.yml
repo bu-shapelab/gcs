@@ -1,0 +1,20 @@
+# Environment for ReadTheDocs.
+# The minimum requirements to run gcs and build documentation.
+#
+name: gcs-rtd
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - mapbox_earcut=1.0.0
+  - numpy=1.21.5
+  - numpy-stl=2.17.1
+  - numpydoc=1.5.0
+  - pandas=1.4.1
+  - pip=21.2.4
+  - python=3.9.12
+  - scipy=1.7.3
+  - sphinx=5.0.2
+  - pip:
+    - bentley-ottmann==7.3.0
+    - sphinx-rtd-theme==1.2.2
