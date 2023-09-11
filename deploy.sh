@@ -36,8 +36,8 @@ if [ "$1" = "pypi" ]; then
 elif [ "$1" = "testpypi" ]; then
     # Deploy to PyPI Test
     if [ "$2" = "verbose" ]; then
-        twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/*
+        twine upload --verbose --repository testpypi dist/*
     else
-        twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+        twine upload --repository testpypi dist/*
     fi
 fi
