@@ -19,11 +19,11 @@ dependencies:
   - pip=21.2.4
   - pylint=2.12.2
   - pytest=7.1.2
-  - pytest-cov=4.1.0
   - python=3.9.12
   - scipy=1.7.3
   - sphinx=5.0.2
-  - sphinx-rtd-theme=1.2.2
   - twine=4.0.2
   - pip:
     - bentley-ottmann==7.3.0
+    - sphinx-rtd-theme==1.2.2
+    - pytest-cov==4.1.0
