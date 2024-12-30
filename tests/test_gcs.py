@@ -4,13 +4,15 @@ from pathlib import Path
 from numpy.testing import assert_almost_equal
 from stl import mesh
 from pytest import approx
-from gcs import GCS, Cylinder, discretize, triangulate
+from gcs import GCS, Iroko, Willow, Cylinder, discretize, triangulate
 from gcs.verify import verify_base_perimeter, verify_radius, verify
-from ._data import TEST_1_PARAMETERS, TEST_2_PARAMETERS, TEST_CYLINDER_PARAMETERS
+from ._data import TEST_1_PARAMETERS, TEST_2_PARAMETERS, TEST_CYLINDER_PARAMETERS, TEST_IROKO_PARAMETERS, TEST_WILLOW_PARAMETERS
 
 TEST_1_SHAPE = GCS(**TEST_1_PARAMETERS)
 TEST_2_SHAPE = GCS(**TEST_2_PARAMETERS)
 TEST_3_SHAPE = GCS(**TEST_CYLINDER_PARAMETERS)
+TEST_SHAPE_IROKO = GCS(**TEST_IROKO_PARAMETERS)
+TEST_SHAPE_WILLOW = GCS(**TEST_WILLOW_PARAMETERS)
 
 
 class TestGCS:
@@ -30,8 +32,10 @@ class TestGCS:
         """Test ``gcs.GCS.valid_base_perimeter`` property.
 
         """
-        assert TEST_1_SHAPE.valid_base_perimeter == verify_base_perimeter(shape=TEST_1_SHAPE)
-        assert TEST_2_SHAPE.valid_base_perimeter == verify_base_perimeter(shape=TEST_2_SHAPE)
+        assert TEST_1_SHAPE.valid_base_perimeter == verify_base_perimeter(
+            shape=TEST_1_SHAPE)
+        assert TEST_2_SHAPE.valid_base_perimeter == verify_base_perimeter(
+            shape=TEST_2_SHAPE)
 
     def test_valid_radius(self):
         """Test ``gcs.GCS.valid_radius`` property.
@@ -105,3 +109,13 @@ class TestGCS:
                             d_theta=TEST_CYLINDER_PARAMETERS['d_theta'],
                             triangulate_faces=TEST_CYLINDER_PARAMETERS['triangulate_faces'])
         assert TEST_3_SHAPE.parameters == cylinder.parameters
+
+    def test_custom_gcs(self):
+        """Test ``gcs.Iroko`` and ``gcs.Willow``.
+
+        """
+        iroko = Iroko()
+        assert TEST_SHAPE_IROKO.parameters == iroko.parameters
+
+        willow = Willow()
+        assert TEST_SHAPE_WILLOW.parameters == willow.parameters

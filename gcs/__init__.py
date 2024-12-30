@@ -27,7 +27,7 @@ verify
     Functions for verifying the validity of GCS shapes.
 
 """
-from .shape import GCS, Cylinder
+from .shape import GCS, Cylinder, Iroko, Willow
 
 from .discretization import discretize
 from .triangulation import triangulate
@@ -43,6 +43,8 @@ submodules = [
 __all__ = submodules + [
     'GCS',
     'Cylinder',
+    'Iroko',
+    'Willow'
     'discretize',
     'triangulate',
 ]
