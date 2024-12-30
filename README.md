@@ -5,7 +5,9 @@
 [![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)](https://gcs-shape.readthedocs.io/)
 [![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=green)](https://github.com/bu-shapelab/gcs/issues)
 [![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=green)](https://github.com/bu-shapelab/gcs/issues)
-[![Read the Paper](https://img.shields.io/static/v1.svg?label=arXiv&message=Read%20the%20Paper&color=red)](https://arxiv.org/abs/2308.02315)
+[![Read the Paper](https://img.shields.io/static/v1.svg?label=DOI&message=10.1038/s41467-024-48534-4&color=blue)](https://doi.org/10.1038/s41467-024-48534-4)
+
+10.1038/s41467-024-48534-4
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
@@ -98,15 +100,18 @@ The contribution guidelines can be found in [CONTRIBUTING.md](https://github.com
 ## Citation
 
 ```text
-@misc{Snapp2023,
-      title = {Autonomous Discovery of Tough Structures}, 
-      author = {Kelsey L. Snapp and Benjamin Verdier and
-               Aldair Gongora and Samuel Silverman and
-               Adedire D. Adesiji and Elise F. Morgan and
-               Timothy J. Lawton and Emily Whiting and
-               Keith A. Brown},
-      year={2023},
-      eprint={2308.02315},
-      archivePrefix={arXiv},
+@article{Snapp:2024:SuperlativeMechanicalEnergy,
+author={Snapp, Kelsey L. and Verdier, Benjamin and Gongora, Aldair E. and Silverman, Samuel and Adesiji, Adedire D. and Morgan, Elise F. and Lawton, Timothy J. and Whiting, Emily and Brown, Keith A.},
+title={Superlative mechanical energy absorbing efficiency discovered through self-driving lab-human partnership},
+journal={Nature Communications},
+year={2024},
+month={May},
+day={21},
+volume={15},
+number={1},
+pages={4290},
+issn={2041-1723},
+doi={10.1038/s41467-024-48534-4},
+url={https://doi.org/10.1038/s41467-024-48534-4}
 }
 ```
