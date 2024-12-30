@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Union, TYPE_CHECKING, List
 import pandas as pd
+from stl import Mode
+
 
 if TYPE_CHECKING:
     from os import PathLike
@@ -53,4 +55,4 @@ def save_mesh(file: Union[str, bytes, PathLike],
     >>> gcs.io.save_mesh(file='saved.stl', shape=shape)
 
     """
-    shape.mesh.save(filename=file)
+    shape.mesh.save(filename=file, mode=Mode.BINARY)
