@@ -1,45 +1,34 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from gcs.verify import verify_base_perimeter, verify_radius
+
+from .verify_base_perimeter import verify_base_perimeter
+from .verify_radius import verify_radius
 
 if TYPE_CHECKING:
-    import gcs
+    from ..shape import GCS
 
 
-def verify(shape: gcs.GCS,
-           verbose: bool = False) -> bool:
-    """Performs all checks on a GCS.
+def verify(shape: GCS) -> bool:
+    """Runs all verification checks for a GCS.
 
     The checks reduces the risk of print defects.
 
     Parameters
     ----------
-    shape : GCS.gcs
-        The GCS.
-    verbose : bool, (default=`False`)
-        Set to `True` to receive verify messages.
+    shape : gcs.GCS
+        GCS shape.
 
     Returns
     -------
     valid : bool
-        `True` if ``shape`` passes all checks.
+        `True` if ``shape`` passes all verification checks.
 
     Examples
     --------
-    >>> shape = gcs.GCS(...)
-    >>> check = gcs.verify.verify(shape=shape)
-
-    >>> shape = gcs.GCS(...)
-    >>> check = shape.valid
+    >>> shape = gcs.Cylinder(height=25, mass=2, thickness=0.5)
+    >>> gcs.verify.verify(shape=shape)
+    True
 
     """
-    valid_base = verify_base_perimeter(shape=shape,
-                                       verbose=verbose)
-
-    valid_radius = verify_radius(shape=shape,
-                          verbose=verbose)
-
-    valid = valid_base and valid_radius
-
-    return valid
+    return verify_base_perimeter(shape=shape) and verify_radius(shape=shape)

@@ -20,25 +20,31 @@
     conda activate gcs
     ```
 
-4. Create your feature branch:
+4. Install the package and development tools in editable mode:
+
+    ```bash
+    python -m pip install -e ".[dev]"
+    ```
+
+5. Create your feature branch:
 
     ```bash
     git checkout -b feature/NewFeature
     ```
 
-5. Commit your changes:
+6. Commit your changes:
 
     ```bash
     git commit -m 'Add a new feature.'
     ```
 
-6. Push to the branch:
+7. Push to the branch:
 
     ```bash
     git push origin feature/NewFeature
     ```
 
-7. Open a pull request.
+8. Open a pull request.
 
     Prior to opening a pull request, the contribution must:
 
@@ -52,23 +58,13 @@
         Run all tests:
 
         ```bash
-        pytest tests/ --cov=gcs
+        python -m pytest tests/ --cov=gcs
         ```
 
-        Tests should cover all code in a module. If coverage is not at 100%, implement additional unit tests.
+        Tests should cover the relevant public behavior and important internal geometry or verification logic.
 
         **TIP**: Run individual test file:
 
         ```bash
-        pytest tests/SpecificTestFile.py
-        ```
-
-    3. *Rebuild documentation*:
-
-        ```bash
-        cd docs
-        ```
-
-        ```bash
-        make html
+        python -m pytest tests/path/to/test_file.py
         ```

@@ -1,16 +1,18 @@
 from __future__ import annotations
 
+from functools import cached_property
 import json
-import numpy as np
-from stl.mesh import Mesh
-import gcs
 
-# The assumed material density
-MATERIAL_DENSITY = 0.0012  # g/mm^3
+import numpy as np
+
+from .geometry.meshing import generate_vertices, generate_faces
+from .verify.verify import verify
+from .verify.verify_base_perimeter import verify_base_perimeter
+from .verify.verify_radius import verify_radius
 
 
 class GCS:
-    """The generalized cylindrical shell (GCS) class.
+    """Generalized cylindrical shell (GCS) class.
 
     """
 
@@ -26,270 +28,193 @@ class GCS:
                  height: float,
                  mass: float,
                  thickness: float,
-                 n_steps: int = 100,
-                 d_theta: float = 0.01,
-                 triangulate_faces: bool = True) -> None:
+                 n_height_steps: int = 100,
+                 theta_step: float = 0.01,
+                 density: float = 0.0012,
+                 triangulate_caps: bool = True) -> None:
         """Initialize ``GCS``.
 
         Parameters
         ----------
         c4_base : float
-            The parameter controlling the size and shape of the base 4-lobe feature.
+            Parameter controlling the size and shape of the base 4-lobe feature.
         c8_base : float
-            The parameter controlling the size and shape of the base 8-lobe feature.
+            Parameter controlling the size and shape of the base 8-lobe feature.
         c4_top : float
-            The parameter controlling the size and shape of the top 4-lobe feature.
+            Parameter controlling the size and shape of the top 4-lobe feature.
         c8_top : float
-            The parameter controlling the size and shape of the top 8-lobe feature.
+            Parameter controlling the size and shape of the top 8-lobe feature.
         twist_linear : float
-            The rotation (rad) of the top. This creates a linear twist between the base and top.
+            Rotation (rad) of the top. This creates a linear twist between the base and top.
         twist_amplitude : float
-            The amplitude (rad) of the oscillating twist between the base and top.
+            Amplitude (rad) of the oscillating twist between the base and top.
         twist_cycles : float
-            The number of cycles of the oscillating twist between the base and top.
+            Number of cycles of the oscillating twist between the base and top.
         perimeter_ratio : float
-            The ratio between the top and base perimeters.
+            Ratio between the top and base perimeters.
         height : float
-            The height (mm).
+            Height (mm).
         mass : float
-            The mass (g).
+            Mass (g).
         thickness : float
-            The wall thickness (mm).
-        n_steps : int (default=100)
-            The number of height discretization steps.
-        d_theta : float (default=0.01)
-            The angular discretization step size.
-        triangulate_faces : bool (default=`True`)
+            Wall thickness (mm).
+        n_height_steps : int (default=`100`)
+            Number of sampled cross-sections along the height.
+        theta_step : float (default=`0.01`)
+            Angular step size used to sample each cross-section in radians.
+        density : float (default=`0.0012`)
+            Material density (g/mm^3).
+        triangulate_caps : bool (default=`True`)
             Set to `True` to triangulate the top and bottom faces.
+
+        Raises
+        ------
+        ValueError
+            If ``n_height_steps`` is less than 2.
+            If ``theta_step`` is not in the range (0,2π/3].
+            If ``density`` is not positive.
 
         Examples
         --------
-        >>> shape = gcs.GCS(c4_base=0.5, c8_base=0, ...)
+        >>> shape = gcs.GCS(c4_base=0.3, c8_base=-0.2, c4_top=0.4, c8_top=-0.1, twist_linear=1.2, twist_amplitude=0.1, twist_cycles=2.0, perimeter_ratio=1.3, height=25, mass=2, thickness=0.5)
 
         """
-        self._c4_base = c4_base
-        self._c8_base = c8_base
-        self._c4_top = c4_top
-        self._c8_top = c8_top
-        self._twist_linear = twist_linear
-        self._twist_amplitude = twist_amplitude
-        self._twist_cycles = twist_cycles
-        self._perimeter_ratio = perimeter_ratio
-        self._height = height
-        self._mass = mass
-        self._thickness = thickness
-        self._n_steps = n_steps
-        self._theta_step = d_theta
-        self._triangulate_faces = triangulate_faces
+        if n_height_steps < 2:
+            raise ValueError(f'n_height_steps ({n_height_steps}) must be at least 2.')
+        if theta_step <= 0 or theta_step > 2 * np.pi / 3:
+            raise ValueError(f'theta_step ({theta_step}) must be in range (0, 2π/3].')
+        if density <= 0:
+            raise ValueError(f'density ({density}) must be positive.')
 
-        self._vertices = None
-        self._faces = None
+        self.c4_base_ = c4_base
+        self.c8_base_ = c8_base
+        self.c4_top_ = c4_top
+        self.c8_top_ = c8_top
+        self.twist_linear_ = twist_linear
+        self.twist_amplitude_ = twist_amplitude
+        self.twist_cycles_ = twist_cycles
+        self.perimeter_ratio_ = perimeter_ratio
+        self.height_ = height
+        self.mass_ = mass
+        self.thickness_ = thickness
+        self.n_height_steps_ = n_height_steps
+        self.theta_step_ = theta_step
+        self.density_ = density
+        self.triangulate_caps_ = triangulate_caps
 
     @property
     def parameters(self) -> dict:
-        """The GCS parameters.
+        """GCS parameters.
 
         """
         return {
-            'c4_base': self._c4_base,
-            'c8_base': self._c8_base,
-            'c4_top': self._c4_top,
-            'c8_top': self._c8_top,
-            'twist_linear': self._twist_linear,
-            'twist_amplitude': self._twist_amplitude,
-            'twist_cycles': self._twist_cycles,
-            'perimeter_ratio': self._perimeter_ratio,
-            'height': self._height,
-            'mass': self._mass,
-            'thickness': self._thickness,
-            'n_steps': self._n_steps,
-            'd_theta': self._theta_step,
-            'triangulate_faces': self._triangulate_faces,
+            'c4_base': self.c4_base_,
+            'c8_base': self.c8_base_,
+            'c4_top': self.c4_top_,
+            'c8_top': self.c8_top_,
+            'twist_linear': self.twist_linear_,
+            'twist_amplitude': self.twist_amplitude_,
+            'twist_cycles': self.twist_cycles_,
+            'perimeter_ratio': self.perimeter_ratio_,
+            'height': self.height_,
+            'mass': self.mass_,
+            'thickness': self.thickness_,
+            'n_height_steps': self.n_height_steps_,
+            'theta_step': self.theta_step_,
+            'density': self.density_,
+            'triangulate_caps': self.triangulate_caps_,
         }
 
     @property
     def valid_base_perimeter(self) -> bool:
-        """`True` if the base perimeter is valid.
+        """Checks whether the GCS has a sufficiently large base perimeter.
 
         Refer to ``gcs.verify.verify_base_perimeter`` for full documentation.
 
         """
-        return gcs.verify.verify_base_perimeter(shape=self)
+        return verify_base_perimeter(shape=self)
 
     @property
     def valid_radius(self) -> bool:
-        """`True` if the radii are valid.
+        """Checks whether the minimum radius stays above a printable threshold.
 
         Refer to ``gcs.verify.verify_radius`` for full documentation.
 
         """
-        return gcs.verify.verify_radius(shape=self)
+        return verify_radius(shape=self)
 
     @property
     def valid(self) -> bool:
-        """`True` if the GCS is valid.
+        """Runs all verification checks for the GCS.
 
         Refer to ``gcs.verify.verify`` for full documentation.
 
         """
-        valid = gcs.verify.verify(shape=self)
-        return valid
+        return verify(shape=self)
 
     @property
     def base_perimeter(self) -> float:
-        """The base perimeter (mm).
+        """Base perimeter (mm).
 
         """
-        perimeter = (2 * self._mass) / \
-            (MATERIAL_DENSITY * self._height *
-             self._thickness * (1 + self._perimeter_ratio))
-        return perimeter
+        numerator = 2 * self.mass_
+        denominator = self.density_ * self.height_ * self.thickness_ * (1 + self.perimeter_ratio_)
+
+        return numerator / denominator
 
     @property
     def top_perimeter(self) -> float:
-        """The top perimeter (mm).
+        """Top perimeter (mm).
 
         """
-        perimeter = (2 * self._mass * self._perimeter_ratio) / \
-            (MATERIAL_DENSITY * self._height *
-             self._thickness * (1 + self._perimeter_ratio))
-        return perimeter
+        numerator = 2 * self.mass_ * self.perimeter_ratio_
+        denominator = self.density_ * self.height_ * self.thickness_ * (1 + self.perimeter_ratio_)
 
-    @property
+        return numerator / denominator
+
+    @cached_property
     def vertices(self) -> np.ndarray:
-        """The vertices.
-
-        Refer to ``gcs.discretize`` for full documentation.
+        """Vertices.
 
         """
-        if self._vertices is None:
-            self._vertices = gcs.discretize(shape=self)
-        return self._vertices
+        return generate_vertices(shape=self)
 
-    @property
+    @cached_property
     def faces(self) -> np.ndarray:
-        """The faces.
-
-        Refer to ``gcs.triangulate`` for full documentation.
+        """Faces.
 
         """
-        if self._faces is None:
-            self._faces = gcs.triangulate(shape=self)
-        return self._faces
-
-    @property
-    def mesh(self) -> Mesh:
-        """The mesh.
-
-        References
-        ----------
-        .. [1] https://github.com/wolph/numpy-stl/tree/develop#creating-mesh-objects-from-a-list-of-vertices-and-faces
-
-        """
-        vertices = self.vertices
-        faces = self.faces
-
-        mesh = Mesh(np.zeros(faces.shape[0], dtype=Mesh.dtype))
-
-        for idx, face in enumerate(faces):
-            for dim in range(3):
-                mesh.vectors[idx][dim] = vertices[face[dim], :]
-
-        return mesh
+        return generate_faces(shape=self)
 
     def __str__(self):
-        output = f'{super().__str__()}: ' + \
-            json.dumps(obj=self.parameters, indent=2)
-        return output
+        """Returns a string representation of the GCS parameters.
 
+        """
+        return 'GCS parameters: ' + json.dumps(obj=self.parameters, indent=2)
 
-class Cylinder(GCS):
-    """Simple GCS cylinder.
+    def __repr__(self) -> str:
+        """Returns a developer-friendly representation of the GCS parameters.
 
-    """
+        """
+        params = ', '.join(f'{key}={value}' for key, value in self.parameters.items())
 
-    def __init__(self,
-                 height: float,
-                 mass: float,
-                 thickness: float,
-                 n_steps: int = 100,
-                 d_theta: float = 0.01,
-                 triangulate_faces: bool = True) -> None:
-        """Initialize ``Cylinder``.
+        return f'{type(self).__name__}({params})'
+
+    def __eq__(self, other: object) -> bool:
+        """Checks whether two GCS objects have the same parameters.
 
         Parameters
         ----------
-        height : float
-            The height (mm).
-        mass : float
-            The mass (g).
-        thickness : float
-            The wall thickness (mm).
-        n_steps : int (default=100)
-            The number of height discretization steps.
-        d_theta : float (default=0.01)
-            The angular discretization step size.
-        triangulate_faces : bool (default=`True`)
-            Set to `True` to triangulate the top and bottom faces.
+        other : object
+            Object to compare against.
 
-        Examples
-        --------
-        >>> shape = gcs.Cylinder(height=10, mass=4, ...)
+        Returns
+        -------
+        equal : bool
+            `True` if both objects are GCS instances with identical parameters.
 
         """
-        super().__init__(c4_base=0,
-                         c8_base=0,
-                         c4_top=0,
-                         c8_top=0,
-                         twist_linear=0,
-                         twist_amplitude=0,
-                         twist_cycles=0,
-                         perimeter_ratio=1,
-                         height=height,
-                         mass=mass,
-                         thickness=thickness,
-                         n_steps=n_steps,
-                         d_theta=d_theta,
-                         triangulate_faces=triangulate_faces)
+        if not isinstance(other, GCS):
+            return False
 
-
-class Iroko(GCS):
-    """Iroko CGS design from Snapp et al. (2024) [1].
-
-    [1]: https://doi.org/10.1038/s41467-024-48534-4
-
-    """
-
-    def __init__(self) -> None:
-        super().__init__(c4_base=0.730333927354502,
-                         c8_base=-0.0821084429646878,
-                         c4_top=0.455688084446719,
-                         c8_top=-0.200458707161255,
-                         twist_linear=0.11822302314236,
-                         twist_amplitude=0.262031108639582,
-                         twist_cycles=0.591614200392281,
-                         perimeter_ratio=1.17143242893827,
-                         height=20.7821180708855,
-                         mass=2.15501149030671,
-                         thickness=0.578365564080763)
-
-
-class Willow(GCS):
-    """Willow CGS design from Snapp et al. (2024) [1].
-
-    [1]: https://doi.org/10.1038/s41467-024-48534-4
-
-    """
-
-    def __init__(self) -> None:
-        super().__init__(c4_base=0.137494858826025,
-                         c8_base=-0.223924307740836,
-                         c4_top=0.990048662372857,
-                         c8_top=0.281006846858847,
-                         twist_linear=1.65277226755515,
-                         twist_amplitude=0.136307527192256,
-                         twist_cycles=0.892285681537298,
-                         perimeter_ratio=1.53516566101125,
-                         height=26.2960096899026,
-                         mass=2.27727026727678,
-                         thickness=0.771900777794452)
+        return self.parameters == other.parameters

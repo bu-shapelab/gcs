@@ -1,9 +1,8 @@
 """
 ``gcs.verify``
-================
+==============
 
 Functions present in ``gcs.verify`` are listed below.
-
 
 Verifying GCS
 -------------

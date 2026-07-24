@@ -1,66 +1,67 @@
-<h1 align="center">
-  <img src="https://github.com/bu-shapelab/gcs/blob/main/misc/images/logo.jpeg" width="400">
-</h1>
+# gcs
 
-[![Explore the Docs](https://img.shields.io/static/v1.svg?label=📚&message=Explore%20the%20Docs&color=green)](https://gcs-shape.readthedocs.io/)
-[![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=green)](https://github.com/bu-shapelab/gcs/issues)
-[![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=green)](https://github.com/bu-shapelab/gcs/issues)
+[![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=red)](https://github.com/bu-shapelab/gcs/issues)
+[![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=yellow)](https://github.com/bu-shapelab/gcs/issues)
 [![Read the Paper](https://img.shields.io/static/v1.svg?label=DOI&message=10.1038/s41467-024-48534-4&color=blue)](https://doi.org/10.1038/s41467-024-48534-4)
+
+![Teaser](https://github.com/bu-shapelab/gcs/blob/main/assets/images/teaser.jpeg)
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
-![GCS examples](https://github.com/bu-shapelab/gcs/blob/main/misc/images/examples.jpeg)
+The GCS design space uses eleven continuous parameters to generate trillions of geometrically diverse, manufacturable cylindrical-shell structures.
+This compact parameterization enables large-scale optimization while capturing the nonlinear buckling, plasticity, and self-contact mechanisms that govern energy absorption.
+This library is used in our paper:
 
-GCS are parameterized by 11 values:
+   >Kelsey L. Snapp, Benjamin Verdier, Aldair E. Gongora, Samuel Silverman, Adedire D. Adesiji, Elise F. Morgan, Timothy J. Lawton, Emily Whiting, Keith A. Brown  
+   [*Superlative mechanical energy absorbing efficiency discovered through self-driving lab-human partnership*](https://sam-silverman.com/assets/pdf/Snapp-SuperlativeMechanicalEnergy-Reduced.pdf)  
+   Nature Communications (2024)
 
-| Syntax | Description |
-| - | - |
-| `c4_base` | The parameter controlling the size and shape of the base $4$-lobe feature. |
-| `c8_base` | The parameter controlling the size and shape of the base $8$-lobe feature. |
-| `c4_top` | The parameter controlling the size and shape of the top $4$-lobe feature. |
-| `c8_top` | The parameter controlling the size and shape of the top $8$-lobe feature. |
-| `twist_linear` | The rotation (rad) of the top. This creates a linear twist between the base and top. |
-| `twist_amplitude` | The amplitude (rad) of the oscillating twist between the base and top. |
-| `twist_cycles` | The number of cycles of the oscillating twist between the base and top. |
-| `perimeter_ratio` | The ratio between the top and base perimeters. |
-| `height` | The height (mm). |
-| `mass` | The mass (g). |
-| `thickness` | The wall thickness (mm). |
+## Installation
 
-### `c4` and `c8` Relationship
-
-![c4 & c8 relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/cs.svg)
-
-* Adopted from [*Overvelde and Bertoldi, 2014*](https://doi.org/10.1016/j.jmps.2013.11.014)
-
-### `twist_linear`, `twist_amplitude`, and `twist_cycles` Relationship
-
-![twist relationship](https://github.com/bu-shapelab/gcs/blob/main/misc/images/twist.svg)
-
-## Download
-
-`gcs` requires [Python](https://www.python.org) version 3.8 (or higher). To install, run the command:
+The package requires Python 3.10 or later and is available on PyPI.
+Install it with:
 
 ```bash
 pip install gcs-shape
 ```
 
-### Requirements
+You can then import the package in Python:
 
-* [bentley-ottmann](https://pypi.org/project/bentley-ottmann/) (version: 7.3.0)
-* [mapbox_earcut](https://pypi.org/project/mapbox-earcut/) (version: 1.0.0 or higher)
-* [numpy](https://pypi.org/project/numpy/) (version: 1.21.5 or higher)
-* [numpy-stl](https://pypi.org/project/numpy-stl/) (version: 2.17.1 or higher)
-* [pandas](https://pypi.org/project/pandas/) (version: 1.4.1 or higher)
-* [scipy](https://pypi.org/project/scipy/) (version: 1.7.3 or higher)
+```python
+import gcs
+```
 
-### Supported Operating Systems
+## GCS Design Parameters
 
-`gcs` is operating system independent. The package has been tested on the following operating systems:
+GCS are parameterized by 11 values:
 
-* MacOS Ventura 13.4.1
-* Ubuntu 22.04
-* Windows 10
+| Syntax | Description |
+| - | - |
+| `c4_base` | Parameter controlling the size and shape of the base $4$-lobe feature. |
+| `c8_base` | Parameter controlling the size and shape of the base $8$-lobe feature. |
+| `c4_top` | Parameter controlling the size and shape of the top $4$-lobe feature. |
+| `c8_top` | Parameter controlling the size and shape of the top $8$-lobe feature. |
+| `twist_linear` | Rotation (rad) of the top. This creates a linear twist between the base and top. |
+| `twist_amplitude` | Amplitude (rad) of the oscillating twist between the base and top. |
+| `twist_cycles` | Number of cycles of the oscillating twist between the base and top. |
+| `perimeter_ratio` | Ratio between the top and base perimeters. |
+| `height` | Height (mm). |
+| `mass` | Mass (g). |
+| `thickness` | Wall thickness (mm). |
+
+### `c4` and `c8` Relationship
+
+The geometry of each top or bottom face is described by a polar equation whose shape is controlled by the parameters `c4` and `c8`.
+This parameterization was adopted from [*Overvelde and Bertoldi (2014)*](https://doi.org/10.1016/j.jmps.2013.11.014).
+
+![c4 & c8 relationship](https://github.com/bu-shapelab/gcs/blob/main/assets/images/c_relationship.svg)
+
+### `twist_linear`, `twist_amplitude`, and `twist_cycles` Relationship
+
+The parameters `twist_linear`, `twist_amplitude`, and `twist_cycles` control how the cross-section rotates as it is interpolated from the base face to the top face.
+`twist_linear` sets the linear rotation, while `twist_amplitude` and `twist_cycles` control the amplitude and frequency of the oscillatory rotation along the height.
+
+![twist relationship](https://github.com/bu-shapelab/gcs/blob/main/assets/images/twist_relationship.svg)
 
 ## Quickstart
 
@@ -85,6 +86,17 @@ print(shape.valid)
 
 # Save shape to STL file
 gcs.io.save_mesh(file='shape.stl', shape=shape)
+```
+
+## Documentation
+
+Documentation is provided in NumPy-style docstrings throughout the codebase.
+Docstrings can be viewed interactively with Python's built-in `help()` function.
+For example:
+
+```python
+import gcs
+help(gcs.GCS)
 ```
 
 ## Contributing

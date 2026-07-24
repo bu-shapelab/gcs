@@ -2,9 +2,7 @@
 Generalized Cylindrical Shells
 ==============================
 
-Provides
-    1. An object representing generalized cylindrical shell (GCS) structures.
-    2. Operations on GCS structures.
+Python library for generating 3D meshes of generalized cylindrical shells.
 
 How to use the documentation
 ----------------------------
@@ -16,26 +14,30 @@ The docstring examples assume that `gcs` has been imported::
 
 Code snippets are indicated by three greater-than signs::
 
-    >>> shape = gcs.GCS(...)
+    >>> shape = gcs.GCS(...)TODO
     >>> shape.parameters
 
 Available subpackages
 ---------------------
+geometry
+    Functions for geometry generation and analysis.
 io
     Functions for loading/saving GCS shapes.
 verify
     Functions for verifying the validity of GCS shapes.
 
 """
-from .shape import GCS, Cylinder, Iroko, Willow
+from .named_shapes import Cylinder
+from .named_shapes import Iroko
+from .named_shapes import Willow
+from .shape import GCS
 
-from .discretization import discretize
-from .triangulation import triangulate
-
+from . import geometry
 from . import io
 from . import verify
 
 submodules = [
+    'geometry',
     'io',
     'verify',
 ]
@@ -44,7 +46,5 @@ __all__ = submodules + [
     'GCS',
     'Cylinder',
     'Iroko',
-    'Willow'
-    'discretize',
-    'triangulate',
+    'Willow',
 ]
