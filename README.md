@@ -4,7 +4,7 @@
 [![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=yellow)](https://github.com/bu-shapelab/gcs/issues)
 [![Read the Paper](https://img.shields.io/static/v1.svg?label=DOI&message=10.1038/s41467-024-48534-4&color=blue)](https://doi.org/10.1038/s41467-024-48534-4)
 
-![Teaser](https://github.com/bu-shapelab/gcs/blob/main/assets/images/teaser.jpeg)
+![Teaser](https://github.com/bu-shapelab/gcs/blob/main/assets/images/teaser.png)
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
