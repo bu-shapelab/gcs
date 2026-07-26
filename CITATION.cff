@@ -2,7 +2,6 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
 title: "Superlative mechanical energy absorbing efficiency discovered through self-driving lab-human partnership"
 type: article
-
 authors:
   - family-names: Snapp
     given-names: Kelsey L.
@@ -22,18 +21,14 @@ authors:
     given-names: Emily
   - family-names: Brown
     given-names: Keith A.
-
 journal: "Nature Communications"
 year: 2024
 month: 5
 doi: "10.1038/s41467-024-48534-4"
-
 identifiers:
   - type: doi
     value: "10.1038/s41467-024-48534-4"
-
 url: "https://doi.org/10.1038/s41467-024-48534-4"
-
 volume: 15
 issue: 1
 start: 4290
