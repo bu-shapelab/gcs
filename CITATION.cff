@@ -1,58 +1,39 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the software and the associated article."
-title: "gcs"
-type: software
-version: "2.0.0"
-license: "MIT"
-repository-code: "https://github.com/samsilverman/gcs"
-url: "https://github.com/samsilverman/gcs"
+message: "If you use this work, please cite it as below."
+title: "Superlative mechanical energy absorbing efficiency discovered through self-driving lab-human partnership"
+type: article
+
 authors:
-  - family-names: "Snapp"
-    given-names: "Kelsey L."
-  - family-names: "Verdier"
-    given-names: "Benjamin"
-  - family-names: "Gongora"
-    given-names: "Aldair E."
-  - family-names: "Silverman"
-    given-names: "Samuel"
-    email: "sssilver@bu.edu"
-  - family-names: "Adesiji"
-    given-names: "Adedire D."
-  - family-names: "Morgan"
-    given-names: "Elise F."
-  - family-names: "Lawton"
-    given-names: "Timothy J."
-  - family-names: "Whiting"
-    given-names: "Emily"
-  - family-names: "Brown"
-    given-names: "Keith A."
-preferred-citation:
-  type: article
-  authors:
-    - family-names: "Snapp"
-      given-names: "Kelsey L."
-    - family-names: "Verdier"
-      given-names: "Benjamin"
-    - family-names: "Gongora"
-      given-names: "Aldair E."
-    - family-names: "Silverman"
-      given-names: "Samuel"
-    - family-names: "Adesiji"
-      given-names: "Adedire D."
-    - family-names: "Morgan"
-      given-names: "Elise F."
-    - family-names: "Lawton"
-      given-names: "Timothy J."
-    - family-names: "Whiting"
-      given-names: "Emily"
-    - family-names: "Brown"
-      given-names: "Keith A."
-  title: "Superlative mechanical energy absorbing efficiency discovered through self-driving lab-human partnership"
-  journal: "Nature Communications"
-  year: 2024
-  month: 5
-  start: 4290
-  volume: 15
-  issue: 1
-  doi: "10.1038/s41467-024-48534-4"
-  url: "https://doi.org/10.1038/s41467-024-48534-4"
+  - family-names: Snapp
+    given-names: Kelsey L.
+  - family-names: Verdier
+    given-names: Benjamin
+  - family-names: Gongora
+    given-names: Aldair E.
+  - family-names: Silverman
+    given-names: Samuel
+  - family-names: Adesiji
+    given-names: Adedire D.
+  - family-names: Morgan
+    given-names: Elise F.
+  - family-names: Lawton
+    given-names: Timothy J.
+  - family-names: Whiting
+    given-names: Emily
+  - family-names: Brown
+    given-names: Keith A.
+
+journal: "Nature Communications"
+year: 2024
+month: 5
+doi: "10.1038/s41467-024-48534-4"
+
+identifiers:
+  - type: doi
+    value: "10.1038/s41467-024-48534-4"
+
+url: "https://doi.org/10.1038/s41467-024-48534-4"
+
+volume: 15
+issue: 1
+start: 4290
