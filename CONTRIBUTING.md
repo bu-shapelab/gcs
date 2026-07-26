@@ -1,6 +1,6 @@
 # Contributing
 
-1. Go to [bu-shapelab/gcs](https://github.com/samsilverman/gcs) and fork the project.
+1. Go to [samsilverman/gcs](https://github.com/samsilverman/gcs) and fork the project.
 
 2. Clone the fork to your local computer:
 
@@ -68,3 +68,14 @@
         ```bash
         python -m pytest tests/path/to/test_file.py
         ```
+
+    3. *Describe release impact in the pull request*:
+
+        Summarize the user-facing changes in the pull request description and indicate the expected release impact:
+
+        - `no release` for changes that do not affect the published package
+        - `patch` for backwards-compatible bug fixes or small improvements
+        - `minor` for backwards-compatible new functionality
+        - `major` for breaking changes to the public API or behavior
+
+        Maintainers will use this guidance to decide the next version number and create the release tag after the pull request is merged.

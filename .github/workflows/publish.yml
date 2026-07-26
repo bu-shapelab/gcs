@@ -1,0 +1,56 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  validate-and-build:
+    name: Validate and build distribution packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install build tools
+        run: python -m pip install --upgrade build twine
+
+      - name: Build distribution packages
+        run: python -m build
+
+      - name: Check distribution metadata
+        run: python -m twine check dist/*
+
+      - name: Store distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  publish-to-pypi:
+    name: Publish distribution packages to PyPI
+    needs:
+      - validate-and-build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/gcs-shape/
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download distribution packages
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish distribution packages to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

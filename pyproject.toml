@@ -39,9 +39,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/bu-shapelab/gcs"
-Issues = "https://github.com/bu-shapelab/gcs/issues"
-Source = "https://github.com/bu-shapelab/gcs"
+Homepage = "https://github.com/samsilverman/gcs"
+Issues = "https://github.com/samsilverman/gcs/issues"
+Source = "https://github.com/samsilverman/gcs"
 
 [project.optional-dependencies]
 dev = [

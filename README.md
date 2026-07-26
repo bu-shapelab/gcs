@@ -1,14 +1,14 @@
 # gcs
 
-[![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=red)](https://github.com/bu-shapelab/gcs/issues)
-[![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=yellow)](https://github.com/bu-shapelab/gcs/issues)
+[![Report a Bug](https://img.shields.io/static/v1.svg?label=🐛&message=Report%20a%20Bug&color=red)](https://github.com/samsilverman/gcs/issues)
+[![Request a Feature](https://img.shields.io/static/v1.svg?label=💻&message=Request%20a%20Feature&color=yellow)](https://github.com/samsilverman/gcs/issues)
 [![Read the Paper](https://img.shields.io/static/v1.svg?label=DOI&message=10.1038/s41467-024-48534-4&color=blue)](https://doi.org/10.1038/s41467-024-48534-4)
 
-[![MacOS Build Status](https://github.com/bu-shapelab/gcs/actions/workflows/macos-build.yml/badge.svg)](https://github.com/bu-shapelab/gcs/actions/workflows/macos-build.yml)
-[![Ubuntu Build Status](https://github.com/bu-shapelab/gcs/actions/workflows/ubuntu-build.yml/badge.svg)](https://github.com/bu-shapelab/gcs/actions/workflows/ubuntu-build.yml)
-[![Windows Build Status](https://github.com/bu-shapelab/gcs/actions/workflows/windows-build.yml/badge.svg)](https://github.com/bu-shapelab/gcs/actions/workflows/windows-build.yml)
+[![MacOS Build Status](https://github.com/samsilverman/gcs/actions/workflows/macos-build.yml/badge.svg)](https://github.com/samsilverman/gcs/actions/workflows/macos-build.yml)
+[![Ubuntu Build Status](https://github.com/samsilverman/gcs/actions/workflows/ubuntu-build.yml/badge.svg)](https://github.com/samsilverman/gcs/actions/workflows/ubuntu-build.yml)
+[![Windows Build Status](https://github.com/samsilverman/gcs/actions/workflows/windows-build.yml/badge.svg)](https://github.com/samsilverman/gcs/actions/workflows/windows-build.yml)
 
-![Teaser](https://github.com/bu-shapelab/gcs/blob/main/assets/images/teaser.png)
+![Teaser](https://github.com/samsilverman/gcs/blob/main/assets/images/teaser.png)
 
 `gcs` is a Python library for creating generalized cylindrical shells (GCS).
 
@@ -58,14 +58,14 @@ GCS are parameterized by 11 values:
 The geometry of each top or bottom face is described by a polar equation whose shape is controlled by the parameters `c4` and `c8`.
 This parameterization was adopted from [*Overvelde and Bertoldi (2014)*](https://doi.org/10.1016/j.jmps.2013.11.014).
 
-![c4 & c8 relationship](https://github.com/bu-shapelab/gcs/blob/main/assets/images/c_relationship.svg)
+![c4 & c8 relationship](https://github.com/samsilverman/gcs/blob/main/assets/images/c_relationship.svg)
 
 ### `twist_linear`, `twist_amplitude`, and `twist_cycles` Relationship
 
 The parameters `twist_linear`, `twist_amplitude`, and `twist_cycles` control how the cross-section rotates as it is interpolated from the base face to the top face.
 `twist_linear` sets the linear rotation, while `twist_amplitude` and `twist_cycles` control the amplitude and frequency of the oscillatory rotation along the height.
 
-![twist relationship](https://github.com/bu-shapelab/gcs/blob/main/assets/images/twist_relationship.svg)
+![twist relationship](https://github.com/samsilverman/gcs/blob/main/assets/images/twist_relationship.svg)
 
 ## Quickstart
 
@@ -105,7 +105,7 @@ help(gcs.GCS)
 
 ## Contributing
 
-The contribution guidelines can be found in [CONTRIBUTING.md](https://github.com/bu-shapelab/gcs/blob/main/CONTRIBUTING.md).
+The contribution guidelines can be found in [CONTRIBUTING.md](https://github.com/samsilverman/gcs/blob/main/CONTRIBUTING.md).
 
 ## Maintainers
 
